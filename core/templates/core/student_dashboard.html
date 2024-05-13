@@ -1,0 +1,14 @@
+{extends from core/base_generic.html}
+    
+    {% block title %}Student Dashboard{% endblock %}
+    
+    {% block content %}
+        <h1>Student Dashboard</h1>
+        <p>Welcome, {{ user.username }}!</p>
+        <p>Here are your courses:</p>
+        <ul>
+            {% for course in courses %}
+                <li>{{ course.name }}</li>
+            {% endfor %}
+        </ul>
+    {% endblock %}
