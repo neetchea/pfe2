@@ -6,5 +6,6 @@ Home
 
 {% block content %}
 <h1>Welcome to our site!</h1>
+<p>Welcome, {{ user.username }}!</p>
 <a href="{% url 'login' %}">Login</a>
 {% endblock %}
