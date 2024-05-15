@@ -1,0 +1,21 @@
+{% extends 'core/base.html' %}
+
+{% block content %}
+    <h1>Your Grades</h1>
+    <table>
+        <tr>
+            <th>Subject</th>
+            <th>Grade</th>
+        </tr>
+        {% for grade in grades %}
+            <tr>
+                <td>{% if grade %}
+                    {{ grade.subject.name }}
+                {% else %}
+                    N/A
+                {% endif %}</td>
+                <td><td>{% if grade %}{{ grade.value }}{% else %}No grade{% endif %}</td></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
