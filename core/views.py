@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse
 
 
 def home(request):
@@ -13,6 +14,8 @@ def dashboard(request):
         template_name = 'core/student_dashboard.html'
     elif request.user.user_type == 'parent':
         template_name = 'core/parent_dashboard.html'
+    elif request.user.is_staff or request.user.is_superuser:
+        return redirect(reverse('admin:index'))
     else:
         return redirect('home')
 
