@@ -15,7 +15,13 @@ class CustomUser(AbstractUser):
                                null=True, unique=True)
 
     def save(self, *args, **kwargs):
-        if self.password:
+        #so i don't double hash password and i do hash password on password change
+        # Check if the user already exists
+        if self.pk:
+            orig = CustomUser.objects.get(pk=self.pk)
+            if orig.password != self.password:  # The password has been changed
+                self.password = make_password(self.password)
+        else:  # This is a new user
             self.password = make_password(self.password)
         super().save(*args, **kwargs)
 

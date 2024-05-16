@@ -39,4 +39,29 @@ def students_grades_view(request):
     context = {
         'grades': grades
     }
-    return render(request, 'core/students_grades.html', context)
+    return render(request, 'grades/students_grades.html', context)
+
+
+from django.shortcuts import render
+from .models import ParentChildRelationship
+
+@allowed_users(allowed_roles=['PARENTS'])
+def parents_grades_view(request):
+    relationships = ParentChildRelationship.objects.filter(parent=request.user)
+    children_grades = {}
+    for relationship in relationships:
+        child = relationship.child
+        subjects = child.subjects.all()
+        grades = []
+        for subject in subjects:
+            try:
+                grade = subject.grades.get(student=child)
+                grades.append(grade)
+            except ObjectDoesNotExist:
+                grades.append(None)
+        children_grades[child] = grades
+    
+    context = {
+        'children_grades': children_grades
+    }
+    return render(request, 'grades/parents_grades.html', context)

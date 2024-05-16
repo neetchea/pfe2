@@ -1,0 +1,45 @@
+{% extends 'grades/base.html' %}
+
+{% block content %}
+    <h1>Your Children's Grades</h1>
+    <select id="childSelect">
+        {% for child in children_grades.keys %}
+            <option value="{{ child.id }}">{{ child.username }}</option>
+        {% endfor %}
+    </select>
+    <div id="gradesTable">
+        <!-- The grades table will be inserted here by JavaScript -->
+    </div>
+
+    <script>
+        document.getElementById('childSelect').addEventListener('change', function() {
+            var childId = this.value;
+            var grades = {{ children_grades|escapejs|safe }};
+            var gradesTable = document.getElementById('gradesTable');
+            gradesTable.innerHTML = '';
+            var childGrades = grades[childId];
+            if (childGrades) {
+                var table = document.createElement('table');
+                var tr = document.createElement('tr');
+                var th1 = document.createElement('th');
+                th1.textContent = 'Subject';
+                var th2 = document.createElement('th');
+                th2.textContent = 'Grade';
+                tr.appendChild(th1);
+                tr.appendChild(th2);
+                table.appendChild(tr);
+                for (var i = 0; i < childGrades.length; i++) {
+                    var tr = document.createElement('tr');
+                    var td1 = document.createElement('td');
+                    td1.textContent = childGrades[i].subject.name;
+                    var td2 = document.createElement('td');
+                    td2.textContent = childGrades[i].value;
+                    tr.appendChild(td1);
+                    tr.appendChild(td2);
+                    table.appendChild(tr);
+                }
+                gradesTable.appendChild(table);
+            }
+        });
+    </script>
+{% endblock %}

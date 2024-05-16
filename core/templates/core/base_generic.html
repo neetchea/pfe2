@@ -24,7 +24,7 @@
     <!-- Navigation Bar -->
     <div class="navbar">
         <a href="{% url 'home' %}">Home</a>
-        <a href="{% url 'students_grades_view' %}">my grades</a>
+        
         <form method="post" action="{% url 'logout' %}">
             {% csrf_token %}
             <button type="submit">Logout</button>

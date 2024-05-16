@@ -5,6 +5,11 @@ Home
 {% endblock %}
 
 {% block content %}
+{% if user.user_type == 'student' %}
+    <a href="{% url 'students_grades_view' %}">My Grades</a>
+{% elif user.user_type == 'parent' %}
+    <a href="{% url 'parents_grades_view' %}">My Children's Grades</a>
+{% endif %}
 <h1>Welcome to our site!</h1>
 <p>Welcome, {{ user.username }}!</p>
 <a href="{% url 'login' %}">Login</a>
