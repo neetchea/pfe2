@@ -1,8 +1,7 @@
 from django.contrib import admin
-from .models import CustomUser, Classroom, ParentChildRelationship
-# Register your models here.
-# admin.site.register(CustomUser)
-admin.site.register(Classroom)
+from .models import CustomUser, Classroom, ParentChildRelationship,StudentInClassroom
+
+
 
 class ParentChildInline(admin.TabularInline):
     model = ParentChildRelationship
@@ -28,3 +27,12 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 
 admin.site.register(CustomUser, CustomUserAdmin)
+
+class StudentInClassroomInline(admin.TabularInline):
+    model = StudentInClassroom
+    extra = 1
+
+class ClassroomAdmin(admin.ModelAdmin):
+    inlines = [StudentInClassroomInline]
+
+admin.site.register(Classroom, ClassroomAdmin)

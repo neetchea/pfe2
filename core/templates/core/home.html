@@ -1,4 +1,178 @@
-{% extends "core/base_generic.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="{% static 'webEcoleStyle.css' %}">
+</head>
+<body>
+
+    <section class="header" style="background-image: linear-gradient(rgba(4,9,30,0.4),rgba(4,9,30,0.4)),url('{% static 'core/school-img/vu-externe.jpg' %}');">
+        <nav>
+            <a href="#"><img src="{% static 'core/school-img/logo.png' %}" alt="Logo"></a>
+            <div class="nav-link" id="navLink">
+                <i class="fa-solid fa-xmark" onclick="hidemenu()"></i>
+                <ul>
+                    <li><a href="{% url 'home' %}">ACCEUIL</a></li>
+                    <li><a href="{% url 'about' %}">A PROPOS</a></li>
+                    <li><a href="{% url 'courses' %}">Cours</a></li>
+                    <li><a href="{% url 'services' %}">Services</a></li>
+                    <li><a href="{% url 'contact' %}">CONTACT</a></li>
+                    <li>
+                        {% if user.is_authenticated %}
+                            <form action="{% url 'logout' %}" method="post">
+                                {% csrf_token %}
+                                <button type="submit" style="background: transparent; border: none;color: white;">LOGOUT</button>
+                            </form>
+                        {% else %}
+                            <a href="{% url 'login' %}">LOGIN</a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+            <i class="fa-solid fa-bars" onclick="showmenu()"></i>
+        </nav>
+        <div class="text">
+            <h1>Ecole Privée El-Hikma</h1>
+            <p>Apprendre, Découvrir, Grandir et se Construire</p>
+            <a class="btn" href="#">DECOUVRIR</a>
+        </div>
+    </section>
+</html>
+    <section class="courses">
+        <h1>Les Niveau Educatif</h1>
+        <p>OFFREZ À VOS ENFANTS DE RÉELLES OPPORTUNITÉS À L'AVENIR.</p>
+        <div class="row">
+            <div class="column">
+                <h3>Préscolaire</h3>
+                <p>Offrez à votre enfant une expérience préscolaire enrichissante dans un environnement chaleureux et stimulant. Pour des apprentissages ludiques et des moments inoubliables à notre établissement privée.</p>
+            </div>
+            <div class="column">
+                <h3>Primaire</h3>
+                <p>Préparez l'avenir de votre enfant avec notre programme primaire de qualité, axé sur l'excellence académique et le développement holistique. Pour une éducation personnalisée et des opportunités d'apprentissage enrichissantes.</p>
+            </div>
+            <div class="column">
+                <h3>Moyen</h3>
+                <p>Offrez à votre enfant une transition fluide vers l'enseignement secondaire avec notre programme scolaire moyen dynamique et engageant. Découvrez comment notre école privée assure un apprentissage de qualité.</p>
+            </div>
+        </div>
+    </section>
+    <section class="compus">
+        <h1>Présentation de l'Ecole</h1>
+        <p>Découvrez notre école et son environnement sûr, accueillant et inspirant, propice à l'épanouissement de chaque élève.</p>
+        <div class="row">
+            <div class="col-img">
+                <img src="{% static 'core/school-img/sport-lieu.jpg' %}" alt="">
+                <div class="heading"><h3></h3></div>
+            </div>
+            <div class="col-img">
+                <img src="{% static 'core/school-img/salles el-Hikma.jpg' %}" alt="">
+                <div class="heading"><h3></h3></div>
+            </div>
+            <div class="col-img">
+                <img src="{% static 'core/school-img/Hole.jpg' %}" alt="">
+                <div class="heading"><h3></h3></div>
+            </div>
+        </div>
+    </section>
+    <section class="feature">
+        <h1>Nos Evénements</h1>
+        <p></p>
+        <div class="row">
+            <div class="feature-img">
+                <img src="{% static 'core/school-img/mouloud-enfants.jpg' %}" alt="">
+                <div class="heading2">
+                    <h3>Feter El Mawlid Ennabaoui</h3>
+                    <p>Célébrez avec nous les moments spéciaux de notre communauté éducative. Découvrez nos festivités pour El Mawlid El Nabawi, où nous honorons les valeurs de partage, de compassion et d'amour</p>
+                </div>
+            </div>
+            <div class="feature-img">
+                <img class="coffe" src="{% static 'core/school-img/sortie casbah.jpg' %}" alt="">
+                <div class="heading2">
+                    <h3>sortie Casbah</h3>
+                    <p>Explorez l'histoire et la culture de notre ville avec nos sorties à la Casbah. Offrez à votre enfant une expérience éducative unique, imprégnée de patrimoine et de découvertes fascinantes.</p>
+                </div>
+            </div>
+            <div class="feature-img">
+                <img src="{% static 'core/school-img/sortie parc.jpg' %}" alt="">
+                <div class="heading2">
+                    <h3>sortie Parc</h3>
+                    <p>Explorez nos aventures en plein air ! Rejoignez-nous pour des sorties au parc où les élèves apprennent, jouent et créent des souvenirs inoubliables dans un cadre naturel inspirant.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <hr>
+    <section class="students">
+        <h1>Que nos Etudiants disent</h1>
+        <p></p>
+        <div class="row">
+            <div class="review">
+                {%comment%} this image {%endcomment%}
+                <img src="{% static 'core/images/uni-img/girl.jpeg' %}" alt="">
+                <div class="heading3">
+                    <h3>Eleve1</h3>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloribus voluptatem dicta distinctio eligendi dolores maiores laboriosam explicabo temporibus libero ducimus ipsa corrupti.</p>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+            </div>
+            <div class="review">
+                 {%comment%} this image {%endcomment%}
+                <img src="{% static 'core/images/uni-img/mac.jpeg' %}" alt="">
+                <div class="heading3">
+                    <h3>Eleve2</h3>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloribus voluptatem dicta distinctio eligendi dolores maiores laboriosam explicabo temporibus libero ducimus ipsa corrupti.</p>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-half-o"></i>
+                </div>
+            </div>
+            <div class="review">                                {%comment%} this image {%endcomment%}
+                <img src="{% static 'core/images/uni-img/joe.jpeg' %}" alt="">
+                <div class="heading3">
+                    <h3>Eleve3</h3>
+                    <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Doloribus voluptatem dicta distinctio eligendi dolores maiores laboriosam explicabo temporibus libero ducimus ipsa corrupti.</p>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star"></i>
+                    <i class="fa fa-star-o"></i>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="enroll" style="background-image: linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)),url('{% static 'core/school-img/bureau.jpg' %}');">        <h1>Pour Plus d'information n'hésiter pas de nous contacter. </h1>
+        <a href="{% url 'contact' %}" class="btn">CONTACT US</a>
+    </section>
+    <section class="footer">
+        <h4>A PROPOS</h4>
+        <P>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error officia hic sapiente quod. Tempore, natus! Libero distinctio minima quidem voluptas iure,<br> laudantium unde sit aspernatur, cumque eaque sequi obcaecati at.</P>
+        <div class="social">
+            <i class="fa fa-facebook"></i>
+            <i class="fa fa-twitter"></i>
+            <i class="fa fa-linkedin"></i>
+        </div>
+    </section>
+
+    <!-- Ensure to include any scripts at the end of the body for better performance -->
+    <script src="{% static 'core/js/main.js' %}"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+{% comment %} {% extends "core/base_generic.html" %}
 
 {% block title %}
 Home
@@ -13,4 +187,4 @@ Home
 <h1>Welcome to our site!</h1>
 <p>Welcome, {{ user.username }}!</p>
 <a href="{% url 'login' %}">Login</a>
-{% endblock %}
+{% endblock %} {% endcomment %}

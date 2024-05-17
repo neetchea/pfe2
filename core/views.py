@@ -65,3 +65,17 @@ def parents_grades_view(request):
         'children_grades': children_grades
     }
     return render(request, 'grades/parents_grades.html', context)
+
+from django.http import HttpResponse
+
+def about(request):
+    return HttpResponse("About Page")
+
+def courses(request):
+    return HttpResponse("Courses Page")
+
+def services(request):
+    return HttpResponse("Services Page")
+
+def contact(request):
+    return HttpResponse("Contact Page")

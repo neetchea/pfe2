@@ -1,7 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.hashers import make_password
-
+def limit_to_students():
+    return {'user_type': 'Student'}
 class CustomUser(AbstractUser):
     
     USER_TYPE_CHOICES = (
@@ -11,8 +12,8 @@ class CustomUser(AbstractUser):
     )
 
     user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
-    matricule=models.CharField(max_length=255, blank=True,
-                               null=True, unique=True)
+    matricule=models.CharField(max_length=255, blank=True,null=True, unique=True)
+
 
     def save(self, *args, **kwargs):
         #so i don't double hash password and i do hash password on password change
@@ -29,24 +30,26 @@ class CustomUser(AbstractUser):
 class Classroom(models.Model):
     name = models.CharField(max_length=255)
     level = models.CharField(max_length=255)
-    teacher = models.ForeignKey(
+    teachers = models.ManyToManyField(
         CustomUser,
-        on_delete=models.CASCADE,
         limit_choices_to={'user_type': 'teacher'},
-        related_name='classes_enseignées'
+        related_name='classes_enseignées', blank=True
     )
-    students = models.ManyToManyField(
-        CustomUser,
-        limit_choices_to={'user_type': 'student'},
-        related_name='classe'
-    )
-
+    
     class Meta:
         verbose_name = "Classe"
         verbose_name_plural = "Classes"
 
     def __str__(self):
         return self.name
+class StudentInClassroom(models.Model):
+    student = models.OneToOneField(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name='classroom_assignment',
+        limit_choices_to={'user_type': 'student'}
+    )
+    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
 
 
 class ParentChildRelationship(models.Model):
@@ -66,7 +69,7 @@ class ParentChildRelationship(models.Model):
 class Subject(models.Model):
     name = models.CharField(max_length=255)
     coefficient = models.IntegerField()
-    teacher= models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='subjects', limit_choices_to={'user_type: teacher'})
+    teachers= models.ManyToManyField(CustomUser,related_name='subjects', limit_choices_to={'user_type: teacher'})
 
     def __str__(self):
         return self.name
@@ -74,6 +77,7 @@ class Subject(models.Model):
 class Grade(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='grades')
     student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='grades', limit_choices_to={'user_type': 'student'})
+    teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='given_grades', limit_choices_to={'user_type': 'teacher'}, null=True)
     note_module = models.IntegerField()
 
     def __str__(self):

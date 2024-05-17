@@ -6,6 +6,7 @@
         <tr>
             <th>Subject</th>
             <th>Grade</th>
+            <th>Teacher</th>
         </tr>
         {% for grade in grades %}
             <tr>
@@ -14,7 +15,8 @@
                 {% else %}
                     N/A
                 {% endif %}</td>
-                <td><td>{% if grade %}{{ grade.value }}{% else %}No grade{% endif %}</td></td>
+                <td>{% if grade %}{{ grade.note_module }}{% else %}No grade{% endif %}</td>
+                <td>{% if grade %}{{ grade.teacher.username }}{% else %}N/A{% endif %}</td>
             </tr>
         {% endfor %}
     </table>
