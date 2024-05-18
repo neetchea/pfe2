@@ -26,28 +26,72 @@ class CustomUser(AbstractUser):
             self.password = make_password(self.password)
         super().save(*args, **kwargs)
 
+class Subject(models.Model):
+    name = models.CharField(max_length=255)
+    coefficient = models.IntegerField()
+    teacher= models.ForeignKey(CustomUser,related_name='subjects',on_delete=models.SET_NULL, limit_choices_to={'user_type': 'teacher'}, null=True)
+    # classroom= models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='subjects', null=True)
+    def save(self, *args, **kwargs):
+        if self.classroom:
+            self.level = self.classroom.level  # Ensure level matches the classroom
+
+        old_teacher = None
+        if self.pk:
+            old_teacher = Subject.objects.get(pk=self.pk).teacher
+
+        super().save(*args, **kwargs)  # Call the "real" save() method.
+
+        if self.classroom:
+            # Add new teacher to the classroom
+            if self.teacher and self.teacher not in self.classroom.teachers.all():
+                self.classroom.teachers.add(self.teacher)
+
+            # Remove teacher who is no longer teaching any subjects in the classroom
+            if old_teacher and old_teacher != self.teacher:
+                other_subjects = self.classroom.subjects.exclude(id=self.id)
+                if not other_subjects.filter(teacher=old_teacher).exists():
+                    self.classroom.teachers.remove(old_teacher)
+    def __str__(self):
+        return self.name
 
 class Classroom(models.Model):
     name = models.CharField(max_length=255)
-    level = models.CharField(max_length=255)
+
+    LEVEL_CHOICES = [
+        ('P1', 'Preparatory 1'),
+        ('P2', 'Preparatory 2'),
+        ('E1', 'Elementary 1'),
+        ('E2', 'Elementary 2'),
+        ('E3', 'Elementary 3'),
+        ('E4', 'Elementary 4'),
+        ('E5', 'Elementary 5'),
+        ('M1', 'Middle 1'),
+        ('M2', 'Middle 2'),
+        ('M3', 'Middle 3'),
+        ('M4', 'Middle 4'),
+    ]
+
+    
+    level = models.CharField(max_length=2, choices=LEVEL_CHOICES)
+    
     teachers = models.ManyToManyField(
         CustomUser,
         limit_choices_to={'user_type': 'teacher'},
         related_name='classes_enseignées', blank=True
     )
-    
-    class Meta:
-        verbose_name = "Classe"
-        verbose_name_plural = "Classes"
+    school_year=models.CharField(max_length=9,null=True)
+    subjects = models.ManyToManyField(Subject, related_name='classrooms', blank=True)
 
     def __str__(self):
         return self.name
+    
+
 class StudentInClassroom(models.Model):
-    student = models.OneToOneField(
+    student = models.ManyToManyField(
         CustomUser,
-        on_delete=models.CASCADE,
         related_name='classroom_assignment',
-        limit_choices_to={'user_type': 'student'}
+        limit_choices_to={'user_type': 'student'},
+        
     )
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
 
@@ -66,25 +110,17 @@ class ParentChildRelationship(models.Model):
         limit_choices_to={'user_type': 'student'}
     )
 
-class Subject(models.Model):
-    name = models.CharField(max_length=255)
-    coefficient = models.IntegerField()
-    teachers= models.ManyToManyField(CustomUser,related_name='subjects', limit_choices_to={'user_type: teacher'})
 
-    def __str__(self):
-        return self.name
 
 class Grade(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='grades')
     student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='grades', limit_choices_to={'user_type': 'student'})
-    teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='given_grades', limit_choices_to={'user_type': 'teacher'}, null=True)
     trimester= models.IntegerField(null=True)
-    note_module = models.IntegerField(null=True)
-    school_year=models.IntegerField(null=True)
+    grade = models.IntegerField(null=True)
 
     def get_trimester_ordinal(self):
         suffix = {1: 'st', 2: 'nd', 3: 'rd'}.get(self.trimester % 10, 'th')
         return str(self.trimester) + suffix
 
     def __str__(self):
-        return f"{self.student} - {self.subject}: {self.note_module} - {self.teacher}"
+        return f"{self.student} - {self.subject}: {self.grade} - {self.subject.teacher}"
