@@ -34,7 +34,8 @@ def students_grades_view(request):
             grades.append(grade)
         except ObjectDoesNotExist:
             # Handle the case where there's no grade for a subject
-            grades.append(None)
+             grade = None
+             grades.append((subject, grade))
     
     context = {
         'grades': grades

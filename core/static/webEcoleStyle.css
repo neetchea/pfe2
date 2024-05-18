@@ -38,11 +38,11 @@ nav img:hover{
     padding: 10px 15px;
     list-style: none;
     position: relative;
-    margin-bottom: 15px; 
+    margin-bottom: 25px; /* Increase this value to increase the space between list items */
 }
 .nav-link ul li a{
     text-decoration: none;
-    font-size: 15px;
+    font-size: 20px; /* Increase this value to make the text bigger */
     color: white;
 }
 .nav-link ul li::after{
@@ -54,6 +54,7 @@ nav img:hover{
     background: rgb(0, 106, 255);
     transition: 0.7s;
 }
+
 .nav-link ul li:hover::after{
     width: 100%;
 }

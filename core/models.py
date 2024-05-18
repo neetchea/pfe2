@@ -78,7 +78,13 @@ class Grade(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='grades')
     student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='grades', limit_choices_to={'user_type': 'student'})
     teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='given_grades', limit_choices_to={'user_type': 'teacher'}, null=True)
-    note_module = models.IntegerField()
+    trimester= models.IntegerField(null=True)
+    note_module = models.IntegerField(null=True)
+    school_year=models.IntegerField(null=True)
+
+    def get_trimester_ordinal(self):
+        suffix = {1: 'st', 2: 'nd', 3: 'rd'}.get(self.trimester % 10, 'th')
+        return str(self.trimester) + suffix
 
     def __str__(self):
-        return f"{self.student} - {self.subject}: {self.note_module}"
+        return f"{self.student} - {self.subject}: {self.note_module} - {self.teacher}"

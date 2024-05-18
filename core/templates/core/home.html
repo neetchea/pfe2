@@ -7,25 +7,32 @@
 </head>
 <body>
 
-    <section class="header" style="background-image: linear-gradient(rgba(4,9,30,0.4),rgba(4,9,30,0.4)),url('{% static 'core/school-img/vu-externe.jpg' %}');">
+    <section class="header" style="background-image: linear-gradient(rgba(4,9,30,0.4),rgba(4,9,30,0.4)), url('{% static 'core/school-img/vu-externe.jpg' %}');
+    background-repeat: no-repeat;
+    background-position: center calc(30% ); /* Lower the image by 30% */
+    background-size: cover;
+    height: 100vh;">
         <nav>
             <a href="#"><img src="{% static 'core/school-img/logo.png' %}" alt="Logo"></a>
             <div class="nav-link" id="navLink">
                 <i class="fa-solid fa-xmark" onclick="hidemenu()"></i>
-                <ul>
-                    <li><a href="{% url 'home' %}">ACCEUIL</a></li>
-                    <li><a href="{% url 'about' %}">A PROPOS</a></li>
-                    <li><a href="{% url 'courses' %}">Cours</a></li>
-                    <li><a href="{% url 'services' %}">Services</a></li>
+                <ul>{%if user.is_authenticated%}
+                    <li><a href="{% url 'dashboard' %}">MY DASHBOARD</a></li>
+                    {%endif%}
+                    <li><a href="{% url 'about' %}">ABOUT US</a></li>
+                    <li><a href="{% url 'courses' %}">EVENTS</a></li>
+                    <li><a href="{% url 'services' %}">OUR SERVICES</a></li>
                     <li><a href="{% url 'contact' %}">CONTACT</a></li>
                     <li>
                         {% if user.is_authenticated %}
                             <form action="{% url 'logout' %}" method="post">
                                 {% csrf_token %}
-                                <button type="submit" style="background: transparent; border: none;color: white;">LOGOUT</button>
+                                <button type="submit" style="background: transparent; border: none;color: white;font-size: 18px;
+                                ">LOGOUT</button>
                             </form>
                         {% else %}
-                            <a href="{% url 'login' %}">LOGIN</a>
+                            <a style="font-size: 18px;
+                            " href="{% url 'login' %}">LOGIN</a>
                         {% endif %}
                     </li>
                 </ul>
@@ -33,7 +40,7 @@
             <i class="fa-solid fa-bars" onclick="showmenu()"></i>
         </nav>
         <div class="text">
-            <h1>Ecole Privée El-Hikma</h1>
+            <h1>El-Hikma Private School</h1>
             <p>Apprendre, Découvrir, Grandir et se Construire</p>
             <a class="btn" href="#">DECOUVRIR</a>
         </div>
@@ -151,7 +158,7 @@
         <a href="{% url 'contact' %}" class="btn">CONTACT US</a>
     </section>
     <section class="footer">
-        <h4>A PROPOS</h4>
+        <h4>ABOUT US</h4>
         <P>Lorem ipsum dolor sit amet consectetur adipisicing elit. Error officia hic sapiente quod. Tempore, natus! Libero distinctio minima quidem voluptas iure,<br> laudantium unde sit aspernatur, cumque eaque sequi obcaecati at.</P>
         <div class="social">
             <i class="fa fa-facebook"></i>
