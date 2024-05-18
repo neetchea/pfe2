@@ -9,9 +9,10 @@ class CustomUser(AbstractUser):
         ('teacher', 'Teacher'),
         ('student', 'Student'),
         ('parent', 'Parent'),
+        
     )
 
-    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES)
+    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES,blank=True, null=True)
     matricule=models.CharField(max_length=255, blank=True,null=True, unique=True)
 
 

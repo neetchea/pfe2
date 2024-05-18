@@ -63,3 +63,4 @@ admin.site.register(Grade)
 admin.site.site_header = "El-Hikma school Admin"
 admin.site.site_title = " El-Hikma school Admin Portal"
 admin.site.index_title = "Welcome to El-Hikma school Admin"
+

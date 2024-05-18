@@ -3,8 +3,8 @@
 
 {% block object-tools-items %}
     <li>
-        <a href="{% url 'admin:assign-grades' original.pk %}" class="btn btn-secondary">
-            {% trans "Assign Grades" %}
+        <a href="{% url 'assign-grades' original.pk %}" class="btn btn-secondary" style="margin-top: 10px;margin-right: 10px;margin-bottom: 10px; width: 100%; background-color: #96DED1; color: white;"> 
+        {% trans "Assign Grades" %}
         </a>
     </li>
     {{ block.super }}

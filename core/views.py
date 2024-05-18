@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from .decorators import allowed_users
+from .models import Classroom, ParentChildRelationship, StudentInClassroom, Grade, Subject
 
 
 def home(request):
@@ -80,3 +81,25 @@ def services(request):
 
 def contact(request):
     return HttpResponse("Contact Page")
+from django.shortcuts import render
+from .decorators import allowed_users
+
+from django.shortcuts import render
+from .decorators import allowed_users
+
+@allowed_users(allowed_roles=['STAFF'])
+def assign_grades(request, classroom_id):
+    # Fetch the classroom based on the provided id
+    classroom = Classroom.objects.get(id=classroom_id)
+
+    # Fetch the StudentInClassroom instances for the classroom
+    student_in_classroom_instances = classroom.studentinclassroom_set.all()
+
+    # Fetch the students in the classroom
+    students = [instance.student for instance in student_in_classroom_instances]
+
+    # Fetch the subjects in the classroom
+    subjects = classroom.subjects.all()
+
+    # Render the 'assign_grades.html' template and pass the classroom, students, and subjects to it
+    return render(request, 'grades/assign_grades.html', {'classroom': classroom, 'students': students, 'subjects': subjects})
