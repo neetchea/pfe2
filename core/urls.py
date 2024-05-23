@@ -2,7 +2,7 @@
 from django.urls import path
 from django.contrib.auth import views as auth_views
 from . import views
-from .views import students_grades_view, parents_grades_view, assign_grades
+from .views import students_grades_view, parents_grades_view,homework,my_calendars,my_grades
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -16,5 +16,11 @@ urlpatterns = [
     path('courses/', views.courses, name='courses'),
     path('services/', views.services, name='services'),
     path('contact/', views.contact, name='contact'),
-    path('assign-grades/<int:classroom_id>/', views.assign_grades, name='assign-grades'),
+    path('events/', views.homework, name='events'),
+    path('calendars/', views.my_calendars, name='calendars'),
+    path('courses/', views.courses, name='courses'),
+    path('grades/', views.my_grades, name='grades'),
+   
+    path('assign-grades/<int:classroom_id>/change/', views.assign_grades, name='assign-grades'),
+
 ]

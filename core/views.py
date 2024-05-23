@@ -1,8 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import get_object_or_404, render, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
+
 from .decorators import allowed_users
-from .models import Classroom, ParentChildRelationship, StudentInClassroom, Grade, Subject
+from .models import Classroom, CustomUser, ParentChildRelationship, StudentInClassroom, Grade
 
 
 def home(request):
@@ -25,7 +26,7 @@ def dashboard(request):
 
 from django.core.exceptions import ObjectDoesNotExist
 
-@allowed_users(allowed_roles=['ELEVES'])
+@allowed_users(allowed_roles=['STUDENTS'])
 def students_grades_view(request):
     subjects = request.user.subjects.all()
     grades = []
@@ -68,6 +69,12 @@ def parents_grades_view(request):
     }
     return render(request, 'grades/parents_grades.html', context)
 
+allowed_users(allowed_roles=['STAFF'])
+def assign_grades(request, classroom_id):
+  
+    return render(request, 'grades/assign_grades.html')
+
+
 from django.http import HttpResponse
 
 def about(request):
@@ -77,29 +84,33 @@ def courses(request):
     return HttpResponse("Courses Page")
 
 def services(request):
-    return HttpResponse("Services Page")
+    context = {
+        'first_name': request.user.first_name,
+        'last_name': request.user.last_name
+    }
+    return render(request, 'core/services.html', context)
 
 def contact(request):
-    return HttpResponse("Contact Page")
-from django.shortcuts import render
-from .decorators import allowed_users
+    context = {
+        'first_name': request.user.first_name,
+        'last_name': request.user.last_name
+    }
+    return render(request, 'core/contact.html', context)
 
-from django.shortcuts import render
-from .decorators import allowed_users
 
-@allowed_users(allowed_roles=['STAFF'])
-def assign_grades(request, classroom_id):
-    # Fetch the classroom based on the provided id
-    classroom = Classroom.objects.get(id=classroom_id)
 
-    # Fetch the StudentInClassroom instances for the classroom
-    student_in_classroom_instances = classroom.studentinclassroom_set.all()
 
-    # Fetch the students in the classroom
-    students = [instance.student for instance in student_in_classroom_instances]
 
-    # Fetch the subjects in the classroom
-    subjects = classroom.subjects.all()
+from django.http import HttpResponse
 
-    # Render the 'assign_grades.html' template and pass the classroom, students, and subjects to it
-    return render(request, 'grades/assign_grades.html', {'classroom': classroom, 'students': students, 'subjects': subjects})
+def homework(request):
+    return HttpResponse("This is the homework page.")
+
+def my_calendars(request):
+    return HttpResponse("This is the my calendars page.")
+
+def courses(request):
+    return HttpResponse("This is the courses page.")
+
+def my_grades(request):
+    return HttpResponse("This is the my grades page.")

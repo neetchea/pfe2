@@ -1,65 +1,45 @@
+{%load static%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Hikma School</title>
-   <link rel="stylesheet"  href="style.css">
+    <link rel="stylesheet" href="{% static 'services.css' %}">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+ <!-- Added Google Font -->
 </head>
 <body>
     <div class="navbar-links">
-        <a href="#"><img src="logo-blue-vecto.svg" alt="Logo"></a>
-    
+        <a href="#"><img src="{% static 'logo-blue-vecto.svg' %}" alt="Logo"></a>
         <ul>
-            <li> 
-                <a href="#">Admin Dashboard</a>
-            </li>
-            <li> 
-                <a href="#">Home</a>
-            </li>
-            <li>
-                <a href="#">Events</a>
-            </li>
-            <li>
-                <a href="#">About us</a>
-            </li>
-           
-            
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Events</a></li>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">login</a></li>
         </ul>
     </div>
-    <div class="content">
-    <div class="classroom">
-        <h1>Insert The Grades For 1M5 Classroom:</h1>
-    </div>
-    <form>
-        <table>
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Matricule</th>
-                    <th>Arabic</th>
-                    <th>Math</th>
-                    <th>Physics</th>
-                    <th>Science</th>
-                    <th>History/Geography</th>
-                    <th>Political Studies</th>
-                    <th>Islamic Studies</th>
-                    <th>Art</th>
-                    <th>P.E</th>
-                    <th>Computer Science</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Table rows removed -->
-            </tbody>
-        </table>
-    </form>
-    <div class="submit-button">
-    <button type="submit">Submit</button>
-     </div>
-    </div>
+
+    <section class="services">
+        <div class="service-card lunch">
+            <h2>Nutritious Lunch Program</h2>
+            <p>We offer a nutritious and delicious lunch program, carefully curated to meet dietary needs and preferences.</p>
+        </div>
+        <div class="service-card trips">
+            <h2>Educational Trips</h2>
+            <p>Explore the world around them, gaining valuable insights and experiences outside traditional academic settings.</p>
+        </div>
+        <div class="service-card transport" >
+            <h2>Convenient Transportation Services</h2>
+            <p style="font-size: 2.49em;">Safe and hassle-free transportation services for students, ensuring a smooth journey to and from school.</p>
+        </div>
+        <div class="service-card tutoring">
+            <h2>One-on-One Tutoring</h2>
+            <p>Personalized academic support tailored to individual strengths, challenges, and learning styles.</p>
+        </div>
+    </section>
+
     <footer>
         <div class="footer-container">
             <div class="footer-section">
@@ -85,9 +65,8 @@
             </div>
             <div class="footer-section">
                 <h3>School Hours</h3>
-                <p>Monday to Friday: 8:00 AM - 4:00 PM</p>
-                <p>Saturday: 9:00 AM - 1:00 PM</p>
-                <p>Sunday: Closed</p>
+                <p>Sunday to Thursday: 8:00 AM - 4:00 PM</p>
+                <p>Saturday and Friday: Closed</p>
             </div>
             <div class="footer-section">
                 <h3>Mission Statement</h3>
@@ -97,7 +76,6 @@
                 <h3>Accreditation</h3>
                 <p>El Hikma School is accredited by [The Algerian Ministry Of Education].</p>
             </div>
-          
         </div>
         <div class="footer-section legal">
             <p>© 2024 El Hikma School. All rights reserved.</p>

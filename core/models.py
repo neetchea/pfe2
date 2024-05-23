@@ -9,10 +9,11 @@ class CustomUser(AbstractUser):
         ('teacher', 'Teacher'),
         ('student', 'Student'),
         ('parent', 'Parent'),
+        ('admin/staff', 'Admin/Staff')
         
     )
 
-    user_type = models.CharField(max_length=10, choices=USER_TYPE_CHOICES,blank=True, null=True)
+    user_type = models.CharField(max_length=30, choices=USER_TYPE_CHOICES)
     matricule=models.CharField(max_length=255, blank=True,null=True, unique=True)
 
 
@@ -32,26 +33,26 @@ class Subject(models.Model):
     coefficient = models.IntegerField()
     teacher= models.ForeignKey(CustomUser,related_name='subjects',on_delete=models.SET_NULL, limit_choices_to={'user_type': 'teacher'}, null=True)
     # classroom= models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='subjects', null=True)
-    def save(self, *args, **kwargs):
-        if self.classroom:
-            self.level = self.classroom.level  # Ensure level matches the classroom
+    # def save(self, *args, **kwargs):
+    #     if self.classroom:
+    #         self.level = self.classroom.level  # Ensure level matches the classroom
 
-        old_teacher = None
-        if self.pk:
-            old_teacher = Subject.objects.get(pk=self.pk).teacher
+    #     old_teacher = None
+    #     if self.pk:
+    #         old_teacher = Subject.objects.get(pk=self.pk).teacher
 
-        super().save(*args, **kwargs)  # Call the "real" save() method.
+    #     super().save(*args, **kwargs)  # Call the "real" save() method.
 
-        if self.classroom:
-            # Add new teacher to the classroom
-            if self.teacher and self.teacher not in self.classroom.teachers.all():
-                self.classroom.teachers.add(self.teacher)
+    #     if self.classroom:
+    #         # Add new teacher to the classroom
+    #         if self.teacher and self.teacher not in self.classroom.teachers.all():
+    #             self.classroom.teachers.add(self.teacher)
 
-            # Remove teacher who is no longer teaching any subjects in the classroom
-            if old_teacher and old_teacher != self.teacher:
-                other_subjects = self.classroom.subjects.exclude(id=self.id)
-                if not other_subjects.filter(teacher=old_teacher).exists():
-                    self.classroom.teachers.remove(old_teacher)
+    #         # Remove teacher who is no longer teaching any subjects in the classroom
+    #         if old_teacher and old_teacher != self.teacher:
+    #             other_subjects = self.classroom.subjects.exclude(id=self.id)
+    #             if not other_subjects.filter(teacher=old_teacher).exists():
+    #                 self.classroom.teachers.remove(old_teacher)
     def __str__(self):
         return self.name
 
@@ -125,3 +126,59 @@ class Grade(models.Model):
 
     def __str__(self):
         return f"{self.student} - {self.subject}: {self.grade} - {self.subject.teacher}"
+
+class Absences(models.Model):
+    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='absences', limit_choices_to={'user_type': 'student'})
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='absences')
+    date = models.DateField()
+    justification = models.TextField(blank=True)
+    number_of_absences=models.IntegerField(default=0)
+
+    def __str__(self):
+        return f"{self.student} - {self.subject} - {self.date}"
+    
+class Calendars(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+    all_day = models.BooleanField(default=False)
+    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='calendars')
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='calendars', null=True)
+    teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='calendars', limit_choices_to={'user_type': 'teacher'})
+    def __str__(self):
+        return self.title
+    
+
+class Courses(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+    all_day = models.BooleanField(default=False)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='courses')
+    teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='courses', limit_choices_to={'user_type': 'teacher'})
+    def __str__(self):
+        return self.title
+class Homework(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    due_date = models.DateField()
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='homeworks')
+    teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='homeworks', limit_choices_to={'user_type': 'teacher'})
+    def __str__(self):
+        return self.title
+class Remarks(models.Model):
+    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='remarks', limit_choices_to={'user_type': 'student'})
+    trimester= models.IntegerField(null=True)
+    date = models.DateField()
+    remark = models.TextField()
+    teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='remarks_written', limit_choices_to={'user_type': 'teacher'})
+    def __str__(self):
+        return f"{self.student} - {self.subject} - {self.date}"
+class Announcements(models.Model):
+    title = models.CharField(max_length=255)
+    description = models.TextField()
+    date = models.DateField()
+    def __str__(self):
+        return self.title

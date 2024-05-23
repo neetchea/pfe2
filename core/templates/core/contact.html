@@ -1,0 +1,146 @@
+{% load static %} <!-- Load static template tag -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="{% static 'contact.css' %}"> <!-- Use static template tag for CSS file -->
+</head>
+
+<body>
+    <div class="navbar-links">
+        <a href="#"><img src="{% static 'logo-blue-vecto.svg' %}" alt="Logo"></a>
+    
+        <ul>
+            {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'dashboard' %}">MY DASHBOARD</a>
+                </li>
+            {% endif %}
+            <li>
+                <a href="{% url 'about' %}">ABOUT US</a>
+            </li>
+            <li>
+                <a href="{% url 'courses' %}">EVENTS</a>
+            </li>
+            <li>
+                <a href="{% url 'services' %}">OUR SERVICES</a>
+            </li>
+            <li>
+                <a href="{% url 'contact' %}">CONTACT</a>
+            </li>
+            <li >
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" style="background: transparent; border: none;color: #333;font-size: 20px; font-weight:600;">LOGOUT</button>
+                    </form>
+                </li>
+                <li>
+                 
+                {% else %}
+                    <a href="{% url 'login' %}">LOGIN</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+    
+    
+    
+<div clss="content">
+    <div id="contact-info">
+        <!-- Embed Google Maps using HTML without Django template tags -->
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2852.407777856947!2d3.1707280075705655!3d36.72378144610943!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x128e53307a6aceb5%3A0x6f2f4a2dbe373a49!2sPrivate%20School%20El-Hikma%20B.e.z.!5e0!3m2!1sen!2sdz!4v1716158162585!5m2!1sen!2sdz" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+
+    <div class="card-container">
+        <!-- Cards content remains same -->
+        <div class="card" id="location">
+            <img src="{% static 'location1.png' %}" class="card-icon">
+            <h2>Our Location</h2>
+            <p>Wondering where to find us? Our building is conveniently located facing CEM Mustapha Ferroukhi. Just look for our sign!</p>
+            <p><span class="copy-text">Bab Ezzouar 16024 Bab Ezzouar, Algeria</span></p>
+            <button class="btn" onclick="copyText('location')">Copy Address</button>
+        </div>
+        <div class="card" id="phone">
+            <img src="{% static 'customer-service.png' %}" class="card-icon">
+            <h2>Our Phone Number</h2>
+            <p>Prefer talking over the phone? We're here for you. Our office line is open during our workinhours, so don't hesitate to give us a call.</p>
+            <p><span class="copy-text">0770 06 12 11</span></p>
+            <button class="btn" onclick="copyText('phone')">Copy Phone</button>
+        </div>
+        <div class="card" id="email">
+            <img src="{% static 'email.png' %}" class="card-icon">
+            <h2>Our Email</h2>
+            <p>Need to get in touch? Shoot us an email! Whether you have a question, a suggestion, or just wanto say hello, we're all ears.</p>
+            <p><span class="copy-text">elhikma.ecole@gmail.com</span></p>
+            <button class="btn" onclick="copyText('email')">Copy Email</button>
+        </div>
+    </div>
+</div>
+
+    <footer>
+        <!-- Footer content remains same -->
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Admissions</a></li>
+                    <li><a href="#">Academics</a></li>
+                    <li><a href="#">Student Life</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <p>Stay connected with us on social media:</p>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>School Hours</h3>
+                <p>Sunday to Thursday: 8:00 AM - 4:00 PM</p>
+                <p>Saturday and Sunday: Closed</p>
+            </div>
+            <div class="footer-section">
+                <h3>Mission Statement</h3>
+                <p>"At El Hikma School, we strive to provide a nurturing and challenging environment that fosters academic excellence, character development, and a lifelong love of learning."</p>
+            </div>
+            <div class="footer-section">
+                <h3>Accreditation</h3>
+                <p>El Hikma School is accredited by The Algerian Ministry Of Education.</p>
+            </div>
+            <div class="footer-section legal">
+                <p>© 2024 El Hikma School. All rights reserved.</p>
+                <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+    // JavaScript remains same
+    function copyText(cardId) {
+        var card = document.getElementById(cardId);
+        var text = card.querySelector('.copy-text').innerText;
+        var textArea = document.createElement('textarea');
+        text
+        Area.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('Copy');
+        textArea.remove();
+        alert('Copied ' + cardId + ': ' + text);
+        }
+        </script>
+        
+        </body>
+        </html>

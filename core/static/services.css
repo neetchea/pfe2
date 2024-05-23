@@ -1,0 +1,200 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+   
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    padding: 0px 50px;
+}
+
+.navbar-links ul {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+    width: 40%;
+}
+
+.navbar-links ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.navbar-links a img {
+    height: 160px;
+}
+
+.services {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    font-family: 'Poppins', sans-serif;
+}
+
+.service-card {
+    background-size: cover;
+    background-position: center;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    color: #fff;
+    flex: 1 0 calc(45% - 20px);
+    margin: 10px;
+    overflow: hidden;
+    position: relative;
+    min-height: 150px;
+    max-height: 600px;
+     /* Increased height for a longer card */
+}
+
+.service-card h2 {
+    padding: 15px;
+    margin: 0;
+    text-align: center;
+    font-size: 5em; /* Hierarchy: larger font size for titles */
+    font-weight: 700;
+    text-shadow: 3px 3px 6px#333;
+
+}
+
+
+
+.service-card.lunch {
+    background-image: url('lunch.jpg'); /* Replace 'lunch.jpg' with your lunch image */
+
+
+}
+
+.service-card.trips {
+    background-image: url('trips.jpg'); /* Replace 'trips.jpg' with your trips image */
+}
+
+.service-card.transport {
+    background-image: url('transport.jpg'); /* Replace 'transport.jpg' with your transport image */
+   
+}
+
+
+.service-card.tutoring {
+    background-image: url('tutoring.jpg'); /* Replace 'tutoring.jpg' with your tutoring image */
+}
+
+.service-card p {
+    background-color: rgba(139, 255, 249, 0.5);
+    text-shadow: 1px 1px 2px#000000;
+    color: #ffffff;
+
+    padding: 20px;
+    margin: 0;
+    font-size: 3em; /* Hierarchy: smaller font size for body text */
+    font-weight: 400;
+    text-align: center;
+    opacity: 0; /* Hide the paragraph initially */
+    transition: opacity 0.5s; /* Smooth transition */
+}
+
+.service-card:hover p {
+    opacity: 1; /* Show the paragraph when the card is hovered */
+}
+
+
+
+
+
+/* Media Query for smaller screens */
+@media screen and (max-width: 768px) {
+    .service-card {
+        flex: 1 0 calc(100% - 20px);
+    }
+}
+
+footer {
+    position:relative;
+    background-color: #333;
+    color: #fff;
+    border-top: 2px solid #48cae4;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    box-sizing: border-box;
+    font-size:1em;
+    padding: 20px 50px;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 0px;
+}
+
+.footer-section {
+    padding-right: 20px;
+    padding-left: 20px;
+
+    flex: 1;
+    min-width: 200px;
+    text-align: left;
+}
+
+.footer-section h3 {
+    border-bottom: 1px solid #48cae4;
+    padding-bottom: 5px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin: 5px 0;
+}
+
+.footer-section ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+    color: #48cae4;
+}
+
+.footer-section p {
+    margin: 5px 0;
+}
+
+.legal {
+    text-align: center;
+    width: 100%;
+    border-top: 1px solid #48cae4;
+    padding-top: 10px;
+    margin-top: 0px;
+    box-sizing: border-box;
+}
+
+.legal p {
+    margin: 5px 0px;
+}
+
+.legal a {
+    color: #48cae4;
+    text-decoration: none;
+}
+
+.legal a:hover {
+    color: #fff;
+}

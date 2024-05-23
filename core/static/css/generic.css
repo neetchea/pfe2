@@ -7,7 +7,6 @@ body {
 }
 
 .navbar {
-    display: flex;
     align-items: center;
     overflow: hidden;
     background-color: #333;
@@ -19,15 +18,17 @@ body {
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-.navbar a {
-    display: flex;
-    align-items: center;
+.navbar a, .navbar ul li form button {
     color: #f2f2f2;
     text-align: center;
     padding: 1% 2%;
     text-decoration: none;
     font-size: 16px;
     position: relative;
+    display: inline-block;
+    align-items: center;
+    margin: 0 10px; 
+    white-space: nowrap !important;
 }
 
 .navbar a img {
@@ -36,40 +37,27 @@ body {
     margin-right: 10px;
 }
 
+.navbar a img:hover {
+    animation: spin 0.5s linear infinite;
+}
+
 .navbar ul {
-    display: flex;
     align-items: center;
     margin-left: auto;
 }
 
 .navbar ul li {
-    margin-left: 1em;
+    margin-left: 2em;
     display: inline-block;
-}
-
-.navbar ul li a {
-    font-size: 16px;
-    display: flex;
-    align-items: center;
+    padding: 10px; 
+    width: 150px;
 }
 
 .navbar ul li form button {
     background-color: transparent;
     border: none;
-    color: #f2f2f2;
-    padding: 1% 2%;
-    text-decoration: none;
     cursor: pointer;
     border-radius: 15px;
-    font-size: 16px;
-    position: relative;
-    display: flex;
-    align-items: center;
-}
-
-.navbar ul li form button:hover {
-    background-color: transparent;
-    color: #f2f2f2;
 }
 
 .navbar a::after,
@@ -106,10 +94,12 @@ body {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: left;
+    color: #333;
 }
 
 .grades-table th {
-    background-color: #f2f2f2;
+    background-color: #1E90FF;
+    color: white;
 }
 
 .grades-table tr:nth-child(even) {
@@ -117,26 +107,9 @@ body {
 }
 
 .grades-table tr:hover {
-    background-color: #ddd;
+    background-color: #d0e9ff;
 }
 
-.grades-table th {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.navbar ul li a,
-.navbar ul li form button {
-    font-size: 20px; 
-    display: flex;
-    align-items: center;
-    margin: 0 10px; 
-}
-
-.navbar ul li {
-    margin-left: 2em;
-    display: inline-block;
-}
 .grades-header {
     text-align: center;
     margin-top: 20px;
@@ -145,8 +118,6 @@ body {
 .grades-header h1 {
     font-size: 28px;
     color: #1a78d6; 
-    
-
     text-align: center;
     margin-bottom: 20px;
     position: relative;
@@ -160,14 +131,6 @@ body {
     background: linear-gradient(to right, #1a78d6, #0056a3);
     margin: 10px auto 0;
     border-radius: 2px;
-}
-
-
-.dashboard-header h1,
-.dashboard-header h4,
-.grades-table th,
-.grades-table td {
-    color: #333; /* Dark grey instead of black */
 }
 
 .dashboard-header {
@@ -198,19 +161,7 @@ body {
     border-radius: 10px;
 }
 
-.grades-table th {
-    background-color: #1E90FF;
-    color: white;
-}
-
-.grades-table tr:hover {
-    background-color: #d0e9ff;
-}
 @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
-}
-
-.navbar a img:hover {
-    animation: spin 0.5s linear infinite;
 }

@@ -1,0 +1,203 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F5F5F5;
+    color: #333;
+   overflow-x: hidden;
+   margin-right: 1em;
+
+
+    
+}
+
+.navbar-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    padding: 0px 0px; /* Reduced padding */
+}
+
+.navbar-links ul {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+   
+}
+.navbar-links ul li {
+    right: 1em;
+    padding-left:1em ;
+    padding-right: 1em;
+}
+
+.navbar-links ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.navbar-links a img {
+    height: 160px; /* Increased logo size */
+}
+
+#contact-info {
+    position: relative; /* Establishes a positioning context for absolute positioned children */
+}
+
+#contact-info iframe {
+    position: absolute;
+    top: 0; /* Adjust as needed */
+    right: 0;
+    width: 50%;
+    height: 100vh; /* Set to 100% of the viewport height */
+    border: none;
+    padding: 0;
+    margin: 0;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+
+
+.card-container {
+    position: relative;
+    top: 120px; /* Adjust the top position as needed */
+    left: 20px; /* Adjust the left position as needed */
+    
+}
+
+
+.card {
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 20px;
+    text-align: center;
+}
+
+.card img {
+    width: 80px; /* Set image size */
+    height: auto;
+}
+
+#location {
+    position: absolute;
+    top: 300px;
+    left: 50px; /* Same as #phone */
+    width: 550px; /* Total width of #phone and #email and the space between them */
+    height: 250px;
+}
+
+#phone {
+    position: absolute;
+    top: -120px;
+    left: 50px;
+    width: 250px;
+    height: 350px;
+}
+
+#email {
+    position: absolute;
+    top: -120px;
+    left: 350px; /* Adjusted to create space between #phone and #email */
+    width: 250px;
+    height: 350px;
+}
+.btn {
+    position: absolute;
+    bottom: 10px;
+    left: 5%; /* Adjusted to center the button */
+    width: 90%; /* Set the width to 90% of the card */
+    background-color: #48cae4; /* Pastel color */
+    border: none;
+    padding: 10px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+
+
+.btn:hover {
+    background-color: #e53935; /* Darker pastel color on hover */
+}
+footer {
+    border-top: 2px solid #48cae4;
+
+    background-color: #333;
+    color: #fff;
+    padding: 20px 50px;
+    text-align: left;
+    position: relative;
+    clear: both; /* Ensure footer clears any floating elements */
+    z-index: 10; /* Ensure footer is above any other content */
+    margin-top: 50%;
+    width: 100%;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 200px;
+    margin: 10px;
+}
+
+.footer-section h3 {
+    border-bottom: 2px solid #48cae4;
+    padding-bottom: 5px;
+    margin-bottom: 10px;
+}
+
+.footer-section ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin: 5px 0;
+}
+
+.footer-section ul li a {
+    color: #fff;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section ul li a:hover {
+    color: #48cae4;
+}
+
+.footer-section p {
+    margin: 5px 0;
+}
+
+.footer-section.legal {
+    flex-basis: 100%;
+    text-align: center;
+    border-top: 1px solid #48cae4;
+    padding-top: 10px;
+    margin-top: 10px;
+}
+
+.footer-section.legal p {
+    margin: 5px 0;
+}
+
+.footer-section.legal a {
+    color: #48cae4;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section.legal a:hover {
+    color: #fff;
+}
+
+
+
+
