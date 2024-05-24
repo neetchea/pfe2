@@ -9,13 +9,12 @@ class SubjectAdmin(admin.ModelAdmin):
 
 admin.site.register(Subject, SubjectAdmin)
 
-
-
 class GradeInline(admin.TabularInline):
     model = Grade
-    extra = 0  
-    autocomplete_fields = ['subject']  
-    fk_name = 'student'
+    extra = 0
+    verbose_name_plural = 'Grades'
+    pk_filed='student'  
+
 
 
 class TeacherInline(admin.StackedInline):
@@ -34,7 +33,7 @@ class ParentInline(admin.TabularInline):
     
 
 class CustomUserAdmin(admin.ModelAdmin):
-    inlines = [GradeInline,TeacherInline, StudentInline]
+    inlines = [TeacherInline, StudentInline,GradeInline] 
     search_fields = ['username']
     list_filter = ('groups',)
 
@@ -60,7 +59,26 @@ class CustomUserAdmin(admin.ModelAdmin):
             exclude = list(exclude)  # Convert to list to append, get exclude returned a tuple
             exclude.append('matricule')
         return exclude
+    def get_readonly_fields(self, request, obj=None):
+        readonly_fields = super().get_readonly_fields(request, obj)
+        if obj and obj.user_type == 'parent':
+            return readonly_fields + ('childrens_info',)
+        return readonly_fields
+    def childrens_info(self, obj):
+        if obj.user_type == 'parent':
+            parent = Parent.objects.get(user=obj)
+            students = parent.children.all()
+            return ', '.join(str(student) for student in students)
+        return "Not a parent"
 
+    childrens_info.short_description = 'Children'  # Optional: Set a custom label for the field in the admin
+
+    def get_queryset(self, request):
+        qs = super().get_queryset(request)
+        if request.user.is_superuser:
+            return qs
+        return qs.filter(user_type='parent')
+  
 
 admin.site.register(CustomUser, CustomUserAdmin)
 

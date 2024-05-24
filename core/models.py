@@ -2,7 +2,9 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.hashers import make_password
 def limit_to_students():
-    return {'user_type': 'Student'}
+    return {'user_type': 'student'}
+
+
 class CustomUser(AbstractUser):
     
     USER_TYPE_CHOICES = (
@@ -38,7 +40,7 @@ class CustomUser(AbstractUser):
 
 class Teacher(models.Model):
     user= models.OneToOneField(CustomUser,on_delete=models.CASCADE,related_name='teacher')
-    calendar=models.OneToOneField('Calendars',on_delete=models.SET_NULL,related_name='teacher',null=True)    
+    calendar=models.OneToOneField('Calendars',on_delete=models.SET_NULL,related_name='teacher_calendar',null=True)    
     class Meta:
         verbose_name = 'Teacher information'
         verbose_name_plural = 'Teachers information'
@@ -58,9 +60,6 @@ class Student(models.Model):
 
 class Parent(models.Model):
     user= models.OneToOneField(CustomUser,on_delete=models.CASCADE,related_name='parent')
-    def children(self):
-        return ", ".join([str(child.user.username) for child in self.children.all()])
-
     class Meta:
         verbose_name = 'Parent information'
         verbose_name_plural = 'Parents information'
@@ -70,7 +69,8 @@ class Parent(models.Model):
 class Subject(models.Model):
     name = models.CharField(max_length=255)
     coefficient = models.IntegerField()
-    teacher= models.ForeignKey(CustomUser,related_name='subjects',on_delete=models.SET_NULL, limit_choices_to={'user_type': 'teacher'}, null=True)
+    teachers=models.ManyToManyField(Teacher, related_name='subjects')
+
     # classroom= models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='subjects', null=True)
     # def save(self, *args, **kwargs):
     #     if self.classroom:
@@ -115,11 +115,8 @@ class Classroom(models.Model):
     
     level = models.CharField(max_length=2, choices=LEVEL_CHOICES)
     
-    teachers = models.ManyToManyField(
-        CustomUser,
-        limit_choices_to={'user_type': 'teacher'},
-        related_name='classes_enseignées', blank=True
-    )
+    teachers=models.ManyToManyField(Teacher, related_name='classrooms')
+
     school_year=models.CharField(max_length=9,null=True)
     subjects = models.ManyToManyField(Subject, related_name='classrooms', blank=True)
 
@@ -128,37 +125,24 @@ class Classroom(models.Model):
     
 
 
-# class ParentChildRelationship(models.Model):
-#     parent = models.ForeignKey(
-#         CustomUser,
-#         on_delete=models.CASCADE,
-#         related_name='children',
-#         limit_choices_to={'user_type': 'parent'}
-#     )
-#     child = models.ForeignKey(
-#         CustomUser,
-#         on_delete=models.CASCADE,
-#         related_name='parents',
-#         limit_choices_to={'user_type': 'student'}
-#     )
-
 
 
 class Grade(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='grades')
-    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='grades', limit_choices_to={'user_type': 'student'})
+    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='student_grades',null=True, limit_choices_to={'user_type': 'student'})
     trimester= models.IntegerField(null=True)
     grade = models.IntegerField(null=True)
-
+    GRADE_TYPE_CHOICES = [('Continous','Continous'),('Test','Test'),('Exam','Exam'),('Final','Final')]
+    grade_type = models.CharField(max_length=30, choices=GRADE_TYPE_CHOICES, default='Continous')
     def get_trimester_ordinal(self):
         suffix = {1: 'st', 2: 'nd', 3: 'rd'}.get(self.trimester % 10, 'th')
         return str(self.trimester) + suffix
 
     def __str__(self):
-        return f"{self.student} - {self.subject}: {self.grade} - {self.subject.teacher}"
+        return f"{self.student} - {self.subject}: {self.grade} "
 
 class Absences(models.Model):
-    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='absences', limit_choices_to={'user_type': 'student'})
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='absences')
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='absences')
     date = models.DateField()
     justification = models.TextField(blank=True)
@@ -174,7 +158,6 @@ class Calendars(models.Model):
     end = models.DateTimeField()
     all_day = models.BooleanField(default=False)
     classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='calendars', null=True)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='calendars', null=True)
     
     def __str__(self):
         return self.title
@@ -187,25 +170,29 @@ class Courses(models.Model):
     end = models.DateTimeField()
     all_day = models.BooleanField(default=False)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='courses')
-    teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='courses', limit_choices_to={'user_type': 'teacher'})
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='courses')
     def __str__(self):
         return self.title
+    
 class Homework(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     due_date = models.DateField()
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='homeworks')
-    teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='homeworks', limit_choices_to={'user_type': 'teacher'})
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='homeworks')
+    student= models.OneToOneField(Student, related_name='homeworks',on_delete=models.SET_NULL,null=True, blank=True) 
     def __str__(self):
         return self.title
+
 class Remarks(models.Model):
-    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='remarks', limit_choices_to={'user_type': 'student'})
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='remarks')
     trimester= models.IntegerField(null=True)
     date = models.DateField()
     remark = models.TextField()
-    teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='remarks_written', limit_choices_to={'user_type': 'teacher'})
+    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='remarks_written')
     def __str__(self):
-        return f"{self.student} - {self.subject} - {self.date}"
+        return f"{self.student} - {self.teacher} - {self.date}"
+    
 class Announcements(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
