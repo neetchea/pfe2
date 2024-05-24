@@ -9,5 +9,6 @@ urlpatterns = [
     path('admin/', include(('core.urls', 'core'), namespace='admin')),
 
     path('', include('core.urls')),
+
   
 ]

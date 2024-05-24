@@ -1,38 +1,57 @@
 from django.contrib import admin
 from django.shortcuts import get_object_or_404, render
 from django.urls import path
-from .models import CustomUser, Classroom, ParentChildRelationship,StudentInClassroom, Grade, Subject, Calendars, Absences, Announcements,Remarks,Homework,Courses
+from .models import CustomUser, Classroom,Grade, Subject, Calendars, Absences, Announcements,Remarks,Homework,Courses, Teacher, Student, Parent
+
+
 class SubjectAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
 admin.site.register(Subject, SubjectAdmin)
 
-class ParentChildInline(admin.TabularInline):
-    model = ParentChildRelationship
-    fk_name = 'parent'
-    extra = 0 
+
 
 class GradeInline(admin.TabularInline):
     model = Grade
     extra = 0  
     autocomplete_fields = ['subject']  
     fk_name = 'student'
-    
+
+
+class TeacherInline(admin.StackedInline):
+    model = Teacher
+    can_delete = False
+    verbose_name_plural = 'teacher information'  
+class StudentInline(admin.TabularInline):
+    model = Student
+    extra = 0
+    verbose_name_plural = 'Student information'  
+
+class ParentInline(admin.TabularInline):
+    model = Parent
+    extra = 0
+    verbose_name_plural = 'Parent information' 
     
 
 class CustomUserAdmin(admin.ModelAdmin):
-    inlines = [ParentChildInline,GradeInline]
+    inlines = [GradeInline,TeacherInline, StudentInline]
     search_fields = ['username']
     list_filter = ('groups',)
 
     def get_inline_instances(self, request, obj=None):
         inline_instances = []
         if obj is not None and obj.user_type == 'parent':
-             inline_instance = ParentChildInline(self.model, self.admin_site)
+             inline_instance = ParentInline(self.model, self.admin_site)
              inline_instances.append(inline_instance)
         elif obj is not None and obj.user_type == 'student':
             inline_instance = GradeInline(self.model, self.admin_site)
             inline_instances.append(inline_instance)
+            inline_instance = StudentInline(self.model, self.admin_site)
+            inline_instances.append(inline_instance)
+        elif obj is not None and obj.user_type == 'teacher':
+            inline_instance = TeacherInline(self.model, self.admin_site)
+            inline_instances.append(inline_instance)
+        
         return inline_instances
  
     def get_exclude(self, request, obj=None):
@@ -45,14 +64,15 @@ class CustomUserAdmin(admin.ModelAdmin):
 
 admin.site.register(CustomUser, CustomUserAdmin)
 
-class StudentInClassroomInline(admin.TabularInline):
-    model = StudentInClassroom
-    extra = 1
+class StudentsInline(admin.TabularInline):
+    model=Student
+    extra=1
+    verbose_name_plural = 'Students'    
 
 
 class ClassroomAdmin(admin.ModelAdmin):
     search_fields = ['name']
-    inlines = [StudentInClassroomInline]
+    inlines = [StudentsInline]
     list_filter = ['level','school_year']
     filter_horizontal = ['subjects']
     change_form_template = 'admin/core/classroom/change_form.html'

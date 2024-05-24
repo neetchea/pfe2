@@ -1,14 +1,14 @@
-<!DOCTYPE html>
+{% load static %}<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Hikma School</title>
-   <link rel="stylesheet"  href="style.css">
+    <link rel="stylesheet"  href="{% static 'assign_grades.css' %}">
 </head>
 <body>
     <div class="navbar-links">
-        <a href="#"><img src="logo-blue-vecto.svg" alt="Logo"></a>
+        <a href="#"><img src="{% static 'logo-blue-vecto.svg' %}" alt="Logo"></a>
     
         <ul>
             <li> 
@@ -23,42 +23,41 @@
             <li>
                 <a href="#">About us</a>
             </li>
-           
-            
         </ul>
     </div>
     <div class="content">
-    <div class="classroom">
-        <h1>Insert The Grades For 1M5 Classroom:</h1>
-    </div>
-    <form>
-        <table>
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>First Name</th>
-                    <th>Last Name</th>
-                    <th>Matricule</th>
-                    <th>Arabic</th>
-                    <th>Math</th>
-                    <th>Physics</th>
-                    <th>Science</th>
-                    <th>History/Geography</th>
-                    <th>Political Studies</th>
-                    <th>Islamic Studies</th>
-                    <th>Art</th>
-                    <th>P.E</th>
-                    <th>Computer Science</th>
-                </tr>
-            </thead>
-            <tbody>
-                <!-- Table rows removed -->
-            </tbody>
-        </table>
-    </form>
-    <div class="submit-button">
-    <button type="submit">Submit</button>
-     </div>
+        <div class="classroom">
+            <h1>Insert The Grades For 1M5 Classroom:</h1>
+        </div>
+        <form>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th>Matricule</th>
+                        <th>Arabic</th>
+                        <th>Math</th>
+                        <th>Physics</th>
+                        <th>Science</th>
+                        <th>History/Geography</th>
+                        <th>Political Studies</th>
+                        <th>Islamic Studies</th>
+                        <th>Art</th>
+                        <th>P.E</th>
+                        <th>Computer Science</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Table rows removed -->
+                </tbody>
+            </table>
+            <div class="submit-button">
+                <button type="submit">Submit</button>
+            </div>
+        </form>
+      
     </div>
     <footer>
         <div class="footer-container">
@@ -97,7 +96,6 @@
                 <h3>Accreditation</h3>
                 <p>El Hikma School is accredited by [The Algerian Ministry Of Education].</p>
             </div>
-          
         </div>
         <div class="footer-section legal">
             <p>© 2024 El Hikma School. All rights reserved.</p>

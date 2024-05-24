@@ -10,12 +10,9 @@ class CustomUser(AbstractUser):
         ('student', 'Student'),
         ('parent', 'Parent'),
         ('admin/staff', 'Admin/Staff')
-        
     )
 
     user_type = models.CharField(max_length=30, choices=USER_TYPE_CHOICES)
-    matricule=models.CharField(max_length=255, blank=True,null=True, unique=True)
-
 
     def save(self, *args, **kwargs):
         #so i don't double hash password and i do hash password on password change
@@ -26,8 +23,50 @@ class CustomUser(AbstractUser):
                 self.password = make_password(self.password)
         else:  # This is a new user
             self.password = make_password(self.password)
+            super().save(*args, **kwargs)  # Save the user first, because the user needs to exist before creating the related instance
+
+            # Create the associated Teacher, Student, or Parent instance if it doesn't already exist
+            if self.user_type == 'teacher' and not hasattr(self, 'teacher'):
+                Teacher.objects.create(user=self)
+            elif self.user_type == 'student' and not hasattr(self, 'student'):
+                Student.objects.create(user=self)
+            elif self.user_type == 'parent' and not hasattr(self, 'parent'):
+                Parent.objects.create(user=self)
+            return
+
         super().save(*args, **kwargs)
 
+class Teacher(models.Model):
+    user= models.OneToOneField(CustomUser,on_delete=models.CASCADE,related_name='teacher')
+    calendar=models.OneToOneField('Calendars',on_delete=models.SET_NULL,related_name='teacher',null=True)    
+    class Meta:
+        verbose_name = 'Teacher information'
+        verbose_name_plural = 'Teachers information'
+    def __str__(self):
+        return self.user.username
+         
+class Student(models.Model):
+    user= models.OneToOneField(CustomUser,on_delete=models.CASCADE,related_name='student')
+    classroom= models.ForeignKey('Classroom',on_delete=models.SET_NULL,related_name='student',null=True)
+    parent=models.ForeignKey('Parent',on_delete=models.SET_NULL,related_name='children',null=True)
+    matricule=models.CharField(max_length=30,null=True)
+    class Meta:
+        verbose_name = 'Student information'
+        verbose_name_plural = 'Students information'
+    def __str__(self):
+        return self.user.username
+
+class Parent(models.Model):
+    user= models.OneToOneField(CustomUser,on_delete=models.CASCADE,related_name='parent')
+    def children(self):
+        return ", ".join([str(child.user.username) for child in self.children.all()])
+
+    class Meta:
+        verbose_name = 'Parent information'
+        verbose_name_plural = 'Parents information'
+    def __str__(self):
+        return self.user.username
+        
 class Subject(models.Model):
     name = models.CharField(max_length=255)
     coefficient = models.IntegerField()
@@ -88,29 +127,20 @@ class Classroom(models.Model):
         return self.name
     
 
-class StudentInClassroom(models.Model):
-    student = models.ManyToManyField(
-        CustomUser,
-        related_name='classroom_assignment',
-        limit_choices_to={'user_type': 'student'},
-        
-    )
-    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE)
 
-
-class ParentChildRelationship(models.Model):
-    parent = models.ForeignKey(
-        CustomUser,
-        on_delete=models.CASCADE,
-        related_name='children',
-        limit_choices_to={'user_type': 'parent'}
-    )
-    child = models.ForeignKey(
-        CustomUser,
-        on_delete=models.CASCADE,
-        related_name='parents',
-        limit_choices_to={'user_type': 'student'}
-    )
+# class ParentChildRelationship(models.Model):
+#     parent = models.ForeignKey(
+#         CustomUser,
+#         on_delete=models.CASCADE,
+#         related_name='children',
+#         limit_choices_to={'user_type': 'parent'}
+#     )
+#     child = models.ForeignKey(
+#         CustomUser,
+#         on_delete=models.CASCADE,
+#         related_name='parents',
+#         limit_choices_to={'user_type': 'student'}
+#     )
 
 
 
@@ -143,9 +173,9 @@ class Calendars(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField()
     all_day = models.BooleanField(default=False)
-    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='calendars')
+    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='calendars', null=True)
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='calendars', null=True)
-    teacher = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='calendars', limit_choices_to={'user_type': 'teacher'})
+    
     def __str__(self):
         return self.title
     

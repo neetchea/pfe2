@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 
 from .decorators import allowed_users
-from .models import Classroom, CustomUser, ParentChildRelationship, StudentInClassroom, Grade
+from .models import Classroom, CustomUser,Grade
 
 
 def home(request):
@@ -46,28 +46,27 @@ def students_grades_view(request):
 
 
 from django.shortcuts import render
-from .models import ParentChildRelationship
 
-@allowed_users(allowed_roles=['PARENTS'])
-def parents_grades_view(request):
-    relationships = ParentChildRelationship.objects.filter(parent=request.user)
-    children_grades = {}
-    for relationship in relationships:
-        child = relationship.child
-        subjects = child.subjects.all()
-        grades = []
-        for subject in subjects:
-            try:
-                grade = subject.grades.get(student=child)
-                grades.append(grade)
-            except ObjectDoesNotExist:
-                grades.append(None)
-        children_grades[child] = grades
+# @allowed_users(allowed_roles=['PARENTS'])
+# def parents_grades_view(request):
+#     relationships = ParentChildRelationship.objects.filter(parent=request.user)
+#     children_grades = {}
+#     for relationship in relationships:
+#         child = relationship.child
+#         subjects = child.subjects.all()
+#         grades = []
+#         for subject in subjects:
+#             try:
+#                 grade = subject.grades.get(student=child)
+#                 grades.append(grade)
+#             except ObjectDoesNotExist:
+#                 grades.append(None)
+#         children_grades[child] = grades
     
-    context = {
-        'children_grades': children_grades
-    }
-    return render(request, 'grades/parents_grades.html', context)
+#     context = {
+#         'children_grades': children_grades
+#     }
+#     return render(request, 'grades/parents_grades.html', context)
 
 allowed_users(allowed_roles=['STAFF'])
 def assign_grades(request, classroom_id):
