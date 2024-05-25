@@ -22,5 +22,7 @@ urlpatterns = [
     path('grades/', views.my_grades, name='grades'),
    
     path('assign-grades/<int:classroom_id>/change/', views.assign_grades, name='assign-grades'),
-
+    
+    path('grades/<str:parent_username>/', views.get_grades, name='get-grades'),
 ]
+

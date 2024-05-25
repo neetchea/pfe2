@@ -83,9 +83,14 @@ class CustomUserAdmin(admin.ModelAdmin):
 admin.site.register(CustomUser, CustomUserAdmin)
 
 class StudentsInline(admin.TabularInline):
-    model=Student
-    extra=1
-    verbose_name_plural = 'Students'    
+    model = Student
+    extra = 0
+    verbose_name_plural = 'Students'
+    can_delete = False
+    max_num = 0
+
+    def has_change_permission(self, request, obj=None):
+        return False   
 
 
 class ClassroomAdmin(admin.ModelAdmin):

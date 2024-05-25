@@ -49,9 +49,9 @@ class Teacher(models.Model):
          
 class Student(models.Model):
     user= models.OneToOneField(CustomUser,on_delete=models.CASCADE,related_name='student')
-    classroom= models.ForeignKey('Classroom',on_delete=models.SET_NULL,related_name='student',null=True)
-    parent=models.ForeignKey('Parent',on_delete=models.SET_NULL,related_name='children',null=True)
-    matricule=models.CharField(max_length=30,null=True)
+    classroom= models.ForeignKey('Classroom',on_delete=models.SET_NULL,related_name='student',null=True, blank=True)
+    parent=models.ForeignKey('Parent',on_delete=models.SET_NULL,related_name='children',null=True,blank=True)
+    matricule=models.CharField(max_length=30,null=True,blank=True)
     class Meta:
         verbose_name = 'Student information'
         verbose_name_plural = 'Students information'
@@ -115,7 +115,7 @@ class Classroom(models.Model):
     
     level = models.CharField(max_length=2, choices=LEVEL_CHOICES)
     
-    teachers=models.ManyToManyField(Teacher, related_name='classrooms')
+    teachers=models.ManyToManyField(Teacher, related_name='classrooms', null=True, blank=True)
 
     school_year=models.CharField(max_length=9,null=True)
     subjects = models.ManyToManyField(Subject, related_name='classrooms', blank=True)

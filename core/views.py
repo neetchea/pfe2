@@ -68,6 +68,39 @@ from django.shortcuts import render
 #     }
 #     return render(request, 'grades/parents_grades.html', context)
 
+from django.http import HttpResponse
+from django.contrib.auth import get_user_model
+from .models import Grade
+def get_grades(request, parent_username):
+    # Get the parent user
+    CustomUser = get_user_model()
+    parent_user = CustomUser.objects.get(username=parent_username)
+
+    # Check if the CustomUser instance has an associated Parent instance
+    if hasattr(parent_user, 'parent'):
+        # Get the Parent instance
+        parent = parent_user.parent
+
+        # Get the students of the parent
+        students = parent.children.all()
+
+        # For each student, get their grades
+        grades_list = []
+        for student in students:
+            # Get the CustomUser instance for the student
+            student_user = student.user
+            grades = Grade.objects.filter(student=student_user)
+            for grade in grades:
+                grades_list.append(f"Student: {student_user.username}, Subject: {grade.subject.name}, Grade: {grade.grade}")
+
+        return HttpResponse('<br>'.join(grades_list))
+    else:
+        return HttpResponse("This user is not a parent.")
+
+
+
+
+
 allowed_users(allowed_roles=['STAFF'])
 def assign_grades(request, classroom_id):
   
