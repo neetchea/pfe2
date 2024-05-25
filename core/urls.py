@@ -4,7 +4,6 @@ from django.contrib.auth import views as auth_views
 
 from backend import settings
 from . import views
-from .views import students_grades_view,homework,my_calendars,my_grades
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -19,7 +18,7 @@ urlpatterns = [
     path('courses/', views.courses, name='courses'),
     path('services/', views.services, name='services'),
     path('contact/', views.contact, name='contact'),
-    path('events/', views.user_announcements, name='events'),
+    path('events/', views.announcements, name='events'),
     path('calendars/', views.my_calendars, name='my_calendars'),
     path('courses/', views.courses, name='courses'),
     path('grades/', views.my_grades, name='grades'),

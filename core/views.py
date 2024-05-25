@@ -103,19 +103,16 @@ def contact(request):
         'last_name': request.user.last_name
     }
     return render(request, 'core/contact.html', context)
-
-@allowed_users(allowed_roles=['STAFF','STUDENTS','TEACHERS','PARENTS'])
-def user_announcements(request):
-    announcements= Announcements.objects.filter(active=True)
-    context ={'announcements': announcements}
-    return render(request, 'core/user_announcements.html',context)
-def visitor_announcements(request):
-    announcements= Announcements.objects.filter(is_user_only=False, active=True)
-
-
-
-
-
+def announcements(request):
+    if request.user.is_authenticated:
+        # Authenticated users
+        announcements = Announcements.objects.filter(active=True)
+    else:
+        # Visitors
+        announcements = Announcements.objects.filter(is_user_only=False, active=True)
+    
+    context = {'announcements': announcements}
+    return render(request, 'core/user_announcements.html', context)
 
 def homework(request):
     return HttpResponse("This is the homework page.")
