@@ -1,8 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.hashers import make_password
-def limit_to_students():
-    return {'user_type': 'student'}
+
 
 
 class CustomUser(AbstractUser):
@@ -125,7 +124,8 @@ class Classroom(models.Model):
     
 
 
-
+def limit_to_students():
+    return {'user_type': 'student'}
 
 class Grade(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='grades')
@@ -194,8 +194,19 @@ class Remarks(models.Model):
         return f"{self.student} - {self.teacher} - {self.date}"
     
 class Announcements(models.Model):
+    CATEGORY_CHOICES = [
+        ('General', 'General'),
+        ('Academic', 'Academic'),
+        ('Recruitment', 'Recruitment'),
+        ('Events', 'Events'),
+        ('Trips', 'Trips'),
+    ]
     title = models.CharField(max_length=255)
     description = models.TextField()
     date = models.DateField()
+    category=models.CharField(max_length=255, choices=CATEGORY_CHOICES, default='General')
+    is_user_only= models.BooleanField(default=False)
+    active=models.BooleanField(default=False)
+    photo= models.ImageField(upload_to='announcements/', null=True, blank=True)
     def __str__(self):
         return self.title

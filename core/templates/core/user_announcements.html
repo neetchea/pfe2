@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcements</title>
+    <!-- Add your CSS files here -->
+</head>
+<body>
+    <h1>Announcements</h1>
+    {% for announcement in announcements %}
+        <div>
+            <h2>{{ announcement.title }}</h2>
+            <p>{{ announcement.description }}</p>
+            <p><strong>Category:</strong> {{ announcement.get_category_display }}</p>
+            <p><strong>Date:</strong> {{ announcement.date }}</p>
+            {% if announcement.photo %}
+                <img src="{{ announcement.photo.url }}" alt="{{ announcement.title }}">
+            {% endif %}
+        </div>
+    {% empty %}
+        <p>No announcements at this time.</p>
+    {% endfor %}
+</body>
+</html>

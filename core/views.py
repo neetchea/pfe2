@@ -1,9 +1,10 @@
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import  render, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-
+from django.contrib.auth import get_user_model
 from .decorators import allowed_users
-from .models import Classroom, CustomUser,Grade
+from .models import Announcements, Classroom, CustomUser,Grade
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def home(request):
@@ -24,7 +25,6 @@ def dashboard(request):
 
     return render(request, template_name)
 
-from django.core.exceptions import ObjectDoesNotExist
 
 @allowed_users(allowed_roles=['STUDENTS'])
 def students_grades_view(request):
@@ -45,32 +45,7 @@ def students_grades_view(request):
     return render(request, 'grades/students_grades.html', context)
 
 
-from django.shortcuts import render
-
-# @allowed_users(allowed_roles=['PARENTS'])
-# def parents_grades_view(request):
-#     relationships = ParentChildRelationship.objects.filter(parent=request.user)
-#     children_grades = {}
-#     for relationship in relationships:
-#         child = relationship.child
-#         subjects = child.subjects.all()
-#         grades = []
-#         for subject in subjects:
-#             try:
-#                 grade = subject.grades.get(student=child)
-#                 grades.append(grade)
-#             except ObjectDoesNotExist:
-#                 grades.append(None)
-#         children_grades[child] = grades
-    
-#     context = {
-#         'children_grades': children_grades
-#     }
-#     return render(request, 'grades/parents_grades.html', context)
-
-from django.http import HttpResponse
-from django.contrib.auth import get_user_model
-from .models import Grade
+@allowed_users(allowed_roles=['PARENTS'])
 def get_grades(request, parent_username):
     # Get the parent user
     CustomUser = get_user_model()
@@ -129,11 +104,18 @@ def contact(request):
     }
     return render(request, 'core/contact.html', context)
 
+@allowed_users(allowed_roles=['STAFF','STUDENTS','TEACHERS','PARENTS'])
+def user_announcements(request):
+    announcements= Announcements.objects.filter(active=True)
+    context ={'announcements': announcements}
+    return render(request, 'core/user_announcements.html',context)
+def visitor_announcements(request):
+    announcements= Announcements.objects.filter(is_user_only=False, active=True)
 
 
 
 
-from django.http import HttpResponse
+
 
 def homework(request):
     return HttpResponse("This is the homework page.")
