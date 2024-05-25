@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.shortcuts import get_object_or_404, render
 from django.urls import path
-from .models import CustomUser, Classroom,Grade, Subject, Calendars, Absences, Announcements,Remarks,Homework,Courses, Teacher, Student, Parent
+from .models import CustomUser, Classroom,Grade, HomeworkSubmission, Subject, Calendars, Absences, Announcements,Remarks,HomeworkAssignment,Courses, Teacher, Student, Parent
 
 
 class SubjectAdmin(admin.ModelAdmin):
@@ -121,5 +121,17 @@ admin.site.register(Calendars)
 admin.site.register(Absences)
 admin.site.register(Announcements)
 admin.site.register(Remarks)
-admin.site.register(Homework)
 admin.register(Courses)
+
+
+class HomeworkSubmissionInline(admin.TabularInline):
+    model =HomeworkSubmission
+    extra=0
+    verbose_name_plural = 'Homework Submissions'
+    
+class HomeworkAssignmentAdmin(admin.ModelAdmin):
+    inlines = [HomeworkSubmissionInline]
+    search_fields = ['title', 'subject__name']
+
+
+admin.site.register(HomeworkAssignment, HomeworkAssignmentAdmin)

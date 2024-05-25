@@ -1,7 +1,280 @@
-{%extends  "grades/base.html"%}
-    
-    {% block title %}Student Dashboard{% endblock %}
-    
-    {% block content %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard</title>
+    {% comment %} <link rel="stylesheet" href="{% static 'dashboard-1.css' %}"> {% endcomment %}
+    <link rel="stylesheet" href="{% static 'dash.css' %}">
+</head>
+<body>
+    <nav>
+        <a href="home.html"><img src="{% static 'logo-light-blue.svg' %}" alt="Logo" class="logo"></a>
+        <ul>
+                <li><a href="#"><span><img src="{% static 'grades-white.png' %}" alt="Notes Logo" class="nav-icon"> <span class="nav-text">My Grades</span></span></a></li>
         
-    {% endblock %}
+                <li><a href="{% url 'my_calendars' %}"><span><img src="{% static 'white-calendar-icon.png' %}" alt="Calendar Logo" class="nav-icon"> <span class="nav-text">My Calendars</span></span></a></li>
+        
+                <li><a href="#"><span><img src="{% static 'literature-256.png' %}" alt="Courses Logo" class="nav-icon"> <span class="nav-text">Courses</span></span></a></li>
+        
+                <li><a href="{% url 'homework_assignment' %}"><span><img src="{% static 'home-icon.png' %}" alt="Homework Logo" class="nav-icon"> <span class="nav-text">Homework</span></span></a></li>
+        </ul>
+        <div class="profile-box">
+            <div class="profile-and-username">
+                <img src="{% static 'profile-pic.png' %}" alt="Profile Picture" class="profile-pic">
+                <p class="username">Student Account</p>
+            </div>
+            <div class="logout-div">
+                <button class="logout-button">Logout</button>
+            </div>
+        </div>
+        <!-- <div class="profile-box">
+            <img src="{% static 'profile-pic.png' %}" alt="Profile Picture" class="profile-pic">
+            <p class="username">Student Account</p>
+            <button class="logout-button">Logout</button>
+        </div> -->
+    </nav>
+    
+    <div class="content">
+        <div class="text-content">
+        
+            <div class="welcome-text">
+                <p>WELCOME STUDENT ACCOUNT!</p> <p>THIS IS YOUR</p>
+            </div>
+            <div class="dashboard">DASHBOARD</div>
+        </div>
+        <img src="{% static 'vu-externe.jpg' %}" alt="menu" class="menu" ></img>
+    </div>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-y: hidden;
+          }
+          
+          .content {
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            width: 100%;
+            overflow: hidden;
+            z-index: 1;
+            left: 16%;
+            transition: left 0.2s ease;
+          }
+          
+          nav:hover {
+            width: 30%;
+          }
+          
+          .text-content {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+          }
+          
+          .welcome-text {
+            font-weight: bold;
+            font-size: 60px; /* Adjust as needed */
+            color: white;
+            overflow-wrap: break-word; /* Add this line */
+          }
+          
+          .dashboard {
+            font-size: 120px; /* Adjust as needed */
+            word-wrap: break-word; /* Add this line */
+            color: white;
+          }
+          
+          /* ... rest of your CSS ... */
+          
+          nav {
+            background-color: #333;
+            width: 16%;
+            transition: width 0.2s ease;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            top: 0;
+            left: 0;
+            height: 100%;
+            z-index: 2;
+            overflow: hidden;
+          }
+          
+          
+          
+          nav ul {
+            position: absolute;
+            top: 30%;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            white-space: nowrap;
+          }
+          
+          nav ul li {
+            padding: 1em;
+          }
+          
+          nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            display: inline-block;
+            position: relative;
+            font-size: 40px;
+          }
+          
+          nav ul li a::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background-color: #3F00FF;
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            transition: width 0.6s ease, left 0.6s ease, right 0.6s ease;
+          }
+          
+          nav ul li a:hover::after {
+            width: 100%;
+            left: 0;
+            right: 0;
+          }
+          nav ul li a span {
+            color: transparent; /* Hide the text initially */
+            transform: translateX(100%); /* Shift the text to the right */
+            transition: color 0.3s ease, transform 0.3s ease; /* Add transitions */
+          }
+          
+          nav:hover ul li a span {
+            color: #fff; /* Show the text on hover */
+            transform: translateX(0); /* Shift the text back to its original position */
+          }
+          
+          /* Add a delay to each link to make them appear one at a time */
+          nav ul li:nth-child(1) a span { transition-delay: 0.1s; }
+          nav ul li:nth-child(2) a span { transition-delay: 0.2s; }
+          nav ul li:nth-child(3) a span { transition-delay: 0.3s; }
+          /* ... continue for as many links as you have */
+          
+          
+          
+          .content img {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+          }
+          
+          .content::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 20, 0.5);
+            z-index: 0;
+            word-wrap: break-word;
+          }
+          
+          nav:hover ~ .content {
+            left: 30%;
+          }
+          
+          
+          
+          .logo {
+            width: 20; /* Adjust as needed */
+            height: auto; /* Keeps the aspect ratio */
+            display: block;
+            margin: 0 auto; /* Centers the logo */
+            transition: transform 0.3s ease-in-out; /* This will animate the scale change */
+            transform-origin: center; /* This will keep the logo in place when it's expanded */
+          }
+          
+          .logo:hover {
+            transform: scale(1.1); /* This will make the logo 10% larger when hovered over */
+          }
+           
+          
+            
+            
+          
+            .nav-icon {
+              width: auto; /* Adjust as needed */
+              height: 50px; /* Adjust as needed */
+              display: inline-block; /* This will place the logo before the link */
+              vertical-align: middle; /* This will align the logo with the link */
+              margin-right: 10px; 
+              margin-left:75px;/* This will add some space between the logo and the link */
+            }
+          
+            
+          
+          .profile-box {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-top: 1px solid #348bd0;
+            background-color: #403f3f;
+              align-self: end;
+              flex-grow: -1;
+              margin-top: auto;
+              
+          }
+          
+          .profile-and-username {
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+          
+          }
+          
+          .profile-pic {
+            width: 4.5em;
+            border-radius: 50%;
+          }
+          
+          .username {
+            color: #fff;
+            font-size: 1.5em;
+            text-align: center;
+            /* margin-left: 1em;
+            margin-right: 1em; */
+            white-space: nowrap;
+          }
+          
+          .logout-button {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+            box-shadow: none;
+            border-radius: 3vh;
+            background-color: #fff;
+            border: none;
+            color: #333;
+            width: 100%;
+            font-size: 1.5em;
+            margin: 0.5em;
+            width: 8em;
+          }
+          
+        </style>
+    
+</body>
+</html>

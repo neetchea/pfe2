@@ -24,7 +24,7 @@ urlpatterns = [
     path('grades/', views.my_grades, name='grades'),
    
     path('assign-grades/<int:classroom_id>/change/', views.assign_grades, name='assign-grades'),
-    
+    path('homework_assignment/', views.homework_assignment, name='homework_assignment'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

@@ -39,7 +39,7 @@ class CustomUser(AbstractUser):
 
 class Teacher(models.Model):
     user= models.OneToOneField(CustomUser,on_delete=models.CASCADE,related_name='teacher')
-    calendar=models.OneToOneField('Calendars',on_delete=models.SET_NULL,related_name='teacher_calendar',null=True)    
+    calendar=models.OneToOneField('Calendars',on_delete=models.SET_NULL,related_name='teacher_calendar',null=True, blank=True)    
     class Meta:
         verbose_name = 'Teacher information'
         verbose_name_plural = 'Teachers information'
@@ -174,15 +174,29 @@ class Courses(models.Model):
     def __str__(self):
         return self.title
     
-class Homework(models.Model):
+class HomeworkAssignment(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
     due_date = models.DateField()
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='homeworks')
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='homeworks')
-    student= models.OneToOneField(Student, related_name='homeworks',on_delete=models.SET_NULL,null=True, blank=True) 
+    assignment_file= models.FileField(upload_to='homeworks_assignments/', null=True, blank=True)
+
+    class Meta:
+        verbose_name = 'Homework'
     def __str__(self):
         return self.title
+
+class HomeworkSubmission(models.Model):
+    homework = models.ForeignKey(HomeworkAssignment, on_delete=models.CASCADE, related_name='submissions')
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='homework_submissions')
+    submission_file = models.FileField(upload_to='homework_submissions/', null=True, blank=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"{self.student.user.name} - {self.homework.title}"
+
+
 
 class Remarks(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='remarks')
