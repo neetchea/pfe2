@@ -1,0 +1,56 @@
+{% for homework_assignment in homework_assignments %}
+    <div>
+        <h1>ASSIGNMENT:</h1>
+
+        <h2>Assignment: {{ homework_assignment.title }}</h2>
+        <p>Description: {{ homework_assignment.description }}</p>
+        <p>Due Date: {{ homework_assignment.due_date }}</p>
+        <p>Subject: {{ homework_assignment.subject }}</p>
+        <p>Assignment File: <a href="{{ homework_assignment.assignment_file.url }}">{{ homework_assignment.assignment_file.name }}</a></p>
+        <p>Teacher: {{homework_assignment.teacher}}</p>
+        <h1>YOUR RESPONSE:</h1>
+
+        <form method="POST" action="{% url 'homework_submission' %}">
+            {% csrf_token %}
+            <input type="hidden" name="homework_id" value="{{ homework_assignment.id }}">
+            <div class="form-group">
+                <label for="{{ form.response.id_for_label }}">Response:</label>
+                {{ form.response }}
+            </div>
+            <div class="form-group">
+                <label for="{{ form.submission_file.id_for_label }}">Submission File:</label>
+                {{ form.submission_file }}
+            </div>
+            <input type="submit" value="Submit">
+        </form>
+        {% for message in messages %}
+            {% if message.tags == 'submit' %}
+                <p>{{ message }}</p>
+            {% endif %}
+        {% endfor %}
+        <!-- Display a delete button for each submission -->
+        {% for submission in homework_assignment.submissions.all %}
+            {% if submission.student == request.user.student %}
+                <h3>Response: {{ submission.response }}</h3>
+                {% if submission.submission_file %}
+                <p>Submission File: <a href="{{ submission.submission_file.url }}">
+                {{ submission.submission_file.name }}</a></p>
+                {% endif %}
+                <form method="POST" action="{% url 'homework_submission' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="submission_id" value="{{ submission.id }}">
+                    <input type="hidden" name="homework_id" value="{{ submission.homework.id }}">
+                    <input type="hidden" name="delete">
+                    <input type="submit" value="Delete">
+                </form>
+                {% for message in messages %}
+                    {% if message.tags == 'delete' %}
+                        <p>{{ message }}</p>
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </div>
+{% empty %}
+    <p>No homework assignments found.</p>
+{% endfor %}

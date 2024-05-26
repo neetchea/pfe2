@@ -114,7 +114,7 @@ class Classroom(models.Model):
     
     level = models.CharField(max_length=2, choices=LEVEL_CHOICES)
     
-    teachers=models.ManyToManyField(Teacher, related_name='classrooms', null=True, blank=True)
+    teachers=models.ManyToManyField(Teacher, related_name='classrooms', blank=True)
 
     school_year=models.CharField(max_length=9,null=True)
     subjects = models.ManyToManyField(Subject, related_name='classrooms', blank=True)
@@ -181,6 +181,7 @@ class HomeworkAssignment(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='homeworks')
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='homeworks')
     assignment_file= models.FileField(upload_to='homeworks_assignments/', null=True, blank=True)
+    classroom= models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='homeworks', null=True)
 
     class Meta:
         verbose_name = 'Homework'
@@ -190,11 +191,14 @@ class HomeworkAssignment(models.Model):
 class HomeworkSubmission(models.Model):
     homework = models.ForeignKey(HomeworkAssignment, on_delete=models.CASCADE, related_name='submissions')
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='homework_submissions')
+    response=models.CharField(max_length=255, null=True, blank=True)
     submission_file = models.FileField(upload_to='homework_submissions/', null=True, blank=True)
     submitted_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"{self.student.user.name} - {self.homework.title}"
+        return f"{self.student.user.first_name}{self.student.user.last_name} - {self.homework.title}"
+    class Meta:
+        unique_together =('homework','student')
 
 
 

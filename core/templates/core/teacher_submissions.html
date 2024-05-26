@@ -1,0 +1,16 @@
+{% for assignment in homework_assignments %}
+    <h2>Assignment title:</h2>
+    <h2>{{ assignment.title }}</h2>
+    <h2>Responses:</h2>
+
+    {% for submission in assignment.submissions.all %}
+        <div>
+            <h3>Student: {{ submission.student.first_name }} {{ submission.student.last_name }}</h3>
+            <p>Submitted at: {{ submission.submitted_at }}</p>
+            <p>Response: {{ submission.response }}</p>
+            {% if submission.submission_file %}
+                <p>File: <a href="{{ submission.submission_file.url }}">{{ submission.submission_file.name }}</a></p>
+            {% endif %}
+        </div>
+    {% endfor %}
+{% endfor %}

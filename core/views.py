@@ -1,14 +1,15 @@
 import os
 from django.contrib import messages
+from django.db import IntegrityError
 from django.shortcuts import  render, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 
 from backend import settings
-from core.forms import HomeworkAssignmentForm
+from core.forms import HomeworkAssignmentForm, HomeworkSubmissionForm
 from .decorators import allowed_users
-from .models import Announcements, Classroom, CustomUser,Grade, HomeworkAssignment
+from .models import Announcements, Classroom, CustomUser,Grade, HomeworkAssignment, HomeworkSubmission
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -169,3 +170,49 @@ def homework_assignment(request):
         'form' : form
     }
     return render(request, 'core/teacher_homework.html', context)
+
+@allowed_users(allowed_roles=['TEACHERS'])
+def view_submissions(request):
+    # Get all the homework assignments created by the current teacher
+    homework_assignments = HomeworkAssignment.objects.filter(teacher=request.user.teacher)
+
+    # Get all the submissions for those homework assignments
+    submissions = HomeworkSubmission.objects.filter(homework__in=homework_assignments)
+
+    context = {
+        'homework_assignments': homework_assignments,
+        'submissions': submissions,
+    }
+
+    return render(request, 'core/teacher_submissions.html', context)
+
+@allowed_users(allowed_roles=['STUDENTS'])
+def student_homeworks(request):
+    student = request.user.student
+    homework_assignments = HomeworkAssignment.objects.filter(classroom=student.classroom)
+    if request.method == 'POST':
+        if 'delete' in request.POST:
+            submission_id = request.POST.get('submission_id')
+            submission = get_object_or_404(HomeworkSubmission, id=submission_id, student=student)
+            submission.delete()
+            messages.success(request, 'Submission deleted successfully', extra_tags='delete')
+            return redirect('homework_submission')
+        else:
+            form = HomeworkSubmissionForm(request.POST, request.FILES)
+            if form.is_valid():
+                submission = form.save(commit=False)
+                submission.student = student
+                submission.homework = get_object_or_404(HomeworkAssignment, id=request.POST.get('homework_id'))
+                try:
+                    submission.save()
+                except IntegrityError:
+                    messages.error(request, 'You have already submitted this homework, if you want to change your submission delete your first submission', extra_tags='submit')
+                messages.success(request, 'Homework submitted successfully', extra_tags='submit')
+                return redirect('homework_submission')
+    else:
+        form = HomeworkSubmissionForm()
+    context = {
+        'homework_assignments': homework_assignments,
+        'form': form
+    }
+    return render(request, 'core/student_homeworks.html', context)
