@@ -129,17 +129,33 @@ def limit_to_students():
 
 class Grade(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='grades')
-    student = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='student_grades',null=True, limit_choices_to={'user_type': 'student'})
+    student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_grades',null=True)
     trimester= models.IntegerField(null=True)
     grade = models.IntegerField(null=True)
-    GRADE_TYPE_CHOICES = [('Continous','Continous'),('Test','Test'),('Exam','Exam'),('Final','Final')]
+    GRADE_TYPE_CHOICES = [('Continous','Continous'),('Test','Test'),('Exam','Exam')]
+    GRADE_TYPE_WEIGHTS = {'Continous': 1/4, 'Test': 1/4, 'Exam': 2/4}
     grade_type = models.CharField(max_length=30, choices=GRADE_TYPE_CHOICES, default='Continous')
+
+    @property
+    def weight(self):
+        return self.GRADE_TYPE_WEIGHTS[self.grade_type]
+
     def get_trimester_ordinal(self):
         suffix = {1: 'st', 2: 'nd', 3: 'rd'}.get(self.trimester % 10, 'th')
         return str(self.trimester) + suffix
 
     def __str__(self):
         return f"{self.student} - {self.subject}: {self.grade} "
+    
+    #overriding save method to prevent duplicate grades
+    def save(self, *args, **kwargs):
+        try:
+            existing= Grade.objects.get(subject=self.subject, student=self.student, grade_type =self.grade_type, trimester=self.trimester)
+            if existing.pk != self.pk:
+                self.pk = existing.pk
+        except Grade.DoesNotExist:
+            pass
+        super().save(*args, **kwargs)
 
 class Absences(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='absences')

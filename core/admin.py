@@ -10,11 +10,11 @@ class SubjectAdmin(admin.ModelAdmin):
 
 admin.site.register(Subject, SubjectAdmin)
 
-class GradeInline(admin.TabularInline):
-    model = Grade
-    extra = 0
-    verbose_name_plural = 'Grades'
-    pk_filed='student'  
+# class GradeInline(admin.TabularInline):
+#     model = Grade
+#     extra = 0
+#     verbose_name_plural = 'Grades'
+#     pk_filed='student'  
 
 
 
@@ -37,7 +37,7 @@ class StudentInline(admin.TabularInline):
     
 
 class CustomUserAdmin(admin.ModelAdmin):
-    inlines = [TeacherInline, StudentInline,GradeInline] 
+    inlines = [TeacherInline, StudentInline] 
     search_fields = ['username']
     list_filter = ('groups',)
 
@@ -47,8 +47,7 @@ class CustomUserAdmin(admin.ModelAdmin):
              inline_instance = ParentInline(self.model, self.admin_site)
              inline_instances.append(inline_instance)
         elif obj is not None and obj.user_type == 'student':
-            inline_instance = GradeInline(self.model, self.admin_site)
-            inline_instances.append(inline_instance)
+
             inline_instance = StudentInline(self.model, self.admin_site)
             inline_instances.append(inline_instance)
 
@@ -63,7 +62,7 @@ class CustomUserAdmin(admin.ModelAdmin):
         if obj and obj.user_type != 'student':
             exclude = list(exclude)  # Convert to list to append, get exclude returned a tuple
             exclude.append('matricule')
-        return exclude
+        return exclude  #don't need this remove later
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = super().get_readonly_fields(request, obj)
         if obj and obj.user_type == 'parent':

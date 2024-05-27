@@ -52,32 +52,7 @@ def students_grades_view(request):
     return render(request, 'grades/students_grades.html', context)
 
 
-@allowed_users(allowed_roles=['PARENTS'])
-def get_grades(request, parent_username):
-    # Get the parent user
-    CustomUser = get_user_model()
-    parent_user = CustomUser.objects.get(username=parent_username)
 
-    # Check if the CustomUser instance has an associated Parent instance
-    if hasattr(parent_user, 'parent'):
-        # Get the Parent instance
-        parent = parent_user.parent
-
-        # Get the students of the parent
-        students = parent.children.all()
-
-        # For each student, get their grades
-        grades_list = []
-        for student in students:
-            # Get the CustomUser instance for the student
-            student_user = student.user
-            grades = Grade.objects.filter(student=student_user)
-            for grade in grades:
-                grades_list.append(f"Student: {student_user.username}, Subject: {grade.subject.name}, Grade: {grade.grade}")
-
-        return HttpResponse('<br>'.join(grades_list))
-    else:
-        return HttpResponse("This user is not a parent.")
 
 
 
@@ -242,3 +217,55 @@ def parents_absences_view(request):
     }
 
     return render(request, 'core/parent_absences.html', context)
+
+
+@allowed_users(allowed_roles=['PARENTS'])
+def get_grades_parents(request):
+    # Get the parent user
+    parent_user = request.user
+
+    # Get the Parent instance
+    parent = parent_user.parent
+
+    # Get the students of the parent
+    students = parent.children.all()
+
+    # For each student, get their grades
+    grades_by_trimester = {1: {}, 2: {}, 3: {}}
+    for student in students:
+        for trimester in grades_by_trimester.keys():
+            grades = Grade.objects.filter(student=student, trimester=trimester)
+            subjects = set(grade.subject for grade in grades)
+            total_coefficient= 0
+            total_weighted_final_grade= 0
+            for subject in subjects:
+                subject_grades = [grade for grade in grades if grade.subject == subject]
+                grades_dict = {}
+                total_weight = 0
+                total_weighted_grade = 0
+                for grade in subject_grades:
+                    grades_dict[grade.grade_type] = {'weight': grade.weight, 'grade': grade.grade}
+                    total_weight += grade.weight
+                    total_weighted_grade += grade.grade * grade.weight
+                average = total_weighted_grade / total_weight if total_weight != 0 else None
+                final_grade = round(average) if average is not None else None
+                if student.user.username not in grades_by_trimester[trimester]:
+                    grades_by_trimester[trimester][student.user.username] = {}
+                grades_by_trimester[trimester][student.user.username][subject.name] = {'grades': grades_dict, 'average': average, 'final': final_grade}
+
+                if final_grade is not None:
+                    total_coefficient += grade.subject.coeffiecient
+                    total_weighted_final_grade += final_grade * grade.subject.coeffiecient
+            trimester_average = total_weighted_final_grade / total_coefficient if total_coefficient > 0 else None
+
+            #if student has no grades assigned yet
+            if student.user.username not in grades_by_trimester[trimester]:
+                grades_by_trimester[trimester][student.user.username] = {'grades': [], 'average': None, 'final': None, 'trimester_average': None}        
+            else:
+                grades_by_trimester[trimester][student.user.username]['trimester_average'] = trimester_average
+                
+    context = {
+        'grades_by_trimester': grades_by_trimester
+    }
+
+    return render(request, 'grades/parents_grades.html', context)

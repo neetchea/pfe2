@@ -28,6 +28,7 @@ urlpatterns = [
     path('homework_submission/', views.student_homeworks, name='homework_submission'),
     path('view_submissions/', views.view_submissions, name='view_submissions'),
     path('view_absences/', views.parents_absences_view, name='view_absences'),
+    path('view_children_grades/', views.get_grades_parents, name='view_children_grades'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

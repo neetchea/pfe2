@@ -12,7 +12,7 @@
     <nav>
         <a href="home.html"><img src="{% static 'logo-light-blue.svg' %}" alt="Logo" class="logo"></a>
         <ul>
-                <li><a href="#"><span><img src="{% static 'grades-white.png' %}" alt="Notes Logo" class="nav-icon"> <span class="nav-text">My Grades</span></span></a></li>
+                <li><a href="{% url 'view_children_grades' %}"><span><img src="{% static 'grades-white.png' %}" alt="Notes Logo" class="nav-icon"> <span class="nav-text">My Children's Grades</span></span></a></li>
         
                 <li><a href="{% url 'my_calendars' %}"><span><img src="{% static 'white-calendar-icon.png' %}" alt="Calendar Logo" class="nav-icon"> <span class="nav-text">My Calendars</span></span></a></li>
         

@@ -1,45 +1,62 @@
-{% extends 'grades/base.html' %}
 
-{% block content %}
-    <h1>Your Children's Grades</h1>
-    <select id="childSelect">
-        {% for child in children_grades.keys %}
-            <option value="{{ child.id }}">{{ child.username }}</option>
+<html>
+<head>
+    <title>My Children's Grades</title>
+</head>
+<body>
+
+{% for trimester, students in grades_by_trimester.items %}
+        <h2>Trimester {{ trimester }}</h2>
+        {% for student, subjects in students.items %}
+            <h3>{{ student }}</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Coefficient</th>
+                        {% for grade_type in grade_types %}
+                            <th>{{ grade_type }} Weight</th>
+                            <th>{{ grade_type }} Grade</th>
+                        {% endfor %}
+                        <th>Final Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject, data in subjects.items %}
+                        <tr>
+                            <td>{{ subject }}</td>
+                            <td>{{ subject.coefficient }}</td>
+                            {% for grade_type, grade_data in data.grades.items %}
+                                <td>{{ grade_data.weight }}</td>
+                                <td>{{ grade_data.grade }}</td>
+                            {% endfor %}
+                            <td>{{ data.final }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p>Trimester's final average: {{ subjects.trimester_average }}</p>
         {% endfor %}
-    </select>
-    <div id="gradesTable">
-        <!-- The grades table will be inserted here by JavaScript -->
-    </div>
+    {% endfor %}
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
 
-    <script>
-        document.getElementById('childSelect').addEventListener('change', function() {
-            var childId = this.value;
-            var grades = {{ children_grades|escapejs|safe }};
-            var gradesTable = document.getElementById('gradesTable');
-            gradesTable.innerHTML = '';
-            var childGrades = grades[childId];
-            if (childGrades) {
-                var table = document.createElement('table');
-                var tr = document.createElement('tr');
-                var th1 = document.createElement('th');
-                th1.textContent = 'Subject';
-                var th2 = document.createElement('th');
-                th2.textContent = 'Grade';
-                tr.appendChild(th1);
-                tr.appendChild(th2);
-                table.appendChild(tr);
-                for (var i = 0; i < childGrades.length; i++) {
-                    var tr = document.createElement('tr');
-                    var td1 = document.createElement('td');
-                    td1.textContent = childGrades[i].subject.name;
-                    var td2 = document.createElement('td');
-                    td2.textContent = childGrades[i].value;
-                    tr.appendChild(td1);
-                    tr.appendChild(td2);
-                    table.appendChild(tr);
-                }
-                gradesTable.appendChild(table);
-            }
-        });
-    </script>
-{% endblock %}
+</body>
+</html>
