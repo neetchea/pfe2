@@ -11,7 +11,6 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('logout/', auth_views.LogoutView.as_view(next_page='home'), name='logout'),
     path('login/', auth_views.LoginView.as_view(), name='login'),
-    path('grades/students/',views.students_grades_view, name='students_grades_view'),
     # path('grades/parents/',views.parents_grades_view, name='parents_grades_view'),
     # Placeholder URLs
     path('about/', views.about, name='about'),
@@ -29,6 +28,7 @@ urlpatterns = [
     path('view_submissions/', views.view_submissions, name='view_submissions'),
     path('view_absences/', views.parents_absences_view, name='view_absences'),
     path('view_children_grades/', views.get_grades_parents, name='view_children_grades'),
+    path('view_student_grades', views.get_grades_student, name='view_student_grades'),
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

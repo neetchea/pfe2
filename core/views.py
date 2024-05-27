@@ -267,3 +267,50 @@ def get_grades_parents(request):
     }
 
     return render(request, 'grades/parents_grades.html', context)
+
+
+@allowed_users(allowed_roles=['STUDENTS'])
+def get_grades_student(request):
+    # Get the student user
+    student_user = request.user
+
+    # Get the Student instance
+    student = student_user.student
+
+    # Get the student's grades
+    grades_by_trimester = {1: {}, 2: {}, 3: {}}
+    for trimester in grades_by_trimester.keys():
+        grades = Grade.objects.filter(student=student, trimester=trimester)
+        if grades:  # Check if there are grades
+            subjects = set(grade.subject for grade in grades)
+            total_coefficient= 0
+            total_weighted_final_grade= 0
+            for subject in subjects:
+                subject_grades = [grade for grade in grades if grade.subject == subject]
+                grades_dict = {}
+                total_weight = 0
+                total_weighted_grade = 0
+                for grade in subject_grades:
+                    grades_dict[grade.grade_type] = {'weight': grade.weight, 'grade': grade.grade}
+                    total_weight += grade.weight
+                    total_weighted_grade += grade.grade * grade.weight
+                average = total_weighted_grade / total_weight if total_weight != 0 else None
+                final_grade = average if average is not None else None
+                if student.user.username not in grades_by_trimester[trimester]:
+                    grades_by_trimester[trimester][student.user.username] = {}
+                grades_by_trimester[trimester][student.user.username][subject.name] = {'grades': grades_dict, 'average': average, 'final': final_grade}
+
+                if final_grade is not None:
+                    total_coefficient += grade.subject.coefficient
+                    total_weighted_final_grade += final_grade * grade.subject.coefficient
+            trimester_average = total_weighted_final_grade / total_coefficient if total_coefficient > 0 else None
+            grades_by_trimester[trimester][student.user.username]['trimester_average'] = trimester_average
+        else:
+            # If there are no grades, initialize the student's data with an empty dictionary
+            grades_by_trimester[trimester][student.user.username] = {}
+
+    context = {
+        'grades_by_trimester': grades_by_trimester
+    }
+
+    return render(request, 'grades/students_grades.html', context)

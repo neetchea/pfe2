@@ -1,32 +1,64 @@
+<html>
+<head>
+    <title>My Grades</title>
+</head>
+<body>
 
-{% extends 'grades/base.html' %}
-{% block content %}
-     <div class="grades-header">
-     <h1>My Grades for the {{grade.get_trimester_ordinal}} trimster of the {{grade.school_year}} school year </h1>
-     </div>
-     <div class="grades-container">
-        <table class="grades-table">
-        <thead>
-            <tr>
-                <th>Subject</th>
-                <th>Grade</th>
-                <th>Teacher</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for subject, grade in grades %}
-                <tr>
-                    <td>{{ subject.name }}</td>
-                    <td>{% if grade %}{{ grade.note_module }}{% else %}No grade{% endif %}</td>
-                    <td>{% if grade and grade.teacher %}{{ grade.teacher.username }}{% else %}N/A{% endif %}</td>
-                </tr>
-            {% empty %}
-                <tr>
-                    <td colspan="3">No subjects found.</td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    </div>
-{% endblock %}
+{% for trimester, students in grades_by_trimester.items %}
+    <h2>Trimester {{ trimester }}</h2>
+    {% for student, subjects in students.items %}
+        {% if student == request.user.username %}
+            <h3>{{ student }}</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Subject</th>
+                        <th>Coefficient</th>
+                        <th>Continous</th>
+                        <th>Test</th>
+                        <th>Exam</th>
+                        <th>Final Grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for subject, data in subjects.items %}
+                        {% if subject != 'trimester_average' %}
+                        <tr>
+                            <td>{{ subject }}</td>
+                            <td>{{ data.grades.values.0.weight }}</td>
+                            {% for grade_type, grade_data in data.grades.items %}
+                                <td>{{ grade_data.grade }}</td>
+                            {% endfor %}
+                            <td>{{ data.final }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+            <p>Trimester's final average: {{ subjects.trimester_average }}</p>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
 
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
+
+</body>
+</html>
