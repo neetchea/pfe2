@@ -254,8 +254,8 @@ def get_grades_parents(request):
                 grades_by_trimester[trimester][student.user.username][subject.name] = {'grades': grades_dict, 'average': average, 'final': final_grade}
 
                 if final_grade is not None:
-                    total_coefficient += grade.subject.coeffiecient
-                    total_weighted_final_grade += final_grade * grade.subject.coeffiecient
+                    total_coefficient += grade.subject.coefficient
+                    total_weighted_final_grade += final_grade * grade.subject.coefficient
             trimester_average = total_weighted_final_grade / total_coefficient if total_coefficient > 0 else None
 
             #if student has no grades assigned yet
