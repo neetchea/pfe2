@@ -4,6 +4,7 @@ from django.urls import path
 from .models import CustomUser, Classroom,Grade, HomeworkSubmission, Subject, Calendars, Absences, Announcements,Remarks,HomeworkAssignment,Courses, Teacher, Student, Parent
 
 
+
 class SubjectAdmin(admin.ModelAdmin):
     search_fields = ['name']
 
@@ -21,15 +22,18 @@ class TeacherInline(admin.StackedInline):
     model = Teacher
     can_delete = False
     verbose_name_plural = 'teacher information'  
-class StudentInline(admin.TabularInline):
-    model = Student
-    extra = 0
-    verbose_name_plural = 'Student information'  
 
 class ParentInline(admin.TabularInline):
     model = Parent
     extra = 0
     verbose_name_plural = 'Parent information' 
+
+
+
+class StudentInline(admin.TabularInline):
+    model = Student
+    extra = 0
+    verbose_name_plural = 'Student information' 
     
 
 class CustomUserAdmin(admin.ModelAdmin):
@@ -47,6 +51,7 @@ class CustomUserAdmin(admin.ModelAdmin):
             inline_instances.append(inline_instance)
             inline_instance = StudentInline(self.model, self.admin_site)
             inline_instances.append(inline_instance)
+
         elif obj is not None and obj.user_type == 'teacher':
             inline_instance = TeacherInline(self.model, self.admin_site)
             inline_instances.append(inline_instance)

@@ -1,3 +1,4 @@
+from collections import defaultdict
 import os
 from django.contrib import messages
 from django.db import IntegrityError
@@ -9,7 +10,7 @@ from django.contrib.auth import get_user_model
 from backend import settings
 from core.forms import HomeworkAssignmentForm, HomeworkSubmissionForm
 from .decorators import allowed_users
-from .models import Announcements, Classroom, CustomUser,Grade, HomeworkAssignment, HomeworkSubmission
+from .models import Absences, Announcements, Classroom, CustomUser,Grade, HomeworkAssignment, HomeworkSubmission
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -216,3 +217,28 @@ def student_homeworks(request):
         'form': form
     }
     return render(request, 'core/student_homeworks.html', context)
+
+from collections import namedtuple
+
+@allowed_users(allowed_roles=['PARENTS'])
+def parents_absences_view(request):
+    parent = request.user.parent
+    children = parent.children.all()
+
+    AbsenceInfo = namedtuple('AbsenceInfo', ['child', 'absences', 'total', 'justified', 'unjustified'])
+
+    absences_info = []
+
+    for child in children:
+        child_absences = Absences.objects.filter(student=child)
+        total = child_absences.count()
+        justified = child_absences.filter(is_justified=True).count()
+        unjustified = child_absences.filter(is_justified=False).count()
+
+        absences_info.append(AbsenceInfo(child, child_absences, total, justified, unjustified))
+
+    context = {
+        'absences_info': absences_info,
+    }
+
+    return render(request, 'core/parent_absences.html', context)

@@ -143,13 +143,16 @@ class Grade(models.Model):
 
 class Absences(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='absences')
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='absences')
+    TRIMESTER_CHOICES =[('1','1'),('2','2'),('3','3')]
+    trimester = models.CharField(max_length=1, choices=TRIMESTER_CHOICES, default='1')
+    school_year=models.CharField(max_length=9,null=True)
     date = models.DateField()
-    justification = models.TextField(blank=True)
-    number_of_absences=models.IntegerField(default=0)
-
+    is_justified=models.BooleanField(default=False)
+    JUSTIFICATION_CHOICES = [('Parent','Parent'),('Medical','Medical'),('Other','Other')]
+    justification=models.CharField(max_length=30, choices=JUSTIFICATION_CHOICES, default='Parent', blank='True')
+    
     def __str__(self):
-        return f"{self.student} - {self.subject} - {self.date}"
+        return f"{self.student.user.first_name}{self.student.user.last_name}  - {self.date}"
     
 class Calendars(models.Model):
     title = models.CharField(max_length=255)
