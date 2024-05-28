@@ -1,0 +1,56 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Courses</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/general.css' %}">
+</head>
+<body>
+    <div class="container">
+        <div class="course-upload">
+            <h1>Upload a New Course</h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>{{ form.title.label }}:</label> {{ form.title }}
+                </div>
+                <div class="form-group">
+                    <label>{{ form.description.label }}:</label> {{ form.description }}
+                </div>
+                <div class="form-group">
+                    <label>{{ form.level.label }}:</label> {{ form.level }}
+                </div>
+                <div class="form-group">
+                    <label>{{ form.subject.label }}:</label> {{ form.subject }}
+                </div>
+                <div class="form-group">
+                    <label>{{ form.is_additional.label }}:</label> {{ form.is_additional }}
+                </div>
+                <div class="form-group">
+                    <label>{{ form.file.label }}:</label> {{ form.file }}
+                </div>
+                <button type="submit">Upload</button>
+            </form>
+        </div>
+        <div class="courses">
+            <h1>Existing Courses</h1>
+            {% for course in courses %}
+                <div class="course-box">
+                    <h2>{{ course.title }}</h2>
+                    <p>{{ course.description }}</p>
+                    <p>Level: {{ course.level }}</p>
+                    <p>Subject: {{ course.subject }}</p>
+                    <p>Additional: {{ course.is_additional }}</p>
+                    {% if request.user.teacher == course.teacher %}
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="course_id" value="{{ course.id }}">
+                            <button type="submit" name="delete">Delete</button>
+                        </form>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+</html>

@@ -167,12 +167,7 @@ class Calendars(models.Model):
     #         date = timezone.now().date()
     #     return self.start_week <= date <= self.end_week
 
-
-    
-class Classroom(models.Model):
-    name = models.CharField(max_length=255)
-
-    LEVEL_CHOICES = [
+LEVEL_CHOICES = [
         ('P1', 'Preparatory 1'),
         ('P2', 'Preparatory 2'),
         ('E1', 'Elementary 1'),
@@ -184,7 +179,15 @@ class Classroom(models.Model):
         ('M2', 'Middle 2'),
         ('M3', 'Middle 3'),
         ('M4', 'Middle 4'),
+        ('H1', 'High 1'),
+        ('H2', 'High 2'),
+        ('H3', 'High 3')
     ]
+
+    
+class Classroom(models.Model):
+    name = models.CharField(max_length=255)
+
 
     
     level = models.CharField(max_length=2, choices=LEVEL_CHOICES)
@@ -252,11 +255,12 @@ class Absences(models.Model):
 class Courses(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    start = models.DateTimeField()
-    end = models.DateTimeField()
-    all_day = models.BooleanField(default=False)
-    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='courses')
+    level= models.CharField(max_length=2, choices=LEVEL_CHOICES, default='E1')
+    subject = models.CharField(max_length=255, null=True, blank=True)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='courses')
+    is_additional= models.BooleanField(default=False, null=True, blank=True)
+    file= models.FileField(upload_to='courses/', null=True, blank=True)
+
     def __str__(self):
         return self.title
     

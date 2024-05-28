@@ -1,4 +1,3 @@
-from collections import defaultdict
 from datetime import datetime
 import os
 from django.contrib import messages
@@ -6,13 +5,14 @@ from django.db import IntegrityError
 from django.shortcuts import  render, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
-from django.contrib.auth import get_user_model
-
 from backend import settings
-from core.forms import HomeworkAssignmentForm, HomeworkSubmissionForm
+from core.forms import CoursesForm, HomeworkAssignmentForm, HomeworkSubmissionForm
 from .decorators import allowed_users
-from .models import Absences, Announcements, Calendars, Classroom, CustomUser,Grade, HomeworkAssignment, HomeworkSubmission
+from .models import Absences, Announcements, Calendars, Courses, Grade, HomeworkAssignment, HomeworkSubmission, Calendars
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
+from collections import namedtuple
+
 
 
 def home(request):
@@ -32,31 +32,6 @@ def dashboard(request):
         return redirect('home')
 
     return render(request, template_name)
-
-
-@allowed_users(allowed_roles=['STUDENTS'])
-def students_grades_view(request):
-    subjects = request.user.subjects.all()
-    grades = []
-    for subject in subjects:
-        try:
-            grade = subject.grades.get(student=request.user)
-            grades.append(grade)
-        except ObjectDoesNotExist:
-            # Handle the case where there's no grade for a subject
-             grade = None
-             grades.append((subject, grade))
-    
-    context = {
-        'grades': grades
-    }
-    return render(request, 'grades/students_grades.html', context)
-
-
-
-
-
-
 
 
 allowed_users(allowed_roles=['STAFF'])
@@ -110,7 +85,6 @@ def my_grades(request):
     return HttpResponse("This is the my grades page.")
 
 
-from django.shortcuts import get_object_or_404
 
 @allowed_users(allowed_roles=['TEACHERS'])
 def homework_assignment(request):
@@ -194,7 +168,7 @@ def student_homeworks(request):
     }
     return render(request, 'core/student_homeworks.html', context)
 
-from collections import namedtuple
+
 
 @allowed_users(allowed_roles=['PARENTS'])
 def parents_absences_view(request):
@@ -317,22 +291,6 @@ def get_grades_student(request):
     return render(request, 'grades/students_grades.html', context)
 
 
-from django.shortcuts import render
-from .models import Calendars, TimeSlot
-
-def display_calendar(request, cal_id):
-    calendar = Calendars.objects.get(id=cal_id)
-    days = [choice[0] for choice in TimeSlot.DAY_CHOICES]
-    time_ranges = [choice[0] for choice in TimeSlot.TIME_RANGES]
-    schedule = {}
-
-    for day in days:
-        schedule[day] = {}
-        for time_range in time_ranges:
-            timeslot = calendar.timeslots.filter(day=day, time_range=time_range).first()
-            schedule[day][time_range] = timeslot.subject if timeslot else ''
-
-    return render(request, 'calendar.html', {'calendar': calendar, 'schedule': schedule})
 
 
 
@@ -432,3 +390,43 @@ def view_schedule_parent(request):
         'cafe_table_data': cafe_table_data,
         'event_table_data': event_table_data,
     })
+
+
+
+@allowed_users(allowed_roles=['TEACHERS'])
+def teacher_courses(request):
+    # Get the existing courses
+    courses = Courses.objects.all()
+
+    if request.method == 'POST':
+        # Check if the delete button was clicked
+        if 'delete' in request.POST:
+            # Get the course to delete
+            course_id = request.POST.get('course_id')
+            course = get_object_or_404(Courses, id=course_id)
+            # Check if the current user is the teacher who uploaded the course
+            if course.teacher == request.user.teacher:
+                # Delete the course
+                course.delete()
+                messages.success(request, 'Course deleted successfully')
+            else:
+                messages.error(request, 'You can only delete courses you have uploaded')
+            return redirect('courses_view')
+        else:
+            form = CoursesForm(request.POST, request.FILES)
+            if form.is_valid():
+                course = form.save(commit=False)
+                course.teacher = request.user.teacher
+                course.save()
+                messages.success(request, 'Course uploaded successfully')
+                return redirect('teacher_courses')
+            else:
+                print(form.errors)
+    else:
+        form = CoursesForm()
+
+    context = {
+        'courses': courses,
+        'form': form
+    }
+    return render(request, 'core/teacher_courses.html', context)
