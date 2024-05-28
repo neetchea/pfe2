@@ -395,3 +395,40 @@ def _create_table_data(timeslots, calendar_type):
         table_data_list.append(row)
 
     return table_data_list
+
+@allowed_users(allowed_roles=['PARENTS'])
+def view_schedule_parent(request):
+    children = request.user.parent.children.all()
+
+    # Get the current week's cafeteria menu and events calendars
+    now = datetime.now().date()
+    cafe_calendar = Calendars.objects.filter(calendar_type='CAFE', start_week__lte=now, end_week__gte=now).first()
+    event_calendar = Calendars.objects.filter(calendar_type='EVENT', start_week__lte=now, end_week__gte=now).first()
+
+    # Get the timeslots for each calendar
+    cafe_timeslots = cafe_calendar.timeslots.all() if cafe_calendar else []
+    event_timeslots = event_calendar.timeslots.all() if event_calendar else []
+
+    # Create table data for each calendar
+    cafe_table_data = _create_table_data(cafe_timeslots, 'CAFE')
+    event_table_data = _create_table_data(event_timeslots, 'EVENT')
+
+    # Convert Python None to empty string
+    cafe_table_data = [{k: v if v is not None else '' for k, v in d.items()} for d in cafe_table_data]
+    event_table_data = [{k: v if v is not None else '' for k, v in d.items()} for d in event_table_data]
+
+    # Create table data for each child's classroom calendar
+    children_table_data = {}
+    for child in children:
+        classroom = child.classroom
+        classroom_calendar = classroom.calendar
+        classroom_timeslots = classroom_calendar.timeslots.all() if classroom_calendar else []
+        classroom_table_data = _create_table_data(classroom_timeslots, 'CLASS')
+        classroom_table_data = [{k: v if v is not None else '' for k, v in d.items()} for d in classroom_table_data]
+        children_table_data[child.user.username] = classroom_table_data
+
+    return render(request, 'parent_schedule.html', {
+        'children_table_data': children_table_data,
+        'cafe_table_data': cafe_table_data,
+        'event_table_data': event_table_data,
+    })

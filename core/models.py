@@ -127,7 +127,7 @@ class TimeSlot(models.Model):
     time_range= models.CharField(max_length=13, choices=TIME_RANGES, default='8:00 - 9:00', null=True, blank=True)
     content = models.TextField(null=True, blank=True)
     subject= models.ForeignKey(Subject, on_delete=models.SET_NULL, related_name='timeslots', null=True, blank=True)
-    calendar = models.ForeignKey('Calendars', on_delete=models.CASCADE, related_name='timeslots', null= True)
+    calendar = models.ForeignKey('Calendars', on_delete=models.CASCADE, related_name='timeslots', null= True, blank=True)
 
     def __str__(self):
         return f'{self.get_day_display()}  {self.time_range}'
@@ -194,7 +194,7 @@ class Classroom(models.Model):
 
     school_year=models.CharField(max_length=9,null=True)
     subjects = models.ManyToManyField(Subject, related_name='classrooms', blank=True)
-    calendar = models.ForeignKey(Calendars, on_delete=models.CASCADE, related_name='calendar', null=True)
+    calendar = models.ForeignKey(Calendars, on_delete=models.CASCADE, related_name='calendar', null=True, blank=True)
 
 
     def __str__(self):

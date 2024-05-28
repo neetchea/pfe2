@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Schedule</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Schedule</h1>
+
+    <select id="child-select">
+        {% for child, table_data in children_table_data.items %}
+        <option value="{{ child }}">{{ child }}</option>
+        {% endfor %}
+    </select>
+
+    <select id="calendar-select">
+        <option value="classroom">Classroom</option>
+        <option value="cafe">Cafeteria</option>
+        <option value="event">Events</option>
+    </select>
+
+    <table id="schedule-table">
+        <!-- The table data will be inserted here by JavaScript -->
+    </table>
+
+    <p id="no-calendar-message" style="display: none;">There's no calendar for this.</p>
+
+    <script>
+        var childrenTableData = {{ children_table_data|safe }};
+        var cafeTableData = {{ cafe_table_data|safe }};
+        var eventTableData = {{ event_table_data|safe }};
+
+        document.getElementById('child-select').addEventListener('change', updateTable);
+        document.getElementById('calendar-select').addEventListener('change', updateTable);
+
+        function updateTable() {
+            var selectedChild = document.getElementById('child-select').value;
+            var selectedCalendar = document.getElementById('calendar-select').value;
+
+            var tableData;
+            if (selectedCalendar === 'classroom') {
+                tableData = childrenTableData[selectedChild];
+            } else if (selectedCalendar === 'cafe') {
+                tableData = cafeTableData;
+            } else if (selectedCalendar === 'event') {
+                tableData = eventTableData;
+            }
+
+            var table = document.getElementById('schedule-table');
+            var noCalendarMessage = document.getElementById('no-calendar-message');
+            table.innerHTML = '';
+            if (tableData.length === 0) {
+                noCalendarMessage.style.display = 'block';
+            } else {
+                noCalendarMessage.style.display = 'none';
+
+                // Create table headers
+                var headerRow = document.createElement('tr');
+                for (var key in tableData[0]) {
+                    var headerCell = document.createElement('th');
+                    headerCell.textContent = key;
+                    headerRow.appendChild(headerCell);
+                }
+                table.appendChild(headerRow);
+
+                // Create table data
+                for (var i = 0; i < tableData.length; i++) {
+                    var row = document.createElement('tr');
+
+                    for (var key in tableData[i]) {
+                        var cell = document.createElement('td');
+                        cell.textContent = tableData[i][key];
+                        row.appendChild(cell);
+                    }
+
+                    table.appendChild(row);
+                }
+            }
+        }
+
+        // Trigger the change event to display the initial calendar
+        document.getElementById('child-select').dispatchEvent(new Event('change'));
+        document.getElementById('calendar-select').dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>
