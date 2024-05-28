@@ -16,7 +16,7 @@ def allowed_users(allowed_roles=[]):
             context = {
                 'user': request.user
             }
-            return render(request, 'core/acces_interdit.html', context)
+            return render(request, 'core/403.html', context)
         return wrapper_func
     return decorator
 

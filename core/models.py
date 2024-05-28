@@ -40,7 +40,6 @@ class CustomUser(AbstractUser):
 
 class Teacher(models.Model):
     user= models.OneToOneField(CustomUser,on_delete=models.CASCADE,related_name='teacher')
-    calendar=models.OneToOneField('Calendars',on_delete=models.SET_NULL,related_name='teacher_calendar',null=True, blank=True)    
     class Meta:
         verbose_name = 'Teacher information'
         verbose_name_plural = 'Teachers information'
