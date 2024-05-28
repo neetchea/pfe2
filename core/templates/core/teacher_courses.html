@@ -24,28 +24,59 @@
                     <label>{{ form.subject.label }}:</label> {{ form.subject }}
                 </div>
                 <div class="form-group">
+                    <label>{{ form.classroom.label }}:</label> {{ form.classroom }}
+                </div>
+                <div class="form-group">
                     <label>{{ form.is_additional.label }}:</label> {{ form.is_additional }}
                 </div>
                 <div class="form-group">
                     <label>{{ form.file.label }}:</label> {{ form.file }}
                 </div>
-                <button type="submit">Upload</button>
+                <button type="submit" class="form-submit-button">Upload</button>
             </form>
         </div>
         <div class="courses">
-            <h1>Existing Courses</h1>
+            <h1> Courses and Resources</h1>
+            <!-- Search form -->
+            <div class="search-form">
+
+                <h2>Search Courses</h2>
+                <h5>you can search for a course by title, subject or the classroom it was intended for </h5>
+
+            <form method="get">
+                <button type="submit" name="search" value="all" class= "reset-button">&#x21BA;
+                </button>
+                <select name="level" class="select-box">
+                    <option value="">All</option>
+                    {% for level in levels %}
+                        <option value="{{ level.0 }}">{{ level.1 }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Filter">
+                <br><br>
+                <button type="submit" name="search" value="all" class= "reset-button">&#x21BA;
+                </button>
+                <input type="text" name="search" placeholder="Search">
+                <input type="submit" value="Search">
+                
+
+            </form>
+            </div>
             {% for course in courses %}
                 <div class="course-box">
                     <h2>{{ course.title }}</h2>
-                    <p>{{ course.description }}</p>
-                    <p>Level: {{ course.level }}</p>
+                    <p>About This Course Resource: {{ course.description }}</p>
+                    <p>Level: {{ course.get_level_display }}</p>
                     <p>Subject: {{ course.subject }}</p>
-                    <p>Additional: {{ course.is_additional }}</p>
+                    <p>Classroom: {{ course.classroom }}</p>
+
+                    <p> In The Curriculum: {{ course.is_additional|yesno:"No,Yes" }}</p>
+                    <a href="{{ course.file.url }}" download>Course</a>
                     {% if request.user.teacher == course.teacher %}
                         <form method="POST">
                             {% csrf_token %}
                             <input type="hidden" name="course_id" value="{{ course.id }}">
-                            <button type="submit" name="delete">Delete</button>
+                            <button type="submit" name="delete" class="delete-button">Delete</button>
                         </form>
                     {% endif %}
                 </div>

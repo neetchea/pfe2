@@ -8,10 +8,12 @@ from django.urls import reverse
 from backend import settings
 from core.forms import CoursesForm, HomeworkAssignmentForm, HomeworkSubmissionForm
 from .decorators import allowed_users
-from .models import Absences, Announcements, Calendars, Courses, Grade, HomeworkAssignment, HomeworkSubmission, Calendars
+from .models import Absences, Announcements, Calendars, Courses, Grade, HomeworkAssignment, HomeworkSubmission, Calendars, LEVEL_CHOICES
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 from collections import namedtuple
+from django.db.models import Q
+
 
 
 
@@ -392,6 +394,7 @@ def view_schedule_parent(request):
     })
 
 
+from django.db.models import Q
 
 @allowed_users(allowed_roles=['TEACHERS'])
 def teacher_courses(request):
@@ -411,7 +414,7 @@ def teacher_courses(request):
                 messages.success(request, 'Course deleted successfully')
             else:
                 messages.error(request, 'You can only delete courses you have uploaded')
-            return redirect('courses_view')
+            return redirect('teacher_courses')
         else:
             form = CoursesForm(request.POST, request.FILES)
             if form.is_valid():
@@ -424,9 +427,27 @@ def teacher_courses(request):
                 print(form.errors)
     else:
         form = CoursesForm()
+        # Get the search query (returns None if no query)
+        search_query = request.GET.get('search', None)
+        level_query = request.GET.get('level', None)  # Get the level query
+
+        # Get the courses that match the search query
+        if search_query is None or search_query.lower() == 'all':
+            courses = Courses.objects.all()
+        else:
+            courses = Courses.objects.filter(
+                Q(title__icontains=search_query) | 
+                Q(subject__icontains=search_query) | 
+                Q(classroom__name__icontains=search_query)
+            )
+
+        # Filter the courses by level
+        if level_query is not None and level_query != '':
+            courses = courses.filter(level=level_query)
 
     context = {
         'courses': courses,
-        'form': form
+        'form': form,
+        'levels': LEVEL_CHOICES  
     }
     return render(request, 'core/teacher_courses.html', context)

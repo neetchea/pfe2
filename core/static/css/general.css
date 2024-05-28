@@ -29,16 +29,24 @@ body {
 }
 
 .form-group {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 15px;
 }
 
-label {
-    display: block;
+.form-group label {
     font-weight: bold;
     margin-bottom: 5px;
 }
 
-button {
+.form-group input, .form-group select, .form-group textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.form-submit-button {
     background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
@@ -46,9 +54,10 @@ button {
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
+    align-self: flex-end;
 }
 
-button:hover {
+.form-submit-button:hover {
     background-color: #45a049;
 }
 
@@ -74,10 +83,89 @@ button:hover {
     text-align: right;
 }
 
-.course-box form button {
+.course-box form .delete-button {
     background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
 }
 
-.course-box form button:hover {
+.course-box form .delete-button:hover {
     background-color: #e53935;
+}
+
+.search-form {
+    background-color: #ffffff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-form h2 {
+    text-align: center;
+    color: #333;
+}
+
+.search-form h5 {
+    text-align: center;
+    color: #666;
+    margin-bottom: 20px;
+}
+
+.search-form input[type="text"], .search-form select {
+    width: calc(70% - 20px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.search-form input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.search-form input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+.reset-button {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.reset-button:hover {
+    background-color: #e53935;
+}
+
+.select-box {
+    width: calc(70% - 20px);
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #ffffff;
+    color: #333;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.select-box:focus {
+    outline: none;
+    border-color: #4CAF50;
 }

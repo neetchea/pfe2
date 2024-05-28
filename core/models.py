@@ -259,8 +259,8 @@ class Courses(models.Model):
     subject = models.CharField(max_length=255, null=True, blank=True)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='courses')
     is_additional= models.BooleanField(default=False, null=True, blank=True)
-    file= models.FileField(upload_to='courses/', null=True, blank=True)
-
+    file= models.FileField(upload_to='courses/')
+    classroom= models.ForeignKey(Classroom, on_delete=models.SET_NULL, null= True, blank=True, related_name='classroom')
     def __str__(self):
         return self.title
     
