@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.shortcuts import get_object_or_404, render
 from django.urls import path
-from .models import CustomUser, Classroom,Grade, HomeworkSubmission, Subject, Calendars, Absences, Announcements,Remarks,HomeworkAssignment,Courses, Teacher, Student, Parent
+from .models import CustomUser, Classroom,Grade, HomeworkSubmission, Subject, Calendars, Absences, Announcements,Remarks,HomeworkAssignment,Courses, Teacher, Student, Parent, TimeSlot
 
 
 
@@ -115,13 +115,11 @@ class ClassroomAdmin(admin.ModelAdmin):
         return render(request, 'core/grades/assign_grades.html')
 
 admin.site.register(Classroom, ClassroomAdmin)
-admin.site.register(Grade)
 
 
 admin.site.site_header = "El-Hikma school Admin"
 admin.site.site_title = " El-Hikma school Admin Portal"
 admin.site.index_title = "Welcome to El-Hikma school Admin"
-admin.site.register(Calendars)
 admin.site.register(Absences)
 admin.site.register(Announcements)
 admin.site.register(Remarks)
@@ -139,3 +137,39 @@ class HomeworkAssignmentAdmin(admin.ModelAdmin):
 
 
 admin.site.register(HomeworkAssignment, HomeworkAssignmentAdmin)
+
+class GradeAdmin(admin.ModelAdmin):
+     search_fields=['student__user__username']
+     list_filter= ['subject']
+
+
+admin.site.register(Grade, GradeAdmin)
+
+
+
+class TimeSlotsInline(admin.TabularInline):
+    model = TimeSlot
+    extra = 0
+    verbose_name_plural = 'TimeSlots'
+    def get_formset(self, request, obj=None, **kwargs):
+        formset = super().get_formset(request, obj, **kwargs)
+
+        # If the parent Calendar object exists and its calendar_type is 'CLASS',
+        # only display the 'day', 'time_range', and 'subject' fields in the formset.
+        # Otherwise, display the 'day', 'time_range', and 'content' fields.
+        if obj and obj.calendar_type == 'CLASS':
+            formset.form.base_fields = {k: v for k, v in formset.form.base_fields.items() if k in ['day', 'time_range', 'subject']}
+        else:
+            formset.form.base_fields = {k: v for k, v in formset.form.base_fields.items() if k in ['day', 'time_range', 'content']}
+
+        return formset
+
+class CalendarAdmin(admin.ModelAdmin):
+    inlines = [TimeSlotsInline]
+    exclude = ('timeslots',)
+    search_fields = ['title']
+    verbose_name_plural = 'Calendars'
+
+# admin.site.register(TimeSlot)
+
+admin.site.register(Calendars, CalendarAdmin)

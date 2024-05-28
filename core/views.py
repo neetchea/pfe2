@@ -10,7 +10,7 @@ from django.contrib.auth import get_user_model
 from backend import settings
 from core.forms import HomeworkAssignmentForm, HomeworkSubmissionForm
 from .decorators import allowed_users
-from .models import Absences, Announcements, Classroom, CustomUser,Grade, HomeworkAssignment, HomeworkSubmission
+from .models import Absences, Announcements, Calendars, Classroom, CustomUser,Grade, HomeworkAssignment, HomeworkSubmission
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -314,3 +314,8 @@ def get_grades_student(request):
     }
 
     return render(request, 'grades/students_grades.html', context)
+
+
+def display_calendar(request, cal_id):
+    calendar = get_object_or_404(Calendars, id=cal_id)
+    return render(request, 'calendar.html', {'calendar': calendar})

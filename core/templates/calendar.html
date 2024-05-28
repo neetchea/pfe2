@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ calendar.title }}</title>
+</head>
+<body>
+    <h1>{{ calendar.title }}</h1>
+    {% if calendar.calendar_type == 'CLASS' %}
+        <h2>Classroom Schedule</h2>
+        {% for timeslot in calendar.timeslots.all %}
+            <p>{{ timeslot.get_day_display }}: {{ timeslot.time_range }} - {{ timeslot.subject }}</p>
+        {% endfor %}
+    {% elif calendar.calendar_type == 'CAFE' %}
+        <h2>Cafeteria Menu</h2>
+        {% for timeslot in calendar.timeslots.all %}
+            <p>{{ timeslot.get_day_display }}: {{ timeslot.time_range }} - {{ timeslot.content }}</p>
+        {% endfor %}
+    {% elif calendar.calendar_type == 'EVENT' %}
+        <h2>Events</h2>
+        {% for timeslot in calendar.timeslots.all %}
+            <p>{{ timeslot.get_day_display }}: {{ timeslot.time_range }} - {{ timeslot.content }}</p>
+        {% endfor %}
+    {% endif %}
+</body>
+</html>

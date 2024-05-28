@@ -94,6 +94,77 @@ class Subject(models.Model):
     def __str__(self):
         return self.name
 
+
+class TimeSlot(models.Model):
+    DAY_CHOICES = [
+        ('SAT', 'Saturday'),
+        ('SUN', 'Sunday'),
+        ('MON', 'Monday'),
+        ('TUE', 'Tuesday'),
+        ('WED', 'Wednesday'),
+        ('THU', 'Thursday'),
+        ('FRI', 'Friday'),
+
+    ]
+    TIME_RANGES = [
+    ('7:00 - 8:00', '7:00 - 8:00'),
+    ('8:00 - 9:00', '8:00 - 9:00'),
+    ('9:00 - 10:00', '9:00 - 10:00'),
+    ('10:00 - 11:00', '10:00 - 11:00'),
+    ('11:00 - 12:00', '11:00 - 12:00'),
+    ('12:00 - 1:00', '12:00 - 1:00'),
+    ('1:00 - 2:00', '1:00 - 2:00'),
+    ('2:00 - 3:00', '2:00 - 3:00'),
+    ('3:00 - 4:00', '3:00 - 4:00'),
+    ('4:00 - 5:00', '4:00 - 5:00'),
+    ('5:00 - 6:00', '5:00 - 6:00'),
+
+
+     ]
+
+    day = models.CharField(max_length=3, choices=DAY_CHOICES)
+    time_range= models.CharField(max_length=13, choices=TIME_RANGES, default='8:00 - 9:00', null=True, blank=True)
+    content = models.TextField(null=True, blank=True)
+    subject= models.ForeignKey(Subject, on_delete=models.SET_NULL, related_name='timeslots', null=True, blank=True)
+    calendar = models.ForeignKey('Calendars', on_delete=models.CASCADE, related_name='timeslots', null= True)
+
+    def __str__(self):
+        return f'{self.get_day_display()}  {self.time_range}'
+
+class Calendars(models.Model):
+    title = models.CharField(max_length=255)
+    CALENDAR_TYPES = [
+        ('CLASS', 'Classroom Schedule'),
+        ('CAFE', 'Cafeteria Menu'),
+        ('EVENT', 'Events'),
+    ]
+    calendar_type = models.CharField(max_length=5, choices=CALENDAR_TYPES, default='CLASS')
+    start_week = models.DateField(null=True, blank=True)
+    end_week = models.DateField(null=True, blank=True)
+    class Meta:
+        verbose_name_plural = 'Calendars'
+
+    def __str__(self):
+        return self.title
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        if not self.timeslots.exists():
+            if self.calendar_type == 'CLASS':
+                days = TimeSlot.DAY_CHOICES[1:6]  # Sunday to Thursday
+                time_ranges = TimeSlot.TIME_RANGES[1:4] + TimeSlot.TIME_RANGES[6:9]            
+            elif self.calendar_type == 'CAFE':
+                days = TimeSlot.DAY_CHOICES[1:6]  # Sunday to Thursday
+                time_ranges = [('12:00 - 1:00', '12:00 - 1:00')]  # 12:00 to 1:00
+            else:  # 'EVENT'
+                days = TimeSlot.DAY_CHOICES  # All days
+                time_ranges = TimeSlot.TIME_RANGES  # All time ranges
+
+            for day in days:
+                for time_range in time_ranges:
+                    TimeSlot.objects.create(day=day[0], time_range=time_range[0], calendar=self)
+    
+
+    
 class Classroom(models.Model):
     name = models.CharField(max_length=255)
 
@@ -118,6 +189,8 @@ class Classroom(models.Model):
 
     school_year=models.CharField(max_length=9,null=True)
     subjects = models.ManyToManyField(Subject, related_name='classrooms', blank=True)
+    calendar = models.ForeignKey(Calendars, on_delete=models.CASCADE, related_name='calendar', null=True)
+
 
     def __str__(self):
         return self.name
@@ -170,17 +243,7 @@ class Absences(models.Model):
     def __str__(self):
         return f"{self.student.user.first_name}{self.student.user.last_name}  - {self.date}"
     
-class Calendars(models.Model):
-    title = models.CharField(max_length=255)
-    description = models.TextField()
-    start = models.DateTimeField()
-    end = models.DateTimeField()
-    all_day = models.BooleanField(default=False)
-    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='calendars', null=True)
-    
-    def __str__(self):
-        return self.title
-    
+
 
 class Courses(models.Model):
     title = models.CharField(max_length=255)
