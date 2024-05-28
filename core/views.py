@@ -1,4 +1,5 @@
 from collections import defaultdict
+from datetime import datetime
 import os
 from django.contrib import messages
 from django.db import IntegrityError
@@ -316,6 +317,81 @@ def get_grades_student(request):
     return render(request, 'grades/students_grades.html', context)
 
 
+from django.shortcuts import render
+from .models import Calendars, TimeSlot
+
 def display_calendar(request, cal_id):
-    calendar = get_object_or_404(Calendars, id=cal_id)
-    return render(request, 'calendar.html', {'calendar': calendar})
+    calendar = Calendars.objects.get(id=cal_id)
+    days = [choice[0] for choice in TimeSlot.DAY_CHOICES]
+    time_ranges = [choice[0] for choice in TimeSlot.TIME_RANGES]
+    schedule = {}
+
+    for day in days:
+        schedule[day] = {}
+        for time_range in time_ranges:
+            timeslot = calendar.timeslots.filter(day=day, time_range=time_range).first()
+            schedule[day][time_range] = timeslot.subject if timeslot else ''
+
+    return render(request, 'calendar.html', {'calendar': calendar, 'schedule': schedule})
+
+
+
+@allowed_users(allowed_roles=['STUDENTS'])
+def view_schedule_student(request):
+    student = request.user.student
+    classroom = student.classroom
+    classroom_calendar = classroom.calendar
+
+    # Get the current week's cafeteria menu and events calendars
+    now = datetime.now().date()
+    cafe_calendar = Calendars.objects.filter(calendar_type='CAFE', start_week__lte=now, end_week__gte=now).first()
+    event_calendar = Calendars.objects.filter(calendar_type='EVENT', start_week__lte=now, end_week__gte=now).first()
+
+    # Get the timeslots for each calendar
+    classroom_timeslots = classroom_calendar.timeslots.all() if classroom_calendar else []
+    cafe_timeslots = cafe_calendar.timeslots.all() if cafe_calendar else []
+    event_timeslots = event_calendar.timeslots.all() if event_calendar else []
+
+    # Create table data for each calendar
+    classroom_table_data = _create_table_data(classroom_timeslots, 'CLASS')
+    cafe_table_data = _create_table_data(cafe_timeslots, 'CAFE')
+    event_table_data = _create_table_data(event_timeslots, 'EVENT')
+
+    # Convert Python None to empty string
+    classroom_table_data = [{k: v if v is not None else '' for k, v in d.items()} for d in classroom_table_data]
+    cafe_table_data = [{k: v if v is not None else '' for k, v in d.items()} for d in cafe_table_data]
+    event_table_data = [{k: v if v is not None else '' for k, v in d.items()} for d in event_table_data]
+
+    # print(event_table_data) (debugging)
+    return render(request, 'schedule.html', {
+        'classroom_table_data': classroom_table_data,
+        'cafe_table_data': cafe_table_data,
+        'event_table_data': event_table_data,
+    })
+
+
+
+
+def _create_table_data(timeslots, calendar_type):
+    # Create a dictionary where the keys are the days of the week and the values are dictionaries
+    # where the keys are the time ranges and the values are the content or subject
+    table_data = {}
+    for timeslot in timeslots:
+        day = timeslot.get_day_display()
+        time_range = timeslot.time_range
+        if calendar_type == 'CLASS':
+            value = timeslot.subject.name if timeslot.subject else ''
+        else:
+            value = timeslot.content
+        if day not in table_data:
+            table_data[day] = {}
+        table_data[day][time_range] = value
+
+    # Convert the dictionary to a list of dictionaries to make it easy to loop over in the template
+    table_data_list = []
+    for day, times in table_data.items():
+        row = {'day': day}
+        row.update(times)
+        table_data_list.append(row)
+
+    return table_data_list

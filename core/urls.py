@@ -30,6 +30,7 @@ urlpatterns = [
     path('view_children_grades/', views.get_grades_parents, name='view_children_grades'),
     path('view_student_grades', views.get_grades_student, name='view_student_grades'),
     path('calendar/<int:cal_id>/', views.display_calendar, name='display_calendar'),
+    path('student_calendar/', views.view_schedule_student,name='student_calendar'),
 
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

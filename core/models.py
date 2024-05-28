@@ -1,3 +1,4 @@
+from datetime import timezone
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.hashers import make_password
@@ -162,7 +163,11 @@ class Calendars(models.Model):
             for day in days:
                 for time_range in time_ranges:
                     TimeSlot.objects.create(day=day[0], time_range=time_range[0], calendar=self)
-    
+    # def is_active_on(self, date= None):
+    #     if date is None:
+    #         date = timezone.now().date()
+    #     return self.start_week <= date <= self.end_week
+
 
     
 class Classroom(models.Model):
