@@ -1,0 +1,32 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Parent Remarks</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/remarks.css' %}">
+</head>
+<body>
+  <h2>My Children's Remarks:</h2>
+  <div class="container remark-box">
+    {% for remark in remarks %}
+      <div class="remark-card">
+        <div class="username">{{ remark.student.user.username }}</div>
+        <p><strong>Last Name:</strong> {{ remark.student.user.last_name }}</p>
+        <p><strong>First Name:</strong> {{ remark.student.user.first_name }}</p>
+        <p><strong>Date:</strong> {{ remark.date }}</p>
+        <p><strong>Remark:</strong> {{ remark.remark }}</p>
+      </div>
+    {% empty %}
+      <p>No remarks written yet.</p>
+    {% endfor %}
+  </div>
+
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</body>
+</html>

@@ -599,3 +599,16 @@ def teacher_remarks(request):
         'remarks': remarks,
     }
     return render(request, 'core/teacher_remarks.html', context)
+
+@allowed_users(allowed_roles=['PARENTS'])
+def parent_remarks(request):
+    # Get the children of the current user
+    children = Student.objects.filter(parent=request.user.parent)
+
+    # Get the remarks made to the children of the current user
+    remarks = Remarks.objects.filter(student__in=children)
+
+    context = {
+        'remarks': remarks,
+    }
+    return render(request, 'core/parent_remarks.html', context)
