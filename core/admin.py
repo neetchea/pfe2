@@ -123,7 +123,7 @@ admin.site.index_title = "Welcome to El-Hikma school Admin"
 admin.site.register(Absences)
 admin.site.register(Announcements)
 admin.site.register(Remarks)
-admin.register(Courses)
+admin.site.register(Courses)
 
 
 class HomeworkSubmissionInline(admin.TabularInline):

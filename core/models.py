@@ -261,6 +261,8 @@ class Courses(models.Model):
     is_additional= models.BooleanField(default=False, null=True, blank=True)
     file= models.FileField(upload_to='courses/')
     classroom= models.ForeignKey(Classroom, on_delete=models.SET_NULL, null= True, blank=True, related_name='classroom')
+    class Meta:
+        verbose_name_plural='Courses'
     def __str__(self):
         return self.title
     

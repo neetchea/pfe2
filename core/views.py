@@ -8,11 +8,13 @@ from django.urls import reverse
 from backend import settings
 from core.forms import CoursesForm, HomeworkAssignmentForm, HomeworkSubmissionForm
 from .decorators import allowed_users
-from .models import Absences, Announcements, Calendars, Courses, Grade, HomeworkAssignment, HomeworkSubmission, Calendars, LEVEL_CHOICES
+from .models import Absences, Announcements, Calendars, Classroom, Courses, CustomUser, Grade, HomeworkAssignment, HomeworkSubmission, Calendars, LEVEL_CHOICES
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 from collections import namedtuple
 from django.db.models import Q
+from django.db.models import Count
+
 
 
 
@@ -400,6 +402,10 @@ from django.db.models import Q
 def teacher_courses(request):
     # Get the existing courses
     courses = Courses.objects.all()
+    #and the teachers
+    teachers = CustomUser.objects.filter(teacher__courses__in=courses).annotate(num_courses=Count('teacher__courses')).order_by('-num_courses')
+    #and classrooms
+    classrooms = Classroom.objects.filter(classroom__in=courses).annotate(num_classrooms=Count('classroom')).order_by('-num_classrooms')
 
     if request.method == 'POST':
         # Check if the delete button was clicked
@@ -430,6 +436,9 @@ def teacher_courses(request):
         # Get the search query (returns None if no query)
         search_query = request.GET.get('search', None)
         level_query = request.GET.get('level', None)  # Get the level query
+        teacher_query= request.GET.get('teacher', None)
+        classroom_query = request.GET.get('classroom', None)
+
 
         # Get the courses that match the search query
         if search_query is None or search_query.lower() == 'all':
@@ -441,13 +450,102 @@ def teacher_courses(request):
                 Q(classroom__name__icontains=search_query)
             )
 
-        # Filter the courses by level
+        # Filter the courses by level or by teacher
         if level_query is not None and level_query != '':
             courses = courses.filter(level=level_query)
-
+        if teacher_query is not None and teacher_query != '':
+           courses= courses.filter(teacher__user__username= teacher_query)
+        if classroom_query is not None and classroom_query != '':
+            courses = courses.filter(classroom__name=classroom_query)
     context = {
         'courses': courses,
         'form': form,
-        'levels': LEVEL_CHOICES  
+        'levels': LEVEL_CHOICES,
+        'teachers': teachers,
+        'classrooms':classrooms
+
     }
     return render(request, 'core/teacher_courses.html', context)
+    
+
+
+@login_required
+def view_courses(request):
+    # Get the existing courses
+    courses = Courses.objects.all()
+
+    #and the teachers
+    teachers = CustomUser.objects.filter(teacher__courses__in=courses).annotate(num_courses=Count('teacher__courses')).order_by('-num_courses')
+
+    #and classrooms
+    classrooms = Classroom.objects.filter(classroom__in=courses).annotate(num_classrooms=Count('classroom')).order_by('-num_classrooms')
+
+    # Get the search query (returns None if no query)
+    search_query = request.GET.get('search', None)
+    level_query = request.GET.get('level', None)  # Get the level query
+    teacher_query= request.GET.get('teacher', None)
+    classroom_query = request.GET.get('classroom', None)
+
+
+    # Get the courses that match the search query
+    if search_query is None or search_query.lower() == 'all':
+        courses = Courses.objects.all()
+    else:
+        courses = Courses.objects.filter(
+            Q(title__icontains=search_query) | 
+            Q(subject__icontains=search_query) | 
+            Q(classroom__name__icontains=search_query)
+        )
+
+    # Filter the courses by level
+    if level_query is not None and level_query != '':
+        courses = courses.filter(level=level_query)
+
+    if teacher_query is not None and teacher_query != '':
+        courses= courses.filter(teacher__user__username= teacher_query)
+    if classroom_query is not None and classroom_query != '':
+        courses = courses.filter(classroom__name=classroom_query)
+
+    context = {
+        'courses': courses,
+        'levels': LEVEL_CHOICES ,
+        'teachers': teachers,
+        'classrooms': classrooms
+    }
+    return render(request, 'core/view_courses.html', context)
+
+from django.db.models import Count
+
+@allowed_users(allowed_roles=['STUDENTS'])
+def student_courses(request):
+    # Get the student's classroom
+    classroom = request.user.student.classroom
+
+    # Get the courses for the student's classroom
+    courses = Courses.objects.filter(classroom=classroom)
+
+    # Get the search query (returns None if no query)
+    search_query = request.GET.get('search', None)
+    level_query = request.GET.get('level', None)  # Get the level query
+    teacher_query = request.GET.get('teacher', None)  # Get the teacher query
+
+    # Get the courses that match the search query
+    if search_query is not None and search_query.lower() != 'all':
+        courses = courses.filter(
+            Q(title__icontains=search_query) | 
+            Q(subject__icontains=search_query)
+        )
+
+
+    # Filter the courses by teacher
+    if teacher_query is not None and teacher_query != '':
+        courses = courses.filter(teacher__username=teacher_query)
+
+    # Get the teachers for the dropdown
+    teachers = CustomUser.objects.filter(teacher__courses__in=courses).annotate(num_courses=Count('teacher__courses')).order_by('-num_courses')
+
+    context = {
+        'courses': courses,
+        'teachers': teachers
+    }
+    return render(request, 'core/student_courses.html', context)

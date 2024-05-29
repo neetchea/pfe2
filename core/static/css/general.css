@@ -1,6 +1,6 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
+    background-color: #fcfaf4;
     margin: 0;
     padding: 0;
     display: flex;
@@ -16,7 +16,7 @@ body {
 }
 
 .course-upload, .courses {
-    background-color: #ffffff;
+    background-color: #d0cdc8;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 8px;
@@ -117,7 +117,7 @@ body {
 }
 
 .search-form input[type="text"], .search-form select {
-    width: calc(70% - 20px);
+    width: calc(27.66% - 20px);
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -154,7 +154,7 @@ body {
 }
 
 .select-box {
-    width: calc(70% - 20px);
+    width: calc(30% - 20px);
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 5px;

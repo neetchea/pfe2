@@ -13,12 +13,10 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name='login'),
 
     path('about/', views.about, name='about'),
-    path('courses/', views.courses, name='courses'),
     path('services/', views.services, name='services'),
     path('contact/', views.contact, name='contact'),
     path('events/', views.announcements, name='events'),
     path('calendars/', views.my_calendars, name='my_calendars'),
-    path('courses/', views.courses, name='courses'),
     path('grades/', views.my_grades, name='grades'),
    
     path('assign-grades/<int:classroom_id>/change/', views.assign_grades, name='assign-grades'),
@@ -31,6 +29,8 @@ urlpatterns = [
     path('student_calendar/', views.view_schedule_student,name='student_calendar'),
     path('parent_calendar/', views.view_schedule_parent,name='parent_calendar'),
     path('teacher_courses/', views.teacher_courses, name='teacher_courses'),
+    path('courses/', views.view_courses, name='Courses'),
+    path('my_student_courses/', views.student_courses, name='my_student_courses'),
 
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -4,6 +4,7 @@
 <head>
     <title>Teacher Courses</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/general.css' %}">
+    
 </head>
 <body>
     <div class="container">
@@ -43,35 +44,49 @@
                 <h2>Search Courses</h2>
                 <h5>you can search for a course by title, subject or the classroom it was intended for </h5>
 
-            <form method="get">
-                <button type="submit" name="search" value="all" class= "reset-button">&#x21BA;
-                </button>
-                <select name="level" class="select-box">
-                    <option value="">All</option>
-                    {% for level in levels %}
-                        <option value="{{ level.0 }}">{{ level.1 }}</option>
-                    {% endfor %}
-                </select>
-                <input type="submit" value="Filter">
-                <br><br>
-                <button type="submit" name="search" value="all" class= "reset-button">&#x21BA;
-                </button>
-                <input type="text" name="search" placeholder="Search">
-                <input type="submit" value="Search">
-                
+                <form method="get">
+                    {% comment %} reset button {% endcomment %}
+                    <button type="submit" name="search" value="all" class= "reset-button">&#x21BA;</button>
+                    {% comment %} teacher select {% endcomment %}
+                    <select name="teacher" class="select-box">
+                        <option value="">Teachers</option>
+                        {% for teacher in teachers %}
+                            <option value="{{ teacher.username }}">{{ teacher.username }}</option>
+                        {% endfor %}
+                    </select>
 
-            </form>
+                     {% comment %} courses select {% endcomment %}
+                     <select name="classroom" class="select-box">
+                        <option value="">Classrooms</option>
+                        {% for classroom in classrooms %}
+                            <option value="{{ classroom.name }}">{{ classroom.name }}</option>
+                        {% endfor %}
+                    </select>                 
+                    {% comment %} level select {% endcomment %}
+
+                    <select name="level" class="select-box">
+                        <option value="">Level</option>
+                        {% for level in levels %}
+                            <option value="{{ level.0 }}">{{ level.1 }}</option>
+                        {% endfor %}
+                    </select>
+                    {% comment %} search box {% endcomment %}
+
+                    <input type="text" name="search" placeholder="Search">
+                    <input type="submit" value="Search">
+                </form>
             </div>
             {% for course in courses %}
-                <div class="course-box">
-                    <h2>{{ course.title }}</h2>
-                    <p>About This Course Resource: {{ course.description }}</p>
-                    <p>Level: {{ course.get_level_display }}</p>
-                    <p>Subject: {{ course.subject }}</p>
-                    <p>Classroom: {{ course.classroom }}</p>
-
-                    <p> In The Curriculum: {{ course.is_additional|yesno:"No,Yes" }}</p>
-                    <a href="{{ course.file.url }}" download>Course</a>
+            <div class="course-box">
+                <h2>Title: {{ course.title }}</h2>
+                <p><strong>About This Course Resource:</strong> {{ course.description }}</p>
+                <p><strong>Uploaded by:</strong> {{ course.teacher }}</p>
+                <p><strong>Level:</strong> {{ course.get_level_display }}</p>
+                <p><strong>Subject:</strong> {{ course.subject }}</p>
+                <p><strong>Classroom:</strong> {{ course.classroom }}</p>
+                <p><strong>In The Curriculum:</strong> {{ course.is_additional|yesno:"No,Yes" }}</p>
+                <a href="{{ course.file.url }}" download>Course</a>
+            
                     {% if request.user.teacher == course.teacher %}
                         <form method="POST">
                             {% csrf_token %}
