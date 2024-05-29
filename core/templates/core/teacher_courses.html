@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Teacher Courses</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/general.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/courses.css' %}">
     
 </head>
 <body>
@@ -45,8 +45,8 @@
                 <h5>you can search for a course by title, subject or the classroom it was intended for </h5>
 
                 <form method="get">
-                    {% comment %} reset button {% endcomment %}
-                    <button type="submit" name="search" value="all" class= "reset-button">&#x21BA;</button>
+
+                <div class="selecr-boxes">
                     {% comment %} teacher select {% endcomment %}
                     <select name="teacher" class="select-box">
                         <option value="">Teachers</option>
@@ -70,9 +70,12 @@
                             <option value="{{ level.0 }}">{{ level.1 }}</option>
                         {% endfor %}
                     </select>
+                </div>
+                    {% comment %} reset button {% endcomment %}
+                    <button type="submit" name="search" value="all" class= "reset-button">&#x21BA;</button>
                     {% comment %} search box {% endcomment %}
 
-                    <input type="text" name="search" placeholder="Search">
+                    <input type="text" name="search" placeholder="Search" class="search">
                     <input type="submit" value="Search">
                 </form>
             </div>

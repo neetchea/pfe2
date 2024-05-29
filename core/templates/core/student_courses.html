@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>My classroom's Courses</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/general.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/courses.css' %}">
 </head>
 <body>
     <div class="container">
@@ -12,7 +12,7 @@
             <!-- Search form -->
             <div class="search-form">
                 <h2>Search Courses</h2>
-                <h5>You can filter courses by level or teacher or search for a course by title, subject or the classroom it was intended for </h5>
+                <h5>You can search for a course from your classroom by its title, subject or filter the searches based on the teacher</h5>
 
                 <form method="get">
                     {% comment %} reset button {% endcomment %}
@@ -27,7 +27,7 @@
                     
                     {% comment %} search box {% endcomment %}
 
-                    <input type="text" name="search" placeholder="Search">
+                    <input type="text" name="search" placeholder="Search" class="search">
                     <input type="submit" value="Search">
                 </form>
             </div>
