@@ -1,5 +1,5 @@
 from django import forms
-from .models import Courses, HomeworkAssignment,HomeworkSubmission
+from .models import Courses, HomeworkAssignment,HomeworkSubmission, Remarks, Student
 
 class HomeworkAssignmentForm(forms.ModelForm):
     due_date = forms.DateField(input_formats=['%d-%m-%Y', '%Y-%m-%d'])
@@ -16,3 +16,13 @@ class CoursesForm(forms.ModelForm):
         model = Courses
         fields = '__all__'
         exclude = ['teacher']
+
+
+class RemarkForm(forms.ModelForm):
+    class Meta:
+        model = Remarks
+        fields = '__all__'
+        exclude =['teacher','student']
+
+class StudentSearchForm(forms.Form):
+    student = forms.ModelChoiceField(queryset=Student.objects.all())

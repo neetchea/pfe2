@@ -6,9 +6,9 @@ from django.shortcuts import  render, redirect
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from backend import settings
-from core.forms import CoursesForm, HomeworkAssignmentForm, HomeworkSubmissionForm
+from core.forms import CoursesForm, HomeworkAssignmentForm, HomeworkSubmissionForm, RemarkForm, StudentSearchForm
 from .decorators import allowed_users
-from .models import Absences, Announcements, Calendars, Classroom, Courses, CustomUser, Grade, HomeworkAssignment, HomeworkSubmission, Calendars, LEVEL_CHOICES
+from .models import Absences, Announcements, Calendars, Classroom, Courses, CustomUser, Grade, HomeworkAssignment, HomeworkSubmission, Calendars, LEVEL_CHOICES, Student
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 from collections import namedtuple
@@ -526,7 +526,6 @@ def student_courses(request):
 
     # Get the search query (returns None if no query)
     search_query = request.GET.get('search', None)
-    level_query = request.GET.get('level', None)  # Get the level query
     teacher_query = request.GET.get('teacher', None)  # Get the teacher query
 
     # Get the courses that match the search query
@@ -539,7 +538,7 @@ def student_courses(request):
 
     # Filter the courses by teacher
     if teacher_query is not None and teacher_query != '':
-        courses = courses.filter(teacher__username=teacher_query)
+        courses = courses.filter(teacher__user__username=teacher_query)
 
     # Get the teachers for the dropdown
     teachers = CustomUser.objects.filter(teacher__courses__in=courses).annotate(num_courses=Count('teacher__courses')).order_by('-num_courses')
@@ -549,3 +548,54 @@ def student_courses(request):
         'teachers': teachers
     }
     return render(request, 'core/student_courses.html', context)
+
+
+
+
+
+from django.shortcuts import get_object_or_404
+from django.contrib import messages
+from .models import Remarks
+from .forms import RemarkForm, StudentSearchForm
+
+@allowed_users(allowed_roles=['TEACHERS'])
+def teacher_remarks(request):
+    # Get the remarks made by the current user
+    remarks = Remarks.objects.filter(teacher=request.user.teacher)
+
+    if request.method == 'POST':
+        # Check if the delete button was clicked
+        if 'delete' in request.POST:
+            # Get the remark to delete
+            remark_id = request.POST.get('remark_id')
+            remark = get_object_or_404(Remarks, id=remark_id)
+            # Check if the current user is the teacher who wrote the remark
+            if remark.teacher == request.user.teacher:
+                # Delete the remark
+                remark.delete()
+                messages.success(request, 'Remark deleted successfully')
+            else:
+                messages.error(request, 'Something Went Wrong Remark Wasn\'t Deleted')
+            return redirect('teacher_remarks')
+        else:
+            form = StudentSearchForm(request.POST)
+            if form.is_valid():
+                student = form.cleaned_data['student']
+                remark_form = RemarkForm(request.POST)
+                if remark_form.is_valid():
+                    remark = remark_form.save(commit=False)
+                    remark.student = student
+                    remark.teacher = request.user.teacher
+                    remark.save()
+                    messages.success(request, 'Remark created successfully')
+                    return redirect('teacher_remarks')
+    else:
+        form = StudentSearchForm()
+        remark_form = RemarkForm()
+
+    context = {
+        'form': form,
+        'remark_form': remark_form,
+        'remarks': remarks,
+    }
+    return render(request, 'core/teacher_remarks.html', context)

@@ -179,3 +179,30 @@ body {
     outline: none;
     border-color: #4CAF50;
 }
+
+        .course-title, .click-info {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .arrow {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+        .download-container {
+            text-align: right;
+            margin-top: 10px;
+        }
+        .download-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            text-decoration: none;
+        }
+        .download-button:hover {
+            background-color: #45a049;
+        }

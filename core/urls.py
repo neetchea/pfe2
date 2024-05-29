@@ -31,6 +31,7 @@ urlpatterns = [
     path('teacher_courses/', views.teacher_courses, name='teacher_courses'),
     path('courses/', views.view_courses, name='Courses'),
     path('my_student_courses/', views.student_courses, name='my_student_courses'),
+    path('teacher_remarks/', views.teacher_remarks, name='teacher_remarks'),
 
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
