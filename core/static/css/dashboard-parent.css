@@ -1,4 +1,3 @@
-
 body {
     margin: 0;
     padding: 0;
@@ -20,6 +19,10 @@ body {
   
   nav:hover {
     width: 30%;
+  }
+  
+  .nav-text {
+    word-wrap: break-word;
   }
   
   .text-content {
@@ -59,29 +62,29 @@ body {
     height: 100%;
     z-index: 2;
     overflow: hidden;
+    padding: 1em; /* Add padding to give some space inside the nav */
   }
   
-  
-  
   nav ul {
-    position: absolute;
-    top: 30%;
+    display: flex;
+    flex-direction: column;
     list-style: none;
     padding: 0;
     margin: 0;
-    white-space: nowrap;
+    flex-grow: 1; /* Make ul take up remaining space */
   }
   
   nav ul li {
-    padding: 1em;
+    margin-bottom: 1em;
   }
   
   nav ul li a {
     color: #fff;
     text-decoration: none;
-    display: inline-block;
-    position: relative;
+    display: flex;
+    align-items: center;
     font-size: 40px;
+    word-wrap: break-word; /* Ensure text wrapping */
   }
   
   nav ul li a::after {
@@ -103,10 +106,12 @@ body {
     left: 0;
     right: 0;
   }
+  
   nav ul li a span {
     color: transparent; /* Hide the text initially */
     transform: translateX(100%); /* Shift the text to the right */
     transition: color 0.3s ease, transform 0.3s ease; /* Add transitions */
+    word-wrap: break-word; /* Ensure text wrapping */
   }
   
   nav:hover ul li a span {
@@ -114,13 +119,9 @@ body {
     transform: translateX(0); /* Shift the text back to its original position */
   }
   
-  /* Add a delay to each link to make them appear one at a time */
   nav ul li:nth-child(1) a span { transition-delay: 0.1s; }
   nav ul li:nth-child(2) a span { transition-delay: 0.2s; }
   nav ul li:nth-child(3) a span { transition-delay: 0.3s; }
-  /* ... continue for as many links as you have */
-  
-  
   
   .content img {
     position: absolute;
@@ -146,10 +147,8 @@ body {
     left: 30%;
   }
   
-  
-  
   .logo {
-    width: 20; /* Adjust as needed */
+    width: 100%; /* Adjust as needed */
     height: auto; /* Keeps the aspect ratio */
     display: block;
     margin: 0 auto; /* Centers the logo */
@@ -160,21 +159,15 @@ body {
   .logo:hover {
     transform: scale(1.1); /* This will make the logo 10% larger when hovered over */
   }
-   
   
-    
-    
-  
-    .nav-icon {
-      width: auto; /* Adjust as needed */
-      height: 50px; /* Adjust as needed */
-      display: inline-block; /* This will place the logo before the link */
-      vertical-align: middle; /* This will align the logo with the link */
-      margin-right: 10px; 
-      margin-left:75px;/* This will add some space between the logo and the link */
-    }
-  
-    
+  .nav-icon {
+    width: auto; /* Adjust as needed */
+    height: 50px; /* Adjust as needed */
+    display: inline-block; /* This will place the logo before the link */
+    vertical-align: middle; /* This will align the logo with the link */
+    margin-right: 10px;
+    margin-left: 10px; /* This will add some space between the logo and the link */
+  }
   
   .profile-box {
     width: 100%;
@@ -184,17 +177,13 @@ body {
     justify-content: center;
     border-top: 1px solid #348bd0;
     background-color: #403f3f;
-      align-self: end;
-      flex-grow: -1;
-      margin-top: auto;
-      
+    margin-top: auto;
   }
   
   .profile-and-username {
     display: flex;
     align-items: center;
-    white-space: nowrap;
-  
+    word-wrap: break-word; /* Ensure text wrapping */
   }
   
   .profile-pic {
@@ -206,9 +195,7 @@ body {
     color: #fff;
     font-size: 1.5em;
     text-align: center;
-    /* margin-left: 1em;
-    margin-right: 1em; */
-    word-wrap: break-word;
+    word-wrap: break-word; /* Ensure text wrapping */
   }
   
   .logout-button {
@@ -218,11 +205,9 @@ body {
     box-shadow: none;
     border-radius: 3vh;
     background-color: #fff;
-    border: none;
     color: #333;
-    width: 100%;
+    width: 8em;
     font-size: 1.5em;
     margin: 0.5em;
-    width: 8em;
   }
   

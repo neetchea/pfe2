@@ -12,19 +12,21 @@
 
 <body>
     <div class="navbar-links">
-        <a href="#"><img src="{% static 'logo-blue-vecto.svg' %}" alt="Logo"></a>
+        <a href="{% url 'home' %}"><img src="{% static 'logo-blue-vecto.svg' %}" alt="Logo"></a>
     
         <ul>
             {% if user.is_authenticated %}
                 <li>
                     <a href="{% url 'dashboard' %}">MY DASHBOARD</a>
                 </li>
+                <li><a href=" {% url 'Courses' %} ">COURSES</a></li>
+
             {% endif %}
             <li>
                 <a href="{% url 'about' %}">ABOUT US</a>
             </li>
             <li>
-                <a href="{% url 'courses' %}">EVENTS</a>
+                <a href="{% url 'events' %}"> ANNOUNCEMENTS AND EVENTS</a>
             </li>
             <li>
                 <a href="{% url 'services' %}">OUR SERVICES</a>

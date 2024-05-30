@@ -12,12 +12,43 @@
 </head>
 <body>
     <div class="navbar-links">
-        <a href="#"><img src="{% static 'logo-blue-vecto.svg' %}" alt="Logo"></a>
+        <a href="{% url 'home' %}"><img src="{% static 'logo-blue-vecto.svg' %}" alt="Logo"></a>
+    
         <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Events</a></li>
-            <li><a href="#">About us</a></li>
-            <li><a href="#">login</a></li>
+            {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'dashboard' %}">MY DASHBOARD</a>
+                </li>
+                <li><a href=" {% url 'Courses' %} ">COURSES</a></li>
+
+            {% endif %}
+            <li>
+                <a href="{% url 'about' %}">ABOUT US</a>
+            </li>
+            <li>
+                <a href="{% url 'events' %}"> ANNOUNCEMENTS AND EVENTS</a>
+            </li>
+            <li>
+                <a href="{% url 'services' %}">OUR SERVICES</a>
+            </li>
+            <li>
+                <a href="{% url 'contact' %}">CONTACT</a>
+            </li>
+            <li >
+                <li>
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-button">LOGOUT</button>
+                    </form>
+                </li>
+                <li>
+                 
+                {% else %}
+                    <a href="{% url 'login' %}">LOGIN</a>
+                {% endif %}
+                </li>
+            </li>
         </ul>
     </div>
 

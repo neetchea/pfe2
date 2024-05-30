@@ -19,7 +19,7 @@ body {
   }
   
   nav:hover {
-    width: 30%;
+    width: 32.2%;
   }
   
   .text-content {
@@ -208,7 +208,7 @@ body {
     text-align: center;
     /* margin-left: 1em;
     margin-right: 1em; */
-    word-wrap: break-word;
+    white-space: nowrap;
   }
   
   .logout-button {

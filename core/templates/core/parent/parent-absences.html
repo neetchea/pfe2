@@ -1,0 +1,20 @@
+{% extends 'core/parent/parent-dash-base.html'%}
+{% load static%}
+{% block title%}     <title>My Children's absences</title>
+{% endblock %}
+
+{% block content %}
+{% for info in absences_info %}
+    <h2>{{ info.child.user.first_name }} {{ info.child.user.last_name }} ({{ info.child.user.username }})</h2>
+    {% for absence in info.absences %}
+        <p>Date: {{ absence.date }}</p>
+        <p>Justified: {% if absence.is_justified %}Yes{% else %}No{% endif %}</p>
+        {% if absence.is_justified %}
+            <p>Justification: {{ absence.justification }}</p>
+        {% endif %}
+    {% endfor %}
+    <p>Total absences: {{ info.total }}</p>
+    <p>Justified absences: {{ info.justified }}</p>
+    <p>Unjustified absences: {{ info.unjustified }}</p>
+{% endfor %}
+{% endblock %}

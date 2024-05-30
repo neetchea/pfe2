@@ -13,11 +13,14 @@
     background-size: cover;
     height: 100vh;">
         <nav>
+
             <a href="#"><img src="{% static 'core/school-img/logo.png' %}" alt="Logo"></a>
             <div class="nav-link" id="navLink">
                 <i class="fa-solid fa-xmark" onclick="hidemenu()"></i>
                 <ul>{%if user.is_authenticated%}
                     <li><a href="{% url 'dashboard' %}">MY DASHBOARD</a></li>
+                    <li><a href=" {% url 'Courses' %} ">COURSES</a></li>
+
                     {%endif%}
                     <li><a href="{% url 'about' %}">ABOUT US</a></li>
                     <li><a href="{% url 'events' %}">ANNOUNCEMENTS AND EVENTS</a></li>

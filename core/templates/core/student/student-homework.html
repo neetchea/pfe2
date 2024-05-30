@@ -1,0 +1,83 @@
+{% extends 'core/student/student-dash-base.html'%}
+{% load static%}
+{% block title%}     <title>My homework assignments</title>
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework Assignment</title>
+    <link rel="stylesheet" href="{% static 'css/homework.css' %}">
+</head>
+<body>
+    <div class="content">
+        {% for homework_assignment in homework_assignments %}
+            <div class="remark-card">
+                <h1>Assignment:</h1>
+                <h2>assignment title: {{ homework_assignment.title }}</h2>
+                <p><strong>Description:</strong> {{ homework_assignment.description }}</p>
+                <p><strong>Due Date:</strong> {{ homework_assignment.due_date }}</p>
+                <p><strong>Subject:</strong> {{ homework_assignment.subject }}</p>
+                {% if homework_assignment.assignment_file %}
+                <p><strong>Assignment File:</strong> <a href="{{ homework_assignment.assignment_file.url }}">{{ homework_assignment.assignment_file.name }}</a></p>
+                {% endif %}
+                <p><strong>Teacher:</strong> {{ homework_assignment.teacher }}</p>
+
+                <h1>Your Response:</h1>
+                <form method="POST" action="{% url 'homework_submission' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="homework_id" value="{{ homework_assignment.id }}">
+                    <div class="form-group">
+                        <label for="{{ form.response.id_for_label }}">Response:</label>
+                        {{ form.response }}
+                    </div>
+                    <div class="form-group">
+                        <label for="{{ form.submission_file.id_for_label }}">Submission File:</label>
+                        {{ form.submission_file }}
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+                {% for message in messages %}
+                    {% if message.tags == 'submit' %}
+                        <p>{{ message }}</p>
+                    {% endif %}
+                {% endfor %}
+
+                <!-- Display a delete button for each submission -->
+                {% for submission in homework_assignment.submissions.all %}
+                    {% if submission.student == request.user.student %}
+                        <div class="submission">
+                            <h3>Your Response:</h3>
+                            <p>{{ submission.response }}</p>
+                            {% if submission.submission_file %}
+                            <p><strong>Submission File:</strong> <a href="{{ submission.submission_file.url }}">{{ submission.submission_file.name }}</a></p>
+                            {% endif %}
+                            <form method="POST" action="{% url 'homework_submission' %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="submission_id" value="{{ submission.id }}">
+                                <input type="hidden" name="homework_id" value="{{ submission.homework.id }}">
+                                <input type="hidden" name="delete" value="true">
+                                <button type="submit">Delete</button>
+                            </form>
+                            {% for message in messages %}
+                                {% if message.tags == 'delete' %}
+                                    <p>{{ message }}</p>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% empty %}
+            <div class="no-assignments">
+                <h1>No homework assignments found.</h1>
+            </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+
+{% endblock %}

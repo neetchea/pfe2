@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parent Dashboard</title>
-    <link rel="stylesheet" href="{% static 'css/parent-dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/parent-dash-base.css' %}">
 </head>
 <body>
     <nav>
@@ -31,22 +31,15 @@
           </div>
           </form>
         </div>
-        <!-- <div class="profile-box">
-            <img src="{% static 'profile-pic.png' %}" alt="Profile Picture" class="profile-pic">
-            <p class="username">Student Account</p>
-            <button class="logout-button">Logout</button>
-        </div> -->
+
     </nav>
     
     <div class="content">
-        <div class="text-content">
         
-            <div class="welcome-text">
-                <p>WELCOME {{request.user.first_name|upper}} {{request.user.last_name|upper}}!</p> <p>THIS IS YOUR</p>
-            </div>
-            <div class="dashboard">DASHBOARD</div>
+        <div class="text-content">
+           {% block content%}
+           {% endblock%}
         </div>
-        <img src="{% static 'vu-externe.jpg' %}" alt="menu" class="menu" ></img>
     </div>
  
     

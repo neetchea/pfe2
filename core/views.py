@@ -47,15 +47,17 @@ def assign_grades(request, classroom_id):
 from django.http import HttpResponse
 
 def about(request):
-    return HttpResponse("About Page")
+    context = {
+
+    }
+    return render(request, 'core/about_us.html', context)
 
 def courses(request):
     return HttpResponse("Courses Page")
 
 def services(request):
     context = {
-        'first_name': request.user.first_name,
-        'last_name': request.user.last_name
+
     }
     return render(request, 'core/services.html', context)
 
@@ -170,7 +172,7 @@ def student_homeworks(request):
         'homework_assignments': homework_assignments,
         'form': form
     }
-    return render(request, 'core/student/student_homeworks.html', context)
+    return render(request, 'core/student/student-homework.html', context)
 
 
 
@@ -195,7 +197,7 @@ def parents_absences_view(request):
         'absences_info': absences_info,
     }
 
-    return render(request, 'core/parent/parent_absences.html', context)
+    return render(request, 'core/parent/parent-absences.html', context)
 
 @allowed_users(allowed_roles=['PARENTS'])
 def get_grades_parents(request):
@@ -245,7 +247,7 @@ def get_grades_parents(request):
         'grades_by_trimester': grades_by_trimester
     }
 
-    return render(request, 'core/parent/parents_grades.html', context)
+    return render(request, 'core/parent/parents-grades.html', context)
 
 
 @allowed_users(allowed_roles=['STUDENTS'])
@@ -292,7 +294,7 @@ def get_grades_student(request):
         'grades_by_trimester': grades_by_trimester
     }
 
-    return render(request, 'core/student/students_grades.html', context)
+    return render(request, 'core/student/student-grades.html', context)
 
 
 
@@ -389,7 +391,7 @@ def view_schedule_parent(request):
         classroom_table_data = [{k: v if v is not None else '' for k, v in d.items()} for d in classroom_table_data]
         children_table_data[child.user.username] = classroom_table_data
 
-    return render(request, 'core/parent/parent_schedule.html', {
+    return render(request, 'core/parent/parent-schedule.html', {
         'children_table_data': children_table_data,
         'cafe_table_data': cafe_table_data,
         'event_table_data': event_table_data,

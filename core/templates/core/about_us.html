@@ -1,0 +1,193 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Hikma School</title>
+    <link rel="stylesheet" href="{% static 'aboutus.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+    <div class="navbar-links">
+        <a href="{% url 'home' %}"><img src="{% static 'images/logo-blue-vecto.svg' %}" alt="Logo"></a>
+        <ul>
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'events' %}">Announcements and Events</a></li>
+            <li><a href="{% url 'about' %}">About us</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'dashboard' %}">MY DASHBOARD</a></li>
+                <li><a href="{% url 'Courses' %}">COURSES</a></li>
+                <li>
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" style="background: transparent; border: none; color: #333; font-size: 20px; font-weight: 600;">LOGOUT</button>
+                    </form>
+                </li>
+            {% else %}
+                <li><a href="{% url 'login' %}">LOGIN</a></li>
+            {% endif %}
+        </ul>
+        <i class="ri-menu-line" id="menu-icon"></i>
+    </div>
+
+    <!-- Carousel Section -->
+    <section class="carousel">
+        <div class="carousel-container">
+            <div class="carousel-slide fade">
+                <img src="{% static 'images/tableau2.jpg' %}" alt="School Image 1">
+                <div class="carousel-text" id="wlcm">Welcome to El-Hikma Private School</div>
+            </div>
+            <div class="carousel-slide fade">
+                <img src="{% static 'images/tableau3.png' %}" alt="School Image 2">
+                <div class="imgs2">
+                    <img src="{% static 'images/moyen2.jpg' %}" alt="">
+                </div>
+                <div class="carousel-text">
+                    <h1>من نحن</h1>
+                    تقع مدرسة الحكمة الخاصة في قلب باب الزوار، الجزائر. نحن ملتزمون بتقديم تعليم عالي الجودة يجمع بين اللغات الفرنسية و الإنجليزية والعربية لمستويات ما قبل المدرسة، والابتدائي، والمتوسط. تأسست مدرسة الحكمة بهدف إعداد الطلاب ليصبحوا مواطنين عالميين ملمين ومتوازنين، وتتميز بنهجها التعليمي الفريد والتزامها بالتميز الأكاديمي
+                </div>
+            </div>
+            <div class="carousel-slide fade">
+                <img src="{% static 'images/tableau3.png' %}" alt="School Image 3">
+                <div class="imgs2">
+                    <img src="{% static 'images/finAnnee.jpg' %}" alt="">
+                </div>
+                <div class="carousel-text">
+                    <h1>مهمتنا</h1>
+                     في مدرسة الحكمة، نؤمن بأن كل طفل يستحق تعليماً ثرياً يطور مهاراته العقلية والاجتماعية. مهمتنا هي توفير بيئة تعليمية محفزة وآمنة حيث يمكن للطلاب التفوق أكاديمياً مع تطوير قيم أخلاقية ومعنوية قوية
+                </div>
+            </div>
+            <div class="carousel-slide fade">
+                <img src="{% static 'images/tableau3.png' %}" alt="School Image 3">
+                <div class="imgs2">
+                    <img src="{% static 'images/prescolaire.jpg' %}" alt="">
+                </div>
+                <div class="carousel-text">
+                    <h1>مرحلة التحضيري</h1>
+                    برنامجنا لمرحلة التحضيري مصمم لتشجيع الفضول الطبيعي للأطفال الصغار وتطوير مهاراتهم الأساسية من خلال الأنشطة التعليمية واللعب. يستكشف الأطفال العالم من حولهم، ويتعلمون التفاعل الاجتماعي مع أقرانهم، ويطورون مهارات اللغة الأساسية باللغتين الإنجليزية والعربية.
+                </div>
+            </div>
+            <div class="carousel-slide fade">
+                <img src="{% static 'images/tableau3.PNG' %}" alt="School Image 4">
+                <div class="imgs2">
+                    <img src="{% static 'images/primaire2.jpg' %}" alt="">
+                </div>
+                <div class="carousel-text">
+                    <h1>مرحلة الإبتدائي</h1>
+                    يركز البرنامج الابتدائي في مدرسة الحكمة على اكتساب المهارات الأساسية في القراءة، والكتابة، والرياضيات، والعلوم، والدراسات الاجتماعية. بالإضافة إلى البرنامج الأكاديمي، ندمج الأنشطة الفنية والرياضية لتعزيز التطور المتوازن.
+                </div>
+            </div>
+            <div class="carousel-slide fade">
+                <img src="{% static 'images/tableau3.PNG' %}" alt="School Image 4">
+                <div class="imgs2">
+                    <img src="{% static 'images/moyen4.jpg' %}" alt="">
+                </div>
+                <div class="carousel-text">
+                    <h1>مرحلة المتوسط</h1>
+                    يعد برنامجنا للمرحلة المتوسطة الطلاب للتحديات الأكاديمية المستقبلية من خلال تعزيز مهاراتهم التحليلية والنقدية. يعمق الطلاب معرفتهم في المواد الأساسية أثناء استكشاف الموضوعات المتقدمة. كما نشجع على المشاركة في المشاريع الجماعية والأنشطة اللامنهجية لتطوير مهارات المسؤولية والقيادة.
+                </div>
+            </div>
+            <div class="carousel-slide fade">
+                <img src="{% static 'images/tableau3.PNG' %}" alt="School Image 4">
+                <div class="imgs2">
+                    <img src="{% static 'images/sorties.jpg' %}" alt="">
+                </div>
+                <div class="carousel-text">
+                    <h1>الأنشطة اللامنهجية</h1>
+                    في مدرسة الحكمة، ننظم رحلات مدرسية ترفيهية وممنهجة تهدف إلى تعزيز التعلم خارج الصف، وتنمية مهارات التفاعل الاجتماعي للطلاب.
+                </div>
+            </div>
+        </div>
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+        <div class="carousel-dots">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+            <span class="dot" onclick="currentSlide(5)"></span>
+            <span class="dot" onclick="currentSlide(6)"></span>
+            <span class="dot" onclick="currentSlide(7)"></span>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="{% url 'about' %}">About Us</a></li>
+                    <li><a href="#">Admissions</a></li>
+                    <li><a href="#">Academics</a></li>
+                    <li><a href="#">Student Life</a></li>
+                    <li><a href="{% url 'contact' %}">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <p>Stay connected with us on social media:</p>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>School Hours</h3>
+                <p>Monday to Friday: 8:00 AM - 4:00 PM</p>
+                <p>Saturday: 9:00 AM - 1:00 PM</p>
+                <p>Sunday: Closed</p>
+            </div>
+            <div class="footer-section">
+                <h3>Mission Statement</h3>
+                <p>"At El Hikma School, we strive to provide a nurturing and challenging environment that fosters academic excellence, character development, and a lifelong love of learning."</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        /*=============== SHOW HIDDEN - PASSWORD ===============*/
+const showHiddenPass = (loginPass, loginEye) =>{
+    const input = document.getElementById(loginPass),
+          iconEye = document.getElementById(loginEye)
+ 
+    iconEye.addEventListener('click', () =>{
+       // Change password to text
+       if(input.type === 'password'){
+          // Switch to text
+          input.type = 'text'
+ 
+          // Icon change
+          iconEye.classList.add('ri-eye-line')
+          iconEye.classList.remove('ri-eye-off-line')
+       } else{
+          // Change to password
+          input.type = 'password'
+ 
+          // Icon change
+          iconEye.classList.remove('ri-eye-line')
+          iconEye.classList.add('ri-eye-off-line')
+       }
+    })
+ }
+ 
+ 
+ showHiddenPass('login-pass','login-eye')
+ 
+ 
+ var navLink = document.getElementById("navLink");
+ function hidemenu(){
+    navLink.style.right="-200px"
+    // navLink.style.display="none"
+ }
+ function showmenu(){
+    navLink.style.right="-200px"
+    // navLink.style.display="block"
+ }
+ 
+    </script>
+</body>
+</html>

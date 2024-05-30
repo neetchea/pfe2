@@ -1,0 +1,71 @@
+{% extends 'core/parent/parent-dash-base.html'%}
+{% load static%}
+{% block title%}     <title>My Children's absences</title>
+{% endblock %}
+
+{% block content %}
+<html>
+<head>
+    <title>My Children's Grades</title>
+</head>
+<body>
+
+{% for trimester, students in grades_by_trimester.items %}
+    <h2>Trimester {{ trimester }}</h2>
+    {% for student, subjects in students.items %}
+        <h3>{{ student }}</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Coefficient</th>
+                    <th>Continous</th>
+                    <th>Test</th>
+                    <th>Exam</th>
+
+
+                    <th>Final Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subject, data in subjects.items %}
+                    {% if subject != 'trimester_average' %}
+                    <tr>
+                        <td>{{ subject }}</td>
+                        <td>{{ data.grades.values.0.weight }}</td>
+                        {% for grade_type, grade_data in data.grades.items %}
+                            <td>{{ grade_data.grade }}</td>
+                        {% endfor %}
+                        <td>{{ data.final }}</td>
+                    </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+        <p>Trimester's final average: {{ subjects.trimester_average }}</p>
+    {% endfor %}
+{% endfor %}
+
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+    th, td {
+        border: 1px solid #ddd;
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background-color: #4CAF50;
+        color: white;
+    }
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
+
+</body>
+</html>
+{% endblock%}

@@ -1,10 +1,17 @@
-{% load static %}
+
+
+{% load static %} 
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>View Courses</title>
-    <link rel="stylesheet" type="text/css" href="{% static 'css/courses.css' %}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Courses</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/courses-home.css' %}">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    
     <style>
         .course-title, .click-info {
             cursor: pointer;
@@ -34,7 +41,50 @@
         }
     </style>
 </head>
+
 <body>
+    <div class="navbar-links">
+        <a href="{% url 'home' %}"><img src="{% static 'logo-blue-vecto.svg' %}" alt="Logo"></a>
+    
+        <ul>
+            {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'dashboard' %}">MY DASHBOARD</a>
+                </li>
+                <li><a href=" {% url 'Courses' %} ">COURSES</a></li>
+
+            {% endif %}
+            <li>
+                <a href="{% url 'about' %}">ABOUT US</a>
+            </li>
+            <li>
+                <a href="{% url 'events' %}"> ANNOUNCEMENTS AND EVENTS</a>
+            </li>
+            <li>
+                <a href="{% url 'services' %}">OUR SERVICES</a>
+            </li>
+            <li>
+                <a href="{% url 'contact' %}">CONTACT</a>
+            </li>
+            <li >
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" style="background: transparent; border: none;color: #333;font-size: 20px; font-weight:600;">LOGOUT</button>
+                    </form>
+                </li>
+                <li>
+                 
+                {% else %}
+                    <a href="{% url 'login' %}">LOGIN</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+    
+    
+    
+
     <div class="container">
         <!-- Top Navigation Bar -->
         <div class="top-nav search-form">
@@ -87,27 +137,75 @@
             {% endfor %}
         </div>
     </div>
+
+
+
+    <footer>
+        <!-- Footer content remains same -->
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Admissions</a></li>
+                    <li><a href="#">Academics</a></li>
+                    <li><a href="#">Student Life</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <p>Stay connected with us on social media:</p>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>School Hours</h3>
+                <p>Sunday to Thursday: 8:00 AM - 4:00 PM</p>
+                <p>Saturday and Sunday: Closed</p>
+            </div>
+            <div class="footer-section">
+                <h3>Mission Statement</h3>
+                <p>"At El Hikma School, we strive to provide a nurturing and challenging environment that fosters academic excellence, character development, and a lifelong love of learning."</p>
+            </div>
+            <div class="footer-section">
+                <h3>Accreditation</h3>
+                <p>El Hikma School is accredited by The Algerian Ministry Of Education.</p>
+            </div>
+            <div class="footer-section legal">
+                <p>© 2024 El Hikma School. All rights reserved.</p>
+                <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+            </div>
+        </div>
+    </footer>
     <script>
-    $(document).ready(function(){
-        $(".course-title").click(function(){
-            var $courseBox = $(this).closest(".course-box");
-            var $details = $courseBox.find(".course-details");
-            var $clickInfo = $courseBox.find(".click-info");
-            var $arrow = $courseBox.find(".arrow");
-    
-            // Toggle arrow icon immediately
-            if ($details.is(":visible")) {
-                $arrow.html("&#x25B6;"); // Change to right arrow
-            } else {
-                $arrow.html("&#x25BC;"); // Change to down arrow
-            }
-    
-            // Toggle course details and click info with animation
-            $details.slideToggle("fast");
-            $clickInfo.slideToggle("fast");
+        $(document).ready(function(){
+            $(".course-title").click(function(){
+                var $courseBox = $(this).closest(".course-box");
+                var $details = $courseBox.find(".course-details");
+                var $clickInfo = $courseBox.find(".click-info");
+                var $arrow = $courseBox.find(".arrow");
+        
+                // Toggle arrow icon immediately
+                if ($details.is(":visible")) {
+                    $arrow.html("&#x25B6;"); // Change to right arrow
+                } else {
+                    $arrow.html("&#x25BC;"); // Change to down arrow
+                }
+        
+                // Toggle course details and click info with animation
+                $details.slideToggle("fast");
+                $clickInfo.slideToggle("fast");
+            });
         });
-    });
-</script>       
-    
-</body>
-</html>
+    </script>  
+
+
+        
+        </body>
+        </html>
