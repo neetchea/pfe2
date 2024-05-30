@@ -151,7 +151,7 @@ class Calendars(models.Model):
         if not self.timeslots.exists():
             if self.calendar_type == 'CLASS':
                 days = TimeSlot.DAY_CHOICES[1:6]  # Sunday to Thursday
-                time_ranges = TimeSlot.TIME_RANGES[1:4] + TimeSlot.TIME_RANGES[6:9]            
+                time_ranges = TimeSlot.TIME_RANGES[1:5] + TimeSlot.TIME_RANGES[6:9]            
             elif self.calendar_type == 'CAFE':
                 days = TimeSlot.DAY_CHOICES[1:6]  # Sunday to Thursday
                 time_ranges = [('12:00 - 1:00', '12:00 - 1:00')]  # 12:00 to 1:00

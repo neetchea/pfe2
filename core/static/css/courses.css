@@ -11,9 +11,10 @@ body {
 
 .container {
     
-    width: 80%;
+    width: 79em;
     max-width: 100%;
     margin: 20px auto;
+    padding-left:10%;
 }
 
 .course-upload, .courses {

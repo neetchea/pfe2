@@ -1,0 +1,97 @@
+{% extends 'core/dash.html'%}
+{% load static%}
+{% block title%}     <title>Your Calendars</title>
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+   <link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
+</head>
+<body>
+    <h1>Your Calendars</h1>
+
+    <div class="instructions">
+        Please select a calendar from the dropdown menu below.
+        <br>
+        <span>You can select the schedule to see your classroom timetable, check this week's cafeteria menu, or view upcoming events.</span>
+    </div>
+
+    <div class="container">
+        <div class="select-container">
+            <h2>Select a Calendar</h2>
+            <select id="calendar-select">
+                <option value="classroom">Classroom</option>
+                <option value="cafe">Cafeteria</option>
+                <option value="event">Events</option>
+            </select>
+        </div>
+        <div class="content-container">
+            <div id="calendar-title" class="calendar-title"></div>
+            <table id="schedule-table">
+                <!-- The table data will be inserted here by JavaScript -->
+            </table>
+            <p id="no-calendar-message" style="display: none;">There's no calendar for this selection.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('calendar-select').addEventListener('change', function() {
+            var selectedCalendar = this.value;
+
+            var tableData;
+            var calendarTitle;
+            if (selectedCalendar === 'classroom') {
+                tableData = {{ classroom_table_data|safe }};
+                calendarTitle = 'Classroom Schedule';
+            } else if (selectedCalendar === 'cafe') {
+                tableData = {{ cafe_table_data|safe }};
+                calendarTitle = 'Cafeteria Menu';
+            } else if (selectedCalendar === 'event') {
+                tableData = {{ event_table_data|safe }};
+                calendarTitle = 'Events Calendar';
+            }
+
+            var table = document.getElementById('schedule-table');
+            var noCalendarMessage = document.getElementById('no-calendar-message');
+            var calendarTitleElement = document.getElementById('calendar-title');
+            table.innerHTML = '';
+            calendarTitleElement.textContent = calendarTitle.toUpperCase();
+
+            console.log(tableData);
+            if (tableData.length === 0) {
+                noCalendarMessage.style.display = 'block';
+            } else {
+                noCalendarMessage.style.display = 'none';
+
+                // Create table headers
+                var headerRow = document.createElement('tr');
+                for (var key in tableData[0]) {
+                    var headerCell = document.createElement('th');
+                    headerCell.textContent = key;
+                    headerRow.appendChild(headerCell);
+                }
+                table.appendChild(headerRow);
+
+                // Create table data
+                for (var i = 0; i < tableData.length; i++) {
+                    var row = document.createElement('tr');
+
+                    for (var key in tableData[i]) {
+                        var cell = document.createElement('td');
+                        cell.textContent = tableData[i][key];
+                        row.appendChild(cell);
+                    }
+
+                    table.appendChild(row);
+                }
+            }
+        });
+
+        // Trigger the change event to display the initial calendar
+        document.getElementById('calendar-select').dispatchEvent(new Event('change'));
+    </script>
+</body>
+</html>
+{% endblock %}

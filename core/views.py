@@ -25,11 +25,11 @@ def home(request):
 @login_required
 def dashboard(request):
     if request.user.user_type == 'teacher':
-        template_name = 'core/teacher_dashboard.html'
+        template_name = 'core/teacher/teacher_dashboard.html'
     elif request.user.user_type == 'student':
-        template_name = 'core/student_dashboard.html'
+        template_name = 'core/student/student_dashboard.html'
     elif request.user.user_type == 'parent':
-        template_name = 'core/parent_dashboard.html'
+        template_name = 'core/parent/parent_dashboard.html'
     elif request.user.is_staff or request.user.is_superuser:
         return redirect(reverse('admin:index'))
     else:
@@ -124,7 +124,7 @@ def homework_assignment(request):
         'homework_assignments': homework_assignments,
         'form' : form
     }
-    return render(request, 'core/teacher_homework.html', context)
+    return render(request, 'core/teacher/teacher_homework.html', context)
 
 @allowed_users(allowed_roles=['TEACHERS'])
 def view_submissions(request):
@@ -139,7 +139,7 @@ def view_submissions(request):
         'submissions': submissions,
     }
 
-    return render(request, 'core/teacher_submissions.html', context)
+    return render(request, 'core/teacher/teacher_submissions.html', context)
 
 @allowed_users(allowed_roles=['STUDENTS'])
 def student_homeworks(request):
@@ -170,7 +170,7 @@ def student_homeworks(request):
         'homework_assignments': homework_assignments,
         'form': form
     }
-    return render(request, 'core/student_homeworks.html', context)
+    return render(request, 'core/student/student_homeworks.html', context)
 
 
 
@@ -195,7 +195,7 @@ def parents_absences_view(request):
         'absences_info': absences_info,
     }
 
-    return render(request, 'core/parent_absences.html', context)
+    return render(request, 'core/parent/parent_absences.html', context)
 
 @allowed_users(allowed_roles=['PARENTS'])
 def get_grades_parents(request):
@@ -245,7 +245,7 @@ def get_grades_parents(request):
         'grades_by_trimester': grades_by_trimester
     }
 
-    return render(request, 'grades/parents_grades.html', context)
+    return render(request, 'core/parent/parents_grades.html', context)
 
 
 @allowed_users(allowed_roles=['STUDENTS'])
@@ -292,7 +292,7 @@ def get_grades_student(request):
         'grades_by_trimester': grades_by_trimester
     }
 
-    return render(request, 'grades/students_grades.html', context)
+    return render(request, 'core/student/students_grades.html', context)
 
 
 
@@ -325,7 +325,7 @@ def view_schedule_student(request):
     event_table_data = [{k: v if v is not None else '' for k, v in d.items()} for d in event_table_data]
 
     # print(event_table_data) (debugging)
-    return render(request, 'schedule.html', {
+    return render(request, 'core/student/student-cal.html', {
         'classroom_table_data': classroom_table_data,
         'cafe_table_data': cafe_table_data,
         'event_table_data': event_table_data,
@@ -389,7 +389,7 @@ def view_schedule_parent(request):
         classroom_table_data = [{k: v if v is not None else '' for k, v in d.items()} for d in classroom_table_data]
         children_table_data[child.user.username] = classroom_table_data
 
-    return render(request, 'parent_schedule.html', {
+    return render(request, 'core/parent/parent_schedule.html', {
         'children_table_data': children_table_data,
         'cafe_table_data': cafe_table_data,
         'event_table_data': event_table_data,
@@ -465,7 +465,7 @@ def teacher_courses(request):
         'classrooms':classrooms
 
     }
-    return render(request, 'core/teacher_courses.html', context)
+    return render(request, 'core/teacher/teacher_courses.html', context)
     
 
 
@@ -547,7 +547,7 @@ def student_courses(request):
         'courses': courses,
         'teachers': teachers
     }
-    return render(request, 'core/student_courses.html', context)
+    return render(request, 'core/student/student-courses.html', context)
 
 
 
@@ -598,7 +598,7 @@ def teacher_remarks(request):
         'remark_form': remark_form,
         'remarks': remarks,
     }
-    return render(request, 'core/teacher_remarks.html', context)
+    return render(request, 'core/teacher/teacher_remarks.html', context)
 
 @allowed_users(allowed_roles=['PARENTS'])
 def parent_remarks(request):
@@ -611,4 +611,4 @@ def parent_remarks(request):
     context = {
         'remarks': remarks,
     }
-    return render(request, 'core/parent_remarks.html', context)
+    return render(request, 'core/parent/parent_remarks.html', context)

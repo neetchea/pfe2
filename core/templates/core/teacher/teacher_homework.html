@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/homework.css' %}">
+
+    <title>Homework Page</title>
+
+</head>
+<body>
+    <div class="content">
+        <h1>Homework Assignments</h1>
+        
+        <!-- Display Existing Homework Assignments -->
+        <div class="section">
+            <h2>Existing Homework Assignments</h2>
+            <!-- Loop through existing homework assignments and display details -->
+            {% for homework_assignment in homework_assignments %}
+                <div class="homework-card">
+                    <h3>{{ homework_assignment.title }}</h3>
+                    <p><strong>Description:</strong> {{ homework_assignment.description }}</p>
+                    <p><strong>Classroom:</strong> {{ homework_assignment.classroom }}</p>
+                    <p><strong>Due Date:</strong> {{ homework_assignment.due_date }}</p>
+                    {% if homework_assignment.assignment_file %}
+                    <p><strong>Assignment File:</strong> <a href="{{ homework_assignment.assignment_file.url }}">homework file</a></p>
+                    {% endif %}
+                    <!-- Optionally, include a button/link to delete the assignment -->
+                    <form method="POST" action="{% url 'homework_assignment' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="homework_id" value="{{ homework_assignment.id }}">
+                        <input type="hidden" name="delete" value="true">
+                        <input type="submit" value="Delete">
+                    </form>
+                </div>
+            {% empty %}
+                <p>No homework assignments found.</p>
+            {% endfor %}
+        </div>
+        
+        <!-- Form to Upload New Homework Assignment -->
+        <div class="section">
+            <h2>Upload New Homework Assignment</h2>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                
+                <div>
+                    <label for="id_title">Title:</label>
+                    {{ form.title }}
+                    {{ form.title.errors }}
+                </div>
+                
+                <div>
+                    <label for="id_description">Description:</label>
+                    {{ form.description }}
+                    {{ form.description.errors }}
+                </div>
+                
+                <div>
+                    <label for="id_due_date">Due Date:</label>
+                    {{ form.due_date }}
+                    <p><em>Format needs to be YYYY-MM-DD or DD-MM-YYYY</em></p>
+                    {{ form.due_date.errors }}
+                </div>
+                
+                <div>
+                    <label for="id_classroom">Classroom:</label>
+                    {{ form.classroom }}
+                    {{ form.classroom.errors }}
+                </div>
+                
+                <div>
+                    <label for="id_subject">Subject:</label>
+                    {{ form.subject }}
+                    {{ form.subject.errors }}
+                </div>
+                
+                <div>
+                    <label for="id_assignment_file">Assignment File:</label>
+                    {{ form.assignment_file }}
+                    {{ form.assignment_file.errors }}
+                </div>
+                
+                <button type="submit">Upload</button>
+            </form>
+            {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        
+        <p>View The Student's Submissions To Your Homework Assignments</p>
+        <a href="{% url 'view_submissions' %}">Submissions</a>
+    </div>
+</body>
+</html>

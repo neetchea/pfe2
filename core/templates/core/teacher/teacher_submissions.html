@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework Assignments and Submissions</title>
+    <link rel="stylesheet" href="{% static 'css/homework-sub.css' %}">
+</head>
+<body>
+    <div class="content">
+        {% for assignment in homework_assignments %}
+            <div class="assignment-card">
+                <div class="assignment-details">
+                    <h1>Assignment Title:</h1>
+                    <h2>{{ assignment.title }}</h2>
+                </div>
+                <div class="submissions-container">
+                    <h2>Responses:</h2>
+                    {% for submission in assignment.submissions.all %}
+                        <div class="submission-card">
+                            <h3>Student: {{ submission.student.first_name }} {{ submission.student.last_name }}</h3>
+                            <p>Submitted at: {{ submission.submitted_at }}</p>
+                            <p>Response: {{ submission.response }}</p>
+                            {% if submission.submission_file %}
+                                <p>File: <a href="{{ submission.submission_file.url }}">{{ submission.submission_file.name }}</a></p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const submissionCards = document.querySelectorAll(".submission-card");
+            
+                submissionCards.forEach(card => {
+                    card.addEventListener("click", function() {
+                        card.classList.toggle("expanded");
+                    });
+                });
+            });
+            </script>
+            
+</body>
+</html>

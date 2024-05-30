@@ -1,0 +1,106 @@
+/* Styles for the new elements */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.text-content {
+    padding: 20px;
+}
+
+h1 {
+    color: #082444;
+    text-align: center;
+    margin-top: 20px;
+}
+
+h2 {
+    color: #082444;
+    text-align: left;
+    margin-bottom: 10px;
+    margin-left:0;
+}
+
+.container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 20px;
+    align-items: start;
+    width: 100%;
+    padding-left: 16%;
+    box-sizing: border-box;
+}
+
+.select-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: start;
+    width: 80%;
+}
+
+.select-container select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    font-size: 16px;
+    color: #333;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+}
+
+.instructions {
+    text-align: center;
+    margin: 10px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.instructions span {
+    color: #082444;
+}
+
+.calendar-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 36px;
+    color: #082444;
+    text-transform: uppercase;
+}
+
+#schedule-table {
+    width: 90%;
+    border-collapse: collapse;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 20px;
+    font-size: 18px;
+    justify-self: center;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 20px;
+    text-align: center;
+}
+
+th {
+    background-color: #082444;
+    color: white;
+}
+
+td {
+    background-color: #f2f2f2;
+}
+
+#no-calendar-message {
+    text-align: center;
+    color: #d9534f;
+    margin: 20px 0;
+}

@@ -10,37 +10,36 @@
 </head>
 <body>
     <nav>
-        <a href="home.html"><img src="{% static 'logo-light-blue.svg' %}" alt="Logo" class="logo"></a>
+        <a href="{% url 'home' %}"><img src="{% static 'logo-light-blue.svg' %}" alt="Logo" class="logo"></a>
         <ul>
                 <li><a href="{% url 'view_student_grades' %}"> <span><img src="{% static 'grades-white.png' %}" alt="Notes Logo" class="nav-icon"> <span class="nav-text">My Grades</span></span></a></li>
         
-                <li><a href="{% url 'my_calendars' %}"><span><img src="{% static 'white-calendar-icon.png' %}" alt="Calendar Logo" class="nav-icon"> <span class="nav-text">My Calendars</span></span></a></li>
+                <li><a href="{% url 'student_calendar' %}"><span><img src="{% static 'white-calendar-icon.png' %}" alt="Calendar Logo" class="nav-icon"> <span class="nav-text">My Calendars</span></span></a></li>
         
-                <li><a href="#"><span><img src="{% static 'literature-256.png' %}" alt="Courses Logo" class="nav-icon"> <span class="nav-text">Courses</span></span></a></li>
+                <li><a href="{% url 'my_student_courses' %}"><span><img src="{% static 'literature-256.png' %}" alt="Courses Logo" class="nav-icon"> <span class="nav-text">Courses</span></span></a></li>
         
                 <li><a href="{% url 'homework_submission' %}"><span><img src="{% static 'home-icon.png' %}" alt="Homework Logo" class="nav-icon"> <span class="nav-text">Homework</span></span></a></li>
         </ul>
         <div class="profile-box">
             <div class="profile-and-username">
                 <img src="{% static 'profile-pic.png' %}" alt="Profile Picture" class="profile-pic">
-                <p class="username">Student Account</p>
+                <p class="username">{{request.user.username}}</p>
             </div>
+            <form action="{% url 'logout' %}" method="post">
+                {% csrf_token %}
             <div class="logout-div">
                 <button class="logout-button">Logout</button>
             </div>
+            </form>
         </div>
-        <!-- <div class="profile-box">
-            <img src="{% static 'profile-pic.png' %}" alt="Profile Picture" class="profile-pic">
-            <p class="username">Student Account</p>
-            <button class="logout-button">Logout</button>
-        </div> -->
+
     </nav>
     
     <div class="content">
         <div class="text-content">
         
             <div class="welcome-text">
-                <p>WELCOME STUDENT ACCOUNT!</p> <p>THIS IS YOUR</p>
+                <p>WELCOME {{request.user.first_name|upper}} {{request.user.last_name|upper}}!</p> <p>THIS IS YOUR</p>
             </div>
             <div class="dashboard">DASHBOARD</div>
         </div>

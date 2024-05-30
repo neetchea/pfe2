@@ -1,0 +1,112 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+}
+
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+/* Headers */
+h1, h2, h3 {
+    color: #3484cc;
+    margin-bottom: 20px;
+}
+
+h3 {
+    margin-top: 10px;
+}
+
+/* Assignment and Submission Cards */
+.assignment-card {
+    background-color: #fff;
+    padding: 1em;
+    margin-bottom: 1.5em;
+    border-radius: 0.25em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.assignment-details {
+    flex: 1;
+    margin-bottom: 20px;
+}
+
+.submissions-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.submission-card {
+    background-color: #f1f1f1;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: max-height 0.3s ease;
+    overflow: hidden;
+    max-height: 80px;
+    cursor: pointer;
+}
+
+.submission-card:hover {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.submission-card.expanded {
+    max-height: 200px;
+}
+
+.submission-card h3, .submission-card p {
+    margin: 0;
+}
+
+/* Buttons */
+button, input[type="submit"] {
+    background-color: #3484cc;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button:hover, input[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+button:active, input[type="submit"]:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Links */
+a {
+    color: #3484cc;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
