@@ -38,7 +38,7 @@ class StudentInline(admin.TabularInline):
 
 class CustomUserAdmin(admin.ModelAdmin):
     inlines = [TeacherInline, StudentInline] 
-    search_fields = ['username']
+    search_fields = ['username','first_name','last_name','email']
     list_filter = ('groups',)
 
     def get_inline_instances(self, request, obj=None):
@@ -120,10 +120,33 @@ admin.site.register(Classroom, ClassroomAdmin)
 admin.site.site_header = "El-Hikma school Admin"
 admin.site.site_title = " El-Hikma school Admin Portal"
 admin.site.index_title = "Welcome to El-Hikma school Admin"
-admin.site.register(Absences)
-admin.site.register(Announcements)
-admin.site.register(Remarks)
-admin.site.register(Courses)
+
+
+
+class AbsencesAdmin(admin.ModelAdmin):
+    model: Absences
+    search_fields=['student__user__username','student__user__last_name','student__user__first_name']
+
+
+admin.site.register(Absences, AbsencesAdmin)
+
+class AnnouncementsAdmin(admin.ModelAdmin):
+    model:Announcements
+    search_fields=['title','category']
+
+
+admin.site.register(Announcements, AnnouncementsAdmin)
+
+class RemarksAdmin(admin.ModelAdmin):
+    model:Remarks
+    search_fields=['student__user__username','student__user__last_name','student__user__first_name']
+
+admin.site.register(Remarks, RemarksAdmin)
+
+class CoursesAdmin(admin.ModelAdmin):
+    model:Courses
+    search_fields=['title', 'level', 'subject']
+admin.site.register(Courses, CoursesAdmin)
 
 
 class HomeworkSubmissionInline(admin.TabularInline):
@@ -139,7 +162,7 @@ class HomeworkAssignmentAdmin(admin.ModelAdmin):
 admin.site.register(HomeworkAssignment, HomeworkAssignmentAdmin)
 
 class GradeAdmin(admin.ModelAdmin):
-     search_fields=['student__user__username']
+     search_fields=['student__user__username','student__user__last_name','student__user__first_name']
      list_filter= ['subject']
 
 

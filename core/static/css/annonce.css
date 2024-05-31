@@ -1,0 +1,285 @@
+*
+{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-width: min-content;
+}
+
+.navbar-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent;
+    padding: 0px 0px; /* Reduced padding */
+}
+
+.navbar-links ul {
+    display: flex;
+    justify-content: space-around;
+    list-style-type: none;
+   
+}
+.navbar-links ul li {
+    right: 1em;
+    padding-left:1em ;
+    padding-right: 1em;
+}
+
+.navbar-links ul li a {
+    color: #333;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.navbar-links a img {
+    height: 160px; /* Increased logo size */
+}
+
+#menu-icon {
+    display: none;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 900px) {
+    .navbar-links ul {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        position: absolute;
+        top: 70px; /* Adjust based on your header height */
+        left: 0;
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .navbar-links ul.show {
+        display: flex;
+    }
+
+    .navbar-links ul li {
+        width: 100%;
+        padding: 10px 0;
+        text-align: center;
+        border-bottom: 1px solid #ddd;
+        z-index: 99;
+    }
+
+    .navbar-links ul li a {
+        display: block;
+        padding: 10px 20px;
+    }
+
+    .navbar-links ul li a:hover {
+        background-color: black;
+        color: white;
+    }
+
+    #menu-icon {
+        display: block;
+    }
+}
+
+.announcements-container {
+    padding: 20px;
+    flex: 1;
+}
+
+.categories {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.category-button {
+    background-color: #48cae4;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.category-button:hover {
+    background-color: #333;
+    color: #fff;
+}
+
+.announcements {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 10px; /* Ajoute un espacement entre les boîtes */
+}
+
+.announcement-box {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(33% - 40px); /* La boîte occupe 33% de la largeur moins les marges */
+    max-width: calc(33% - 40px); /* Limite la largeur maximale */
+    box-sizing: border-box;
+    overflow: hidden; /* Cache le débordement */
+    display: flex;
+    flex-direction: column;
+}
+
+@media (max-width: 900px) {
+    .announcement-box {
+        flex: 1 1 calc(50% - 20px); /* La boîte occupe 50% de la largeur moins les marges */
+        max-width: calc(50% - 20px); /* Limite la largeur maximale */
+    }
+}
+
+@media (max-width: 600px) {
+    .announcement-box {
+        flex: 1 1 100%; /* La boîte occupe 100% de la largeur */
+        max-width: 100%; /* Limite la largeur maximale */
+    }
+}
+
+.announcement-box h3 {
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+    text-overflow: ellipsis; /* Ajouter un ellipsis si le texte dépasse */
+    white-space: nowrap; /* Empêcher le texte de se dérouler sur plusieurs lignes */
+    overflow: hidden; /* Cacher le texte qui dépasse */
+}
+
+.announcement-box p {
+    margin: 10px 0;
+    overflow: hidden; /* Cacher le débordement du texte */
+    text-overflow: ellipsis; /* Ajouter un ellipsis si le texte dépasse */
+}
+
+.announcement-box .date, .announcement-box .category {
+    margin-top: auto; /* Pousse ces éléments vers le bas de la boîte */
+}
+
+.top {
+    max-width: 100%;
+    border-radius: 5px;
+    height: 60%;
+    overflow: hidden; /* Cacher le débordement de l'image */
+}
+.top img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* S'assure que l'image couvre l'espace disponible sans déformer */
+}
+.hidden-content {
+    display: none;
+    padding: 5px 10px;
+    background-color: #202020;
+}
+
+.video-content:hover .hidden-content {
+    display: block;
+}
+.btn {
+    padding: 5px 0;
+    color: #aaa;
+    text-transform: uppercase;
+    width: 100%;
+    background-color: #373737;
+    text-align: center;
+    margin: 5px 0;
+    font-size: .6rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn i {
+    font-size: .7rem;
+    margin-right: 5px;
+    color: #aaa;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    border-top: 2px solid #48cae4;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    padding: 20px;
+    position: relative;
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.footer-section {
+    padding: 20px;
+    flex: 1;
+    min-width: 200px;
+    text-align: left;
+}
+
+.footer-section h3 {
+    border-bottom: 1px solid #48cae4;
+    padding-bottom: 5px;
+}
+
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-section ul li {
+    margin: 5px 0;
+}
+
+.footer-section ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.footer-section ul li a:hover {
+    color: #48cae4;
+}
+
+.footer-section p {
+    margin: 5px 0;
+}
+
+.legal {
+    text-align: center;
+    width: 100%;
+    border-top: 1px solid #48cae4;
+    padding-top: 10px;
+    margin-top: 20px;
+}
+
+.legal p {
+    margin: 5px 0;
+}
+
+.legal a {
+    color: #48cae4;
+    text-decoration: none;
+}
+
+.legal a:hover {
+    color: #fff;
+}

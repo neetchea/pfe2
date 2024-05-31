@@ -1,4 +1,4 @@
-from datetime import timezone
+from datetime import date, timezone
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.hashers import make_password
@@ -15,6 +15,8 @@ class CustomUser(AbstractUser):
     )
 
     user_type = models.CharField(max_length=30, choices=USER_TYPE_CHOICES)
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    date_of_birth = models.DateField(blank=True, null=True)
 
     def save(self, *args, **kwargs):
         #so i don't double hash password and i do hash password on password change
@@ -56,6 +58,12 @@ class Student(models.Model):
         verbose_name_plural = 'Students information'
     def __str__(self):
         return self.user.username
+    @property
+    def age(self):
+        if self.user.date_of_birth:
+            return date.today().year - self.user.date_of_birth.year - ((date.today().month, date.today().day) < (self.user.date_of_birth.month, self.user.date_of_birth.day))
+        else:
+            return None
 
 class Parent(models.Model):
     user= models.OneToOneField(CustomUser,on_delete=models.CASCADE,related_name='parent')
@@ -274,7 +282,7 @@ class Absences(models.Model):
     justification=models.CharField(max_length=30, choices=JUSTIFICATION_CHOICES, default='Parent', blank='True')
     
     def __str__(self):
-        return f"{self.student.user.first_name}{self.student.user.last_name}  - {self.date}"
+        return f"{self.student.user.username} {self.student.user.first_name} {self.student.user.last_name}  - {self.date}"
     
 
 

@@ -1,25 +1,156 @@
+{%load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Announcements</title>
-    <!-- Add your CSS files here -->
+    <title>Announcements and Events</title>
+    <link rel="stylesheet" href="{% static 'css/annonce.css' %}">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Announcements</h1>
-    {% for announcement in announcements %}
-        <div>
-            <h2>{{ announcement.title }}</h2>
-            <p>{{ announcement.description }}</p>
-            <p><strong>Category:</strong> {{ announcement.get_category_display }}</p>
-            <p><strong>Date:</strong> {{ announcement.date }}</p>
-            {% if announcement.photo %}
-                <img src="{{ announcement.photo.url }}" alt="{{ announcement.title }}">
+    <div class="navbar-links">
+        <a href="{% url 'home' %}"><img src="{% static 'logo-blue-vecto.svg' %}" alt="Logo"></a>
+    
+        <ul>
+            {% if user.is_authenticated %}
+                <li>
+                    <a href="{% url 'dashboard' %}">MY DASHBOARD</a>
+                </li>
+                <li><a href=" {% url 'Courses' %} ">COURSES</a></li>
+
             {% endif %}
+            <li>
+                <a href="{% url 'about' %}">ABOUT US</a>
+            </li>
+            <li>
+                <a href="{% url 'events' %}"> ANNOUNCEMENTS AND EVENTS</a>
+            </li>
+            <li>
+                <a href="{% url 'services' %}">OUR SERVICES</a>
+            </li>
+            <li>
+                <a href="{% url 'contact' %}">CONTACT</a>
+            </li>
+            <li >
+                {% if user.is_authenticated %}
+                    <form action="{% url 'logout' %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" style="background: transparent; border: none;color: #333;font-size: 20px; font-weight:600;">LOGOUT</button>
+                    </form>
+                </li>
+                <li>
+                 
+                {% else %}
+                    <a href="{% url 'login' %}">LOGIN</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+
+    <div class="announcements-container">
+        <div class="categories">
+            <button class="category-button" data-category="all">All</button>
+            <button class="category-button" data-category="General">General</button>
+
+            <button class="category-button" data-category="Academic">Academic</button>
+            <button class="category-button" data-category="Recruitment">Recruitment</button>
+            <button class="category-button" data-category="Events">Events</button>
+            <button class="category-button" data-category="Trips">Trips</button>
+
+
+
         </div>
-    {% empty %}
+        
+        <h1>Announcements</h1>
+        <div class="announcements">
+        {% for announcement in announcements %}
+        <div class="announcement-box" data-category="{{ announcement.category }}">
+            <div class="top">
+                {% if announcement.photo %}
+                <img src="{{ announcement.photo.url }}" alt="{{ announcement.title }}">
+                {% endif %}
+            </div>
+            <div class="buttom">
+                <h3>title: {{ announcement.title }}</h3>
+                <p>description: {{ announcement.description }}</p>
+                <p class="date">Date: {{ announcement.date }}</p>
+                <p class="category">Category: {{ announcement.get_category_display }}</p>
+            </div>
+        </div>
+        {% empty %}
         <p>No announcements at this time.</p>
-    {% endfor %}
+        {% endfor %}
+    </div>
+    </div>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-section">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Admissions</a></li>
+                    <li><a href="#">Academics</a></li>
+                    <li><a href="#">Student Life</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Follow Us</h3>
+                <p>Stay connected with us on social media:</p>
+                <ul>
+                    <li><a href="#">Facebook</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Instagram</a></li>
+                    <li><a href="#">LinkedIn</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>School Hours</h3>
+                <p>Sunday to Thursday: 8:00 AM - 4:00 PM</p>
+                <p>Friday and Saturday: Closed</p>
+            </div>
+            <div class="footer-section">
+                <h3>Mission Statement</h3>
+                <p>"At El Hikma School, we strive to provide a nurturing and challenging environment that fosters academic excellence, character development, and a lifelong love of learning."</p>
+            </div>
+            <div class="footer-section">
+                <h3>Accreditation</h3>
+                <p>El Hikma School is accredited by the Algerian Ministry of Education.</p>
+            </div>
+        </div>
+        <div class="footer-section legal">
+            <p>© 2024 El Hikma School. All rights reserved.</p>
+            <p><a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+    <script >
+        
+
+document.addEventListener('DOMContentLoaded', () => {
+    const categoryButtons = document.querySelectorAll('.category-button');
+    const announcementBoxes = document.querySelectorAll('.announcement-box');
+
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const category = button.getAttribute('data-category');
+            announcementBoxes.forEach(box => {
+                if (category === 'all' || box.getAttribute('data-category') === category) {
+                    box.style.display = 'block';
+                } else {
+                    box.style.display = 'none';
+                }
+            });
+        });
+    });
+});
+document.getElementById('menu-icon').addEventListener('click', function() {
+    var navMenu = document.querySelector('.navbar-links ul');
+    navMenu.classList.toggle('show');
+});
+
+    </script>
 </body>
 </html>
