@@ -15,7 +15,7 @@ body {
   }
   
   nav:hover {
-    width: 36.5%;
+    width: 40%;
   }
   
 
@@ -105,7 +105,7 @@ body {
   
   .content::after {
     content: "";
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     width: 100%;
@@ -115,7 +115,7 @@ body {
   }
   
   nav:hover ~ .content {
-    left: 37.5%;
+    left: 40%;
   }
   
   

@@ -613,4 +613,4 @@ def parent_remarks(request):
     context = {
         'remarks': remarks,
     }
-    return render(request, 'core/parent/parent_remarks.html', context)
+    return render(request, 'core/parent/parent-remarks.html', context)

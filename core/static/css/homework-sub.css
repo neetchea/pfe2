@@ -3,12 +3,18 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
     color: #333;
+    margin-left: 15%;
     margin: 0;
     padding: 20px;
+    position:relative;
+    overflow-x: hidden;
+
 }
 
 .content {
     left:8%;
+    position:relative;
+    min-width: 80vw;
 
     max-width: 1200px;
     margin: 0 auto;
