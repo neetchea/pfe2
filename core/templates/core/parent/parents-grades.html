@@ -1,71 +1,159 @@
 {% extends 'core/parent/parent-dash-base.html'%}
 {% load static%}
-{% block title%}     <title>My Children's absences</title>
+{% block title%}     <title>My Children's Grades</title>
 {% endblock %}
 
 {% block content %}
-<html>
-<head>
-    <title>My Children's Grades</title>
-</head>
-<body>
+<div class="content-full">
+    <h1>My Children's Grades</h1>
+    <p class="user-friendly-text">Here you can see your children's grades for each trimester.</p>
 
-{% for trimester, students in grades_by_trimester.items %}
-    <h2>Trimester {{ trimester }}</h2>
-    {% for student, subjects in students.items %}
-        <h3>{{ student }}</h3>
-        <table>
-            <thead>
-                <tr>
-                    <th>Subject</th>
-                    <th>Coefficient</th>
-                    <th>Continous</th>
-                    <th>Test</th>
-                    <th>Exam</th>
-
-
-                    <th>Final Grade</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for subject, data in subjects.items %}
-                    {% if subject != 'trimester_average' %}
-                    <tr>
-                        <td>{{ subject }}</td>
-                        <td>{{ data.grades.values.0.weight }}</td>
-                        {% for grade_type, grade_data in data.grades.items %}
-                            <td>{{ grade_data.grade }}</td>
-                        {% endfor %}
-                        <td>{{ data.final }}</td>
-                    </tr>
-                    {% endif %}
+    <div class="trimesters-container">
+        {% for trimester, students in grades_by_trimester.items %}
+            <div class="trimester-section">
+                <h2>Trimester {{ trimester }}</h2>
+                {% for student, subjects in students.items %}
+                    <div class="student-section">
+                        <hr>
+                        <h3>{{ student }}</h3>
+                        <hr>
+                        <div class="table-container">
+                            <div class="table-title">Grades Overview</div>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Subject</th>
+                                        <th>Coefficient</th>
+                                        <th>Continous</th>
+                                        <th>Test</th>
+                                        <th>Exam</th>
+                                        <th>Final Grade</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for subject, data in subjects.items %}
+                                        {% if subject != 'trimester_average' %}
+                                        <tr>
+                                            <td>{{ subject }}</td>
+                                            <td>{{ data.grades.values.0.weight }}</td>
+                                            {% for grade_type, grade_data in data.grades.items %}
+                                                <td>{{ grade_data.grade }}</td>
+                                            {% endfor %}
+                                            <td>{{ data.final }}</td>
+                                        </tr>
+                                        {% endif %}
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <p class="final-average">Trimester's final average: {{ subjects.trimester_average }}</p>
+                    </div>
                 {% endfor %}
-            </tbody>
-        </table>
-        <p>Trimester's final average: {{ subjects.trimester_average }}</p>
-    {% endfor %}
-{% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
 
 <style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
+    .content-full {
+        max-width: max-content;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #ffffff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 8px;
+        margin-left: 15%;
+        margin-top:25%;
+    }
+
+    h1, h2, h3 {
+        color: #333;
+    }
+
+    h1 {
+        font-size: 36px;
         margin-bottom: 20px;
     }
+
+    h2 {
+        font-size: 30px;
+        margin-top: 40px;
+        {% comment %} border-bottom: 2px solid #ddd; {% endcomment %}
+        padding-bottom: 10px;
+    }
+
+    h3 {
+        font-size: 24px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+
+    .user-friendly-text {
+        margin-bottom: 20px;
+        font-size: 16px;
+        color: #555;
+    }
+
+    .trimesters-container {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .trimester-section {
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 32%;
+        margin: 0 10px;
+    }
+
+    .table-container {
+        margin-bottom: 40px;
+    }
+
+    .table-title {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        border-radius: 8px;
+        margin-bottom: 20px;
+    }
+
     th, td {
         border: 1px solid #ddd;
-        padding: 8px;
+        padding: 12px;
         text-align: left;
     }
+
     th {
-        background-color: #4CAF50;
+        background-color: #0056b3;
         color: white;
+        font-size: 18px;
     }
+
     tr:nth-child(even) {
         background-color: #f2f2f2;
     }
-</style>
 
-</body>
-</html>
-{% endblock%}
+    .final-average {
+        font-size: 18px;
+        color: #555;
+        margin-bottom: 20px;
+    }
+
+    hr {
+        border: none;
+        border-top: 2px solid #ddd;
+        margin: 40px 0;
+    }
+</style>
+{% endblock %}

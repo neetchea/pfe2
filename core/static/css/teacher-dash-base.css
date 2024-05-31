@@ -1,4 +1,3 @@
-
 body {
     margin: 0;
     padding: 0;
@@ -6,44 +5,20 @@ body {
   
   .content {
     position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100%;
-    z-index: 1;
-    left: 16%;
+  
+    height: 100%;
+    width: auto;
+    /* overflow: hidden; */
+    z-index: 10;
+    left: 0%;
     transition: left 0.2s ease;
   }
   
   nav:hover {
-    width: 32.2%;
+    width: 36.5%;
   }
   
-  .text-content {
-    position: relative;
-    z-index: 3;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  
-  .welcome-text {
-    font-weight: bold;
-    font-size: 60px; /* Adjust as needed */
-    color: white;
-    overflow-wrap: break-word; /* Add this line */
-  }
-  
-  .dashboard {
-    font-size: 120px; /* Adjust as needed */
-    word-wrap: break-word; /* Add this line */
-    color: white;
-  }
-  
-  /* ... rest of your CSS ... */
+
   
   nav {
     background-color: #333;
@@ -130,7 +105,7 @@ body {
   
   .content::after {
     content: "";
-    position: relative;
+    position: absolute;
     top: 0;
     left: 0;
     width: 100%;
@@ -140,7 +115,7 @@ body {
   }
   
   nav:hover ~ .content {
-    left: 30%;
+    left: 37.5%;
   }
   
   
@@ -222,4 +197,3 @@ body {
     margin: 0.5em;
     width: 8em;
   }
-  

@@ -4,9 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Teacher Dashboard</title>
+    <title>{%block title%} {%endblock%}</title>
     {% comment %} <link rel="stylesheet" href="{% static 'dashboard-1.css' %}"> {% endcomment %}
-    <link rel="stylesheet" href="{% static 'css/teacher-dashboard.css' %}">
+    <link rel="stylesheet" href="{% static 'css/teacher-dash-base.css' %}">
 </head>
 <body>
     <nav>
@@ -36,14 +36,13 @@
     </nav>
     
     <div class="content">
+        {%block content%}
+        {%endblock%}
         <div class="text-content">
-        
-            <div class="welcome-text">
-                <p>WELCOME {{request.user.first_name|upper}} {{request.user.last_name|upper}}</p> <p>THIS IS YOUR</p>
-            </div>
-            <div class="dashboard">DASHBOARD</div>
+
+
         </div>
-        <img src="{% static 'vu-externe.jpg' %}" alt="menu" class="menu" ></img>
+
     </div>
  
     

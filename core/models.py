@@ -167,22 +167,48 @@ class Calendars(models.Model):
     #         date = timezone.now().date()
     #     return self.start_week <= date <= self.end_week
 
+# LEVEL_CHOICES = [
+#         ('P1', 'Preparatory 1'),
+#         ('P2', 'Preparatory 2'),
+#         ('E1', 'Elementary 1'),
+#         ('E2', 'Elementary 2'),
+#         ('E3', 'Elementary 3'),
+#         ('E4', 'Elementary 4'),
+#         ('E5', 'Elementary 5'),
+#         ('M1', 'Middle 1'),
+#         ('M2', 'Middle 2'),
+#         ('M3', 'Middle 3'),
+#         ('M4', 'Middle 4'),
+#         ('H1', 'High 1'),
+#         ('H2', 'High 2'),
+#         ('H3', 'High 3')
+#     ]
 LEVEL_CHOICES = [
-        ('P1', 'Preparatory 1'),
-        ('P2', 'Preparatory 2'),
-        ('E1', 'Elementary 1'),
-        ('E2', 'Elementary 2'),
-        ('E3', 'Elementary 3'),
-        ('E4', 'Elementary 4'),
-        ('E5', 'Elementary 5'),
-        ('M1', 'Middle 1'),
-        ('M2', 'Middle 2'),
-        ('M3', 'Middle 3'),
-        ('M4', 'Middle 4'),
-        ('H1', 'High 1'),
-        ('H2', 'High 2'),
-        ('H3', 'High 3')
-    ]
+    ('P1', 'Preparatory 1 / السنة التحضيرية الأولى'),
+    ('P2', 'Preparatory 2 / السنة التحضيرية الثانية'),
+    ('E1', 'Elementary 1 / السنة الأولى ابتدائي'),
+    ('E2', 'Elementary 2 / السنة الثانية ابتدائي'),
+    ('E3', 'Elementary 3 / السنة الثالثة ابتدائي'),
+    ('E4', 'Elementary 4 / السنة الرابعة ابتدائي'),
+    ('E5', 'Elementary 5 / السنة الخامسة ابتدائي'),
+    ('M1', 'Middle 1 / السنة الأولى متوسط'),
+    ('M2', 'Middle 2 / السنة الثانية متوسط'),
+    ('M3', 'Middle 3 / السنة الثالثة متوسط'),
+    ('M4', 'Middle 4 / السنة الرابعة متوسط'),
+    ('STEM1', 'STEM 1st Year / جذع مشترك علوم و تكنولوجيا'),
+    ('LP1', 'Literature and Philosophy 1st Year / جذع مشترك آداب وفلسفة'),
+    ('S2', 'Science 2nd Year / السنة الثانية علمي'),
+    ('S3', 'Science 3rd Year / السنة الثالثة علمي'),
+    ('LP2', 'Literature and Philosophy 2nd Year / السنة الثانية آداب وفلسفة'),
+    ('LP3', 'Literature and Philosophy 3rd Year / السنة الثالثة آداب وفلسفة'),
+    ('MTH2', 'Mathematics 2nd Year / السنة الثانية رياضيات'),
+    ('MTH3', 'Mathematics 3rd Year / السنة الثالثة رياضيات'),
+    ('TM2', 'Technical Mathematics 2nd Year / السنة الثانية تقني رياضي'),
+    ('TM3', 'Technical Mathematics 3rd Year / السنة الثالثة تقني رياضي'),
+    ('FL2', 'Foreign Languages 2nd Year / السنة الثانية لغات أجنبية'),
+    ('FL3', 'Foreign Languages 3rd Year / السنة الثالثة لغات أجنبية')
+]
+
 
     
 class Classroom(models.Model):
@@ -190,7 +216,7 @@ class Classroom(models.Model):
 
 
     
-    level = models.CharField(max_length=2, choices=LEVEL_CHOICES)
+    level = models.CharField(max_length=5, choices=LEVEL_CHOICES)
     
     teachers=models.ManyToManyField(Teacher, related_name='classrooms', blank=True)
 
@@ -255,7 +281,7 @@ class Absences(models.Model):
 class Courses(models.Model):
     title = models.CharField(max_length=255)
     description = models.TextField()
-    level= models.CharField(max_length=2, choices=LEVEL_CHOICES, default='E1')
+    level= models.CharField(max_length=5, choices=LEVEL_CHOICES, default='E1')
     subject = models.CharField(max_length=255, null=True, blank=True)
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='courses')
     is_additional= models.BooleanField(default=False, null=True, blank=True)

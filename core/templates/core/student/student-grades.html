@@ -1,72 +1,118 @@
-{% extends 'core/student/student-dash-base.html'%}
-{% load static%}
-{% block title%}     <title>My Grades</title>
+{% extends 'core/student/student-dash-base.html' %}
+{% load static %}
+{% block title %}
+    <title>My Grades</title>
 {% endblock %}
 
 {% block content %}
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Grades</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .content-full {
+            max-width: 1200px;
+            margin: 0 auto;
+            margin-left: 20%;
+            padding: 20px;
+            background-color: #ffffff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        h2 {
+            margin-top: 40px;
+            border-bottom: 2px solid #ddd;
+            padding-bottom: 10px;
+        }
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-bottom: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #0056b3;
+            color: white;
+            font-size: 18px;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .table-title {
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .user-friendly-text {
+            margin-bottom: 20px;
+            font-size: 16px;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-
-{% for trimester, students in grades_by_trimester.items %}
-    <h2>Trimester {{ trimester }}</h2>
-    {% for student, subjects in students.items %}
-        {% if student == request.user.username %}
-            <h3>{{ student }}</h3>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Subject</th>
-                        <th>Coefficient</th>
-                        <th>Continous</th>
-                        <th>Test</th>
-                        <th>Exam</th>
-                        <th>Final Grade</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for subject, data in subjects.items %}
-                        {% if subject != 'trimester_average' %}
-                        <tr>
-                            <td>{{ subject }}</td>
-                            <td>{{ data.grades.values.0.weight }}</td>
-                            {% for grade_type, grade_data in data.grades.items %}
-                                <td>{{ grade_data.grade }}</td>
-                            {% endfor %}
-                            <td>{{ data.final }}</td>
-                        </tr>
-                        {% endif %}
-                    {% endfor %}
-                </tbody>
-            </table>
-            <p>Trimester's final average: {{ subjects.trimester_average }}</p>
-        {% endif %}
-    {% endfor %}
-{% endfor %}
-
-<style>
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-    }
-    th, td {
-        border: 1px solid #ddd;
-        padding: 8px;
-        text-align: left;
-    }
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
-    tr:nth-child(even) {
-        background-color: #f2f2f2;
-    }
-</style>
-
+    <div class="content-full">
+        <h1>My Grades</h1>
+        <p class="user-friendly-text">Welcome to your grades overview. Here you can see your grades for each trimester. Each table below shows your performance in different subjects.</p>
+        
+        {% for trimester, students in grades_by_trimester.items %}
+            <h2>Trimester {{ trimester }}</h2>
+            {% for student, subjects in students.items %}
+                {% if student == request.user.username %}
+                    <div class="table-container">
+                        <div class="table-title">Grades Overview</div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Subject</th>
+                                    <th>Coefficient</th>
+                                    <th>Continuous Assessment</th>
+                                    <th>Test</th>
+                                    <th>Exam</th>
+                                    <th>Final Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for subject, data in subjects.items %}
+                                    {% if subject != 'trimester_average' %}
+                                    <tr>
+                                        <td>{{ subject }}</td>
+                                        <td>{{ data.grades.values.0.weight }}</td>
+                                        {% for grade_type, grade_data in data.grades.items %}
+                                            <td>{{ grade_data.grade }}</td>
+                                        {% endfor %}
+                                        <td>{{ data.final }}</td>
+                                    </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        <p class="user-friendly-text">The final average grade for this trimester is: <strong>{{ subjects.trimester_average }}</strong></p>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
+    </div>
 </body>
 </html>
-
 {% endblock %}

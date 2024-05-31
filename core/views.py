@@ -126,7 +126,7 @@ def homework_assignment(request):
         'homework_assignments': homework_assignments,
         'form' : form
     }
-    return render(request, 'core/teacher/teacher_homework.html', context)
+    return render(request, 'core/teacher/teacher-homework.html', context)
 
 @allowed_users(allowed_roles=['TEACHERS'])
 def view_submissions(request):
@@ -141,7 +141,7 @@ def view_submissions(request):
         'submissions': submissions,
     }
 
-    return render(request, 'core/teacher/teacher_submissions.html', context)
+    return render(request, 'core/teacher/teacher-submissions.html', context)
 
 @allowed_users(allowed_roles=['STUDENTS'])
 def student_homeworks(request):

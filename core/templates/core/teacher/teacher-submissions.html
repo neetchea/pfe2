@@ -1,0 +1,57 @@
+{%extends 'core/teacher/teacher-dash-base.html'%}
+{% load static%}
+
+{% block title%}
+Homework Submissions
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework Assignments and Submissions</title>
+    <link rel="stylesheet" href="{% static 'css/homework-sub.css' %}">
+</head>
+<body>
+    <h1>Homework Assignments and Submissions:</h1>
+    <p style="color:#333;"> view your students submissions here</p>
+    <div class="content-full">
+        {% for assignment in homework_assignments %}
+            <div class="assignment-card">
+                <div class="assignment-details">
+                    <h1>Assignment Title: {{ assignment.title }}</h1>
+                </div>
+                <div class="submissions-container">
+                    <h2>Responses:</h2>
+                    {% for submission in assignment.submissions.all %}
+                        <div class="submission-card">
+                            <h3>Student: {{ submission.student.user.first_name }} {{ submission.student.user.last_name }}</h3>
+                            <p>&bull; Submitted at: {{ submission.submitted_at }}</p>
+                            <p>&bull; Response: {{ submission.response }}</p>
+                            {% if submission.submission_file %}
+                                <p>File: <a href="{{ submission.submission_file.url }}">{{ submission.submission_file.name }}</a></p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                const submissionCards = document.querySelectorAll(".submission-card");
+            
+                submissionCards.forEach(card => {
+                    card.addEventListener("click", function() {
+                        card.classList.toggle("expanded");
+                    });
+                });
+            });
+            </script>
+            
+</body>
+</html>
+{% endblock %}
