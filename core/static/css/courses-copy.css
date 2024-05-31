@@ -1,13 +1,12 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
+    background-color: #fcfaf4;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    /* margin-left:20%; */
 }
 
 .container {
@@ -19,7 +18,7 @@ body {
 }
 
 .course-upload, .courses {
-    background-color: #b8e0ffae;
+    background-color: #d0cdc8;
     padding: 20px;
     margin-bottom: 20px;
     border-radius: 8px;

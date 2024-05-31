@@ -1,0 +1,153 @@
+{%extends 'core/teacher/teacher-dash-base.html'%}
+{% load static%}
+
+{% block title%}
+Teacher Remarks
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teacher Courses</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/courses-copy.css' %}">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <style>
+        .course-title, .click-info {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+        }
+        .arrow {
+            margin-right: 10px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="course-upload">
+            <h1>Upload a New Course</h1>
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label>{{ form.title.label }}:</label> {{ form.title }}
+                </div>
+                <div class="form-group">
+                    <label>{{ form.description.label }}:</label> {{ form.description }}
+                </div>
+                <div class="form-group">
+                    <label>{{ form.level.label }}:</label> {{ form.level }}
+                </div>
+                <div class="form-group">
+                    <label>{{ form.subject.label }}:</label> {{ form.subject }}
+                </div>
+                <div class="form-group">
+                    <label>{{ form.classroom.label }}:</label> {{ form.classroom }}
+                </div>
+                <div class="form-group">
+                    <label>{{ form.is_additional.label }}:</label> {{ form.is_additional }}
+                </div>
+                <div class="form-group">
+                    <label>{{ form.file.label }}:</label> {{ form.file }}
+                </div>
+                <button type="submit" class="form-submit-button">Upload</button>
+            </form>
+        </div>
+        <div class="courses">
+            <h1> Courses and Resources</h1>
+            <!-- Search form -->
+            <div class="search-form">
+                <h2>Search Courses</h2>
+                <h5>you can search for a course by title, subject or the classroom it was intended for </h5>
+                <form method="get">
+                    <div class="select-boxes">
+                        <!-- teacher select -->
+                        <select name="teacher" class="select-box">
+                            <option value="">Teachers</option>
+                            {% for teacher in teachers %}
+                                <option value="{{ teacher.username }}">{{ teacher.username }}</option>
+                            {% endfor %}
+                        </select>
+                        <!-- classroom select -->
+                        <select name="classroom" class="select-box">
+                            <option value="">Classrooms</option>
+                            {% for classroom in classrooms %}
+                                <option value="{{ classroom.name }}">{{ classroom.name }}</option>
+                            {% endfor %}
+                        </select>
+                        <!-- level select -->
+                        <select name="level" class="select-box">
+                            <option value="">Level</option>
+                            {% for level in levels %}
+                                <option value="{{ level.0 }}">{{ level.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <!-- reset button -->
+                    <button type="submit" name="search" value="all" class="reset-button">&#x21BA;</button>
+                    <!-- search box -->
+                    <input type="text" name="search" placeholder="Search" class="search">
+                    <input type="submit" value="Search">
+                </form>
+            </div>
+            {% for course in courses %}
+            <div class="course-box">
+                <h2 class="course-title">
+                    <span class="arrow">&#x25B6;</span>
+                    Title: {{ course.title }}
+                </h2>
+                <p class="click-info">Click to see course details</p>
+                <div class="course-details" style="display: none;">
+                    <p><strong>About This Course Resource:</strong> {{ course.description }}</p>
+                    <p><strong>Uploaded by:</strong> {{ course.teacher }}</p>
+                    <p><strong>Level:</strong> {{ course.get_level_display }}</p>
+                    <p><strong>Subject:</strong> {{ course.subject }}</p>
+                    <p><strong>Classroom:</strong> {{ course.classroom }}</p>
+                    <p><strong>In The Curriculum:</strong> {{ course.is_additional|yesno:"No,Yes" }}</p>
+                    <div class="download-container">
+                        <a href="{{ course.file.url }}" download class="download-button" style="         background-color: #4CAF50;
+                        color: white;
+                        padding: 10px 20px;
+                        border: none;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        font-size: 16px;
+                        text-decoration: none;">Download Course</a>
+                    </div>
+                </div>
+                {% if request.user.teacher == course.teacher %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <input type="hidden" name="course_id" value="{{ course.id }}">
+                        <button type="submit" name="delete" class="delete-button">X</button>
+                    </form>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        $(document).ready(function(){
+            $(".course-title").click(function(){
+                var $courseBox = $(this).closest(".course-box");
+                var $details = $courseBox.find(".course-details");
+                var $clickInfo = $courseBox.find(".click-info");
+                var $arrow = $courseBox.find(".arrow");
+        
+                // Toggle arrow icon immediately
+                if ($details.is(":visible")) {
+                    $arrow.html("&#x25B6;"); // Change to right arrow
+                } else {
+                    $arrow.html("&#x25BC;"); // Change to down arrow
+                }
+        
+                // Toggle course details and click info with animation
+                $details.slideToggle("fast");
+                $clickInfo.slideToggle("fast");
+            });
+        });
+    </script>  
+</body>
+</html>
+{% endblock %}

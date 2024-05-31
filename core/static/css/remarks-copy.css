@@ -1,0 +1,152 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  margin: 0;
+  padding: 1em;
+  margin-left: 15%;
+  overflow-x: hidden;
+}
+h2{
+
+  color: #09141c;
+
+}
+ h3 {
+  color: #3484cc;
+}
+
+.container {
+  border: 2px solid #3484cc;
+  padding: 1em;
+  border-radius: 0.25em;
+  background-color: #f5f5f5; /* Very faint off white color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2em;
+  min-width: 79vw;
+  overflow-x: hidden;
+}
+
+.remarks-form-container {
+  max-width: 30em;
+  margin: 0 auto; /* Center the form container */
+}
+
+.remarks-form {
+  margin-bottom: 2em;
+}
+
+.form-group {
+  margin-bottom: 1.5em;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5em;
+  color: #555;
+}
+
+.form-group input, 
+.form-group select, 
+.form-group textarea {
+  width: 100%;
+  padding: 0.75em;
+  border: 1px solid #ccc;
+  border-radius: 0.25em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.submit-button {
+  background-color: #3484cc;
+  color: #fff;
+  border: none;
+  padding: 0.75em 1.5em;
+  border-radius: 0.25em;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+  background-color: #296dac;
+}
+
+.remark-box {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  justify-content: center; /* Center the cards */
+  padding: 1em;
+  border-radius: 0.25em;
+  background-color: #f5f5f5; /* Very faint off white color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.remark-card {
+  background-color: #fff;
+  padding: 1em;
+  margin-bottom: 1.5em;
+  border-radius: 0.25em;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: auto;
+  max-width:100%;
+  min-height: 24em;
+  min-width: 18em;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  word-wrap: break-word; 
+  overflow-wrap: break-word; 
+  word-break: break-all;
+}
+
+.username1 {
+  background-color: #3484cc;
+  color: #fff;
+  padding: 0.5em;
+  text-align: center;
+  border-radius: 0.25em;
+  margin-bottom: 1em;
+}
+
+.remark-card p {
+  margin: 0.5em 0;
+}
+
+.delete-form {
+  margin-top: 1em;
+}
+
+.delete-button {
+  background-color: #e57373;
+  color: #fff;
+  border: none;
+  padding: 0.5em 1em;
+  border-radius: 0.25em;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+  background-color: #d32f2f;
+}
+
+.messages {
+  list-style: none;
+  padding: 0;
+}
+
+.messages li {
+  padding: 0.5em 1em;
+  margin-bottom: 0.5em;
+  border-radius: 0.25em;
+  background-color: #e1f5fe;
+  color: #01579b;
+}
+
+.messages li.error {
+  background-color: #ffebee;
+  color: #d32f2f;
+}

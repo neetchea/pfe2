@@ -1,0 +1,86 @@
+{%extends 'core/teacher/teacher-dash-base.html'%}
+{% load static%}
+
+{% block title%}
+Teacher Remarks
+{% endblock %}
+
+{% block content %}
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Teacher Remarks</title>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/remarks-copy.css' %}">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+</head>
+<body>
+  <h2>SEND A REMARK:</h2>
+
+  <div class="container remarks-form-container">
+    <form method="POST" class="remarks-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="{{ form.student.id_for_label }}">Student:</label>
+        {{ form.student }}
+      </div>
+      <div class="form-group">
+        <label for="{{ remark_form.date.id_for_label }}">Date:</label>
+        {{ remark_form.date }}
+      </div>
+      <div class="form-group">
+        <label for="{{ remark_form.trimester.id_for_label }}">Trimester:</label>
+        {{ remark_form.trimester }}
+      </div>
+      <div class="form-group">
+        <label for="{{ remark_form.remark.id_for_label }}">Remark:</label>
+        {{ remark_form.remark }}
+      </div>
+      <button type="submit" class="submit-button">Submit</button>
+    </form>
+  </div>
+
+  <h3>My Remarks:</h3>
+  <div class="container remark-box">
+    {% for remark in remarks %}
+      <div class="remark-card">
+        <div class="username1">{{ remark.student.user.username }}
+            
+        </div>
+        <p><strong>Last Name:</strong> {{ remark.student.user.last_name }}</p>
+        <p><strong>First Name:</strong> {{ remark.student.user.first_name }}</p>
+        <p><strong>Date:</strong> {{ remark.date }}</p>
+        <p><strong>Remark:</strong> {{ remark.remark }}</p>
+        <form method="POST" class="delete-form">
+          {% csrf_token %}
+          <input type="hidden" name="remark_id" value="{{ remark.id }}">
+          <button type="submit" name="delete" class="delete-button">Delete</button>
+        </form>
+      </div>
+    {% empty %}
+      <p>No remarks written yet.</p>
+    {% endfor %}
+  </div>
+
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  
+  <script>
+    $(document).ready(function() {
+      $('#id_student').select2({
+        placeholder: 'Select a student',
+        allowClear: true
+      });
+    });
+  </script>
+</body>
+</html>
+
+{% endblock %}
+

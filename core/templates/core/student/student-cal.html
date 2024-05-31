@@ -1,6 +1,6 @@
 {% extends 'core/student/student-dash-base.html'%}
 {% load static%}
-{% block title%}     <title>Your Calendars</title>
+{% block title%}     <title> Calendars</title>
 {% endblock %}
 
 {% block content %}
@@ -10,23 +10,24 @@
    <link rel="stylesheet" type="text/css" href="{% static 'css/calendar.css' %}">
 </head>
 <body>
-    <h1>Your Calendars</h1>
 
-    <div class="instructions">
-        Please select a calendar from the dropdown menu below.
-        <br>
-        <span>You can select the schedule to see your classroom timetable, check this week's cafeteria menu, or view upcoming events.</span>
-    </div>
+    <h1 style="display:flex; align-self: start;">MY CALENDARS:</h1>
 
-    <div class="container">
+    <div class="container" style="background-color:#ffff;">
         <div class="select-container">
-            <h2>Select a Calendar</h2>
+            <h2>Select a Calendar:</h2>
+            Please select a calendar from the dropdown menu below.
+
+            
             <select id="calendar-select">
                 <option value="classroom">Classroom</option>
                 <option value="cafe">Cafeteria</option>
                 <option value="event">Events</option>
             </select>
+            <br>
+            <span><i>You can select the schedule to see your classroom timetable, check this week's cafeteria menu, or view upcoming events. </i></span>
         </div>
+        <hr style="color:black;">
         <div class="content-container">
             <div id="calendar-title" class="calendar-title"></div>
             <table id="schedule-table">

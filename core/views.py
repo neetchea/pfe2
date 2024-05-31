@@ -467,7 +467,7 @@ def teacher_courses(request):
         'classrooms':classrooms
 
     }
-    return render(request, 'core/teacher/teacher_courses.html', context)
+    return render(request, 'core/teacher/teacher-courses.html', context)
     
 
 
@@ -600,7 +600,7 @@ def teacher_remarks(request):
         'remark_form': remark_form,
         'remarks': remarks,
     }
-    return render(request, 'core/teacher/teacher_remarks.html', context)
+    return render(request, 'core/teacher/teacher-remarks.html', context)
 
 @allowed_users(allowed_roles=['PARENTS'])
 def parent_remarks(request):
