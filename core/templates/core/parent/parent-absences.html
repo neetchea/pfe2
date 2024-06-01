@@ -5,35 +5,40 @@
 {% endblock %}
 
 {% block content %}
+<body>
 <div class="content-full">
     <h1>My Children's Absences</h1>
 
-    {% for info in absences_info %}
-    <div class="child-absence-info">
-        <h2 style="color: #0056b3;">{{ info.child.user.first_name }} {{ info.child.user.last_name }} ({{ info.child.user.username }})</h2>
-        
-        {% for absence in info.absences %}
-        <div class="absence-details">
-            <p><strong>Your child was absent on:</strong> {{ absence.date }}</p>
-            <p>Justified: {% if absence.is_justified %}<span style="color: green;">Yes</span>{% else %}<span style="color: red;">No</span>{% endif %}</p>
-            {% if absence.is_justified %}
-            <p><strong>Justification:</strong> {{ absence.justification }}</p>
-            {% endif %}
+    <div class="children-container">
+        {% for info in absences_info %}
+        <div class="child-absence-info">
+            <h2 style="color: #0056b3;">{{ info.child.user.first_name }} {{ info.child.user.last_name }} ({{ info.child.user.username }})</h2>
+            
+            {% for absence in info.absences %}
+            <div class="absence-details">
+                <p><strong>Your child was absent on:</strong> {{ absence.date }}</p>
+                <p>Justified: {% if absence.is_justified %}<span style="color: green;">Yes</span>{% else %}<span style="color: red;">No</span>{% endif %}</p>
+                {% if absence.is_justified %}
+                <p><strong>Justification:</strong> {{ absence.justification }}</p>
+                {% endif %}
+                <hr>
+            </div>
+            {% endfor %}
+            
+            <div class="absence-summary-container">
+                <div class="absence-summary">
+                    <p><strong>Total absences:</strong> <span class="total" style="color: #ff7f0e;">{{ info.total }}</span></p>
+                    <p><strong>Justified absences:</strong> <span class="justified" style="color: green;">{{ info.justified }}</span></p>
+                    <p><strong>Unjustified absences:</strong> <span class="unjustified" style="color: red;">{{ info.unjustified }}</span></p>
+                </div>
+            </div>
             <hr>
         </div>
         {% endfor %}
-        
-        <div class="absence-summary-container">
-            <div class="absence-summary">
-                <p><strong>Total absences:</strong> <span class="total" style="color: #ff7f0e;">{{ info.total }}</span></p>
-                <p><strong>Justified absences:</strong> <span class="justified" style="color: green;">{{ info.justified }}</span></p>
-                <p><strong>Unjustified absences:</strong> <span class="unjustified" style="color: red;">{{ info.unjustified }}</span></p>
-            </div>
-        </div>
-        <hr>
     </div>
-    {% endfor %}
 </div>
+</body>
+
 
 <style>
     .content-full {
@@ -46,6 +51,24 @@
         border-radius: 12px;
         margin-left: 20%;
     }
+
+    .children-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+
+    .child-absence-info {
+        flex: 0 0 calc(33.33% - 20px);
+        margin-bottom: 40px;
+        background-color: #e9f1ff;
+        border-radius: 8px;
+        padding: 20px; /* padding */
+        margin: 10px; /* gap between containers */
+        box-sizing: border-box;
+    }
+
+
 
     h1 {
         font-size: 36px;
@@ -69,7 +92,8 @@
     }
 
     .absence-summary-container {
-        background-color: #f2f2f2;
+
+        background-color: #545c70;
         padding: 20px;
         border-radius: 8px;
         margin-top: 20px;
@@ -77,11 +101,14 @@
 
     .absence-summary {
         font-size: 16px;
+
     }
 
     .absence-summary p {
         margin: 5px 0;
         color: #555;
+        color: white;
+
     }
 
     .absence-summary .total {
