@@ -196,3 +196,74 @@ class CalendarAdmin(admin.ModelAdmin):
 # admin.site.register(TimeSlot)
 
 admin.site.register(Calendars, CalendarAdmin)
+
+
+class GradeInline(admin.TabularInline):
+    model = Grade
+    extra = 1
+
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('user_username', 'classroom', 'parent', 'matricule', 'age')
+    inlines = [GradeInline]
+
+    def user_username(self, obj):
+        return obj.user.username
+    user_username.short_description = 'Username'  # Sets column header
+
+    def age(self, obj):
+        return obj.age
+    age.short_description = 'Age'
+
+    def get_readonly_fields(self, request, obj=None):
+        readonly_fields = super().get_readonly_fields(request, obj)
+        if obj:
+            return readonly_fields + ('user', 'user_username')
+        return readonly_fields
+
+admin.site.register(Student, StudentAdmin)
+
+
+class ParentAdmin(admin.ModelAdmin):
+    list_display = ('user_username', 'childrens_info')
+
+    def user_username(self, obj):
+        return obj.user.username
+    user_username.short_description = 'Username'  # Sets column header
+
+    def childrens_info(self, obj):
+        students = obj.children.all()
+        return ', '.join(str(student) for student in students)
+    childrens_info.short_description = 'Children'  # Sets column header
+
+    def get_readonly_fields(self, request, obj=None):
+        readonly_fields = super().get_readonly_fields(request, obj)
+        if obj:
+            return readonly_fields + ('user', 'user_username', 'childrens_info')
+        return readonly_fields
+
+admin.site.register(Parent, ParentAdmin)
+
+class TeacherAdmin(admin.ModelAdmin):
+    list_display = ('user_username', 'classrooms_info', 'subjects_info')
+
+    def user_username(self, obj):
+        return obj.user.username
+    user_username.short_description = 'Username'  # Sets column header
+
+    def classrooms_info(self, obj):
+        classrooms = obj.classrooms.all()
+        return ', '.join(str(classroom) for classroom in classrooms)
+    classrooms_info.short_description = 'Classrooms'  # Sets column header
+
+    def subjects_info(self, obj):
+        subjects = obj.subjects.all()
+        return ', '.join(str(subject) for subject in subjects)
+    subjects_info.short_description = 'Subjects'  # Sets column header
+
+    def get_readonly_fields(self, request, obj=None):
+        readonly_fields = super().get_readonly_fields(request, obj)
+        if obj:
+            return readonly_fields + ('user', 'user_username', 'classrooms_info', 'subjects_info')
+        return readonly_fields
+
+admin.site.register(Teacher, TeacherAdmin)

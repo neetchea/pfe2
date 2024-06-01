@@ -53,9 +53,14 @@ class Student(models.Model):
     classroom= models.ForeignKey('Classroom',on_delete=models.SET_NULL,related_name='student',null=True, blank=True)
     parent=models.ForeignKey('Parent',on_delete=models.SET_NULL,related_name='children',null=True,blank=True)
     matricule=models.CharField(max_length=30,null=True,blank=True)
+    GENDER_CHOICES = (
+        ('M', 'Male'),
+        ('F', 'Female'),
+    )   
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, null=True, blank=True)
     class Meta:
-        verbose_name = 'Student information'
-        verbose_name_plural = 'Students information'
+        verbose_name = 'Student'
+        verbose_name_plural = 'Students'
     def __str__(self):
         return self.user.username
     @property
@@ -280,6 +285,9 @@ class Absences(models.Model):
     is_justified=models.BooleanField(default=False)
     JUSTIFICATION_CHOICES = [('Parent','Parent'),('Medical','Medical'),('Other','Other')]
     justification=models.CharField(max_length=30, choices=JUSTIFICATION_CHOICES, default='Parent', blank='True')
+
+    class Meta:
+        verbose_name_plural = 'Absences'
     
     def __str__(self):
         return f"{self.student.user.username} {self.student.user.first_name} {self.student.user.last_name}  - {self.date}"
@@ -334,6 +342,10 @@ class Remarks(models.Model):
     date = models.DateField()
     remark = models.TextField()
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='remarks_written')
+
+    class Meta:
+        verbose_name_plural = 'Remarks'
+
     def __str__(self):
         return f"{self.student} - {self.teacher} - {self.date}"
     
@@ -352,5 +364,8 @@ class Announcements(models.Model):
     is_user_only= models.BooleanField(default=False)
     active=models.BooleanField(default=False)
     photo= models.ImageField(upload_to='announcements/', null=True, blank=True)
+
+    class Meta:
+        verbose_name_plural = 'Announcements'
     def __str__(self):
         return self.title
