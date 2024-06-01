@@ -205,6 +205,8 @@ class GradeInline(admin.TabularInline):
 class StudentAdmin(admin.ModelAdmin):
     list_display = ('user_username', 'classroom', 'parent', 'matricule', 'age')
     inlines = [GradeInline]
+    search_fields = ['user__username', 'user__first_name', 'user__last_name']
+
 
     def user_username(self, obj):
         return obj.user.username
@@ -225,6 +227,8 @@ admin.site.register(Student, StudentAdmin)
 
 class ParentAdmin(admin.ModelAdmin):
     list_display = ('user_username', 'childrens_info')
+    search_fields = ['user__username', 'user__first_name', 'user__last_name']
+
 
     def user_username(self, obj):
         return obj.user.username
@@ -243,27 +247,24 @@ class ParentAdmin(admin.ModelAdmin):
 
 admin.site.register(Parent, ParentAdmin)
 
+class SubjectInline(admin.TabularInline):
+    model = Subject.teachers.through
+    extra = 1
+
+class ClassroomInline(admin.TabularInline):
+    model = Classroom.teachers.through
+    extra = 1
+
 class TeacherAdmin(admin.ModelAdmin):
-    list_display = ('user_username', 'classrooms_info', 'subjects_info')
-
-    def user_username(self, obj):
-        return obj.user.username
-    user_username.short_description = 'Username'  # Sets column header
-
-    def classrooms_info(self, obj):
-        classrooms = obj.classrooms.all()
-        return ', '.join(str(classroom) for classroom in classrooms)
-    classrooms_info.short_description = 'Classrooms'  # Sets column header
-
-    def subjects_info(self, obj):
-        subjects = obj.subjects.all()
-        return ', '.join(str(subject) for subject in subjects)
-    subjects_info.short_description = 'Subjects'  # Sets column header
+    inlines = (SubjectInline, ClassroomInline)
+    exclude = ('subjects', 'classrooms')
+    search_fields = ['user__username', 'user__first_name', 'user__last_name']
+    
 
     def get_readonly_fields(self, request, obj=None):
         readonly_fields = super().get_readonly_fields(request, obj)
         if obj:
-            return readonly_fields + ('user', 'user_username', 'classrooms_info', 'subjects_info')
+            return readonly_fields + ('user',)
         return readonly_fields
 
 admin.site.register(Teacher, TeacherAdmin)

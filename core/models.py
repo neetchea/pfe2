@@ -43,8 +43,8 @@ class CustomUser(AbstractUser):
 class Teacher(models.Model):
     user= models.OneToOneField(CustomUser,on_delete=models.CASCADE,related_name='teacher')
     class Meta:
-        verbose_name = 'Teacher information'
-        verbose_name_plural = 'Teachers information'
+        verbose_name = 'Teacher'
+        verbose_name_plural = 'Teachers'
     def __str__(self):
         return self.user.username
          
@@ -73,8 +73,8 @@ class Student(models.Model):
 class Parent(models.Model):
     user= models.OneToOneField(CustomUser,on_delete=models.CASCADE,related_name='parent')
     class Meta:
-        verbose_name = 'Parent information'
-        verbose_name_plural = 'Parents information'
+        verbose_name = 'Parent'
+        verbose_name_plural = 'Parents'
     def __str__(self):
         return self.user.username
         
@@ -175,27 +175,8 @@ class Calendars(models.Model):
             for day in days:
                 for time_range in time_ranges:
                     TimeSlot.objects.create(day=day[0], time_range=time_range[0], calendar=self)
-    # def is_active_on(self, date= None):
-    #     if date is None:
-    #         date = timezone.now().date()
-    #     return self.start_week <= date <= self.end_week
 
-# LEVEL_CHOICES = [
-#         ('P1', 'Preparatory 1'),
-#         ('P2', 'Preparatory 2'),
-#         ('E1', 'Elementary 1'),
-#         ('E2', 'Elementary 2'),
-#         ('E3', 'Elementary 3'),
-#         ('E4', 'Elementary 4'),
-#         ('E5', 'Elementary 5'),
-#         ('M1', 'Middle 1'),
-#         ('M2', 'Middle 2'),
-#         ('M3', 'Middle 3'),
-#         ('M4', 'Middle 4'),
-#         ('H1', 'High 1'),
-#         ('H2', 'High 2'),
-#         ('H3', 'High 3')
-#     ]
+
 LEVEL_CHOICES = [
     ('P1', 'Preparatory 1 / السنة التحضيرية الأولى'),
     ('P2', 'Preparatory 2 / السنة التحضيرية الثانية'),
