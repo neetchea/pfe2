@@ -8,7 +8,7 @@ from django.urls import reverse
 from backend import settings
 from core.forms import CoursesForm, HomeworkAssignmentForm, HomeworkSubmissionForm, RemarkForm, StudentSearchForm
 from .decorators import allowed_users
-from .models import Absences, Announcements, Calendars, Classroom, Courses, CustomUser, Grade, HomeworkAssignment, HomeworkSubmission, Calendars, LEVEL_CHOICES, Student
+from .models import Absences, Announcements, Calendars, Classroom, Courses, CustomUser, Grade, HomeworkAssignment, HomeworkSubmission, Calendars, LEVEL_CHOICES, Student, TRIMESTER_CHOICES
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
 from collections import namedtuple
@@ -198,7 +198,6 @@ def parents_absences_view(request):
     }
 
     return render(request, 'core/parent/parent-absences.html', context)
-
 @allowed_users(allowed_roles=['PARENTS'])
 def get_grades_parents(request):
     # Get the parent user
@@ -228,8 +227,8 @@ def get_grades_parents(request):
                         grades_dict[grade.grade_type] = {'weight': grade.weight, 'grade': grade.grade}
                         total_weight += grade.weight
                         total_weighted_grade += grade.grade * grade.weight
-                    average = total_weighted_grade / total_weight if total_weight != 0 else None
-                    final_grade = average if average is not None else None
+                    average = total_weighted_grade / total_weight if total_weight == 1 else None
+                    final_grade = average
                     if student.user.username not in grades_by_trimester[trimester]:
                         grades_by_trimester[trimester][student.user.username] = {}
                     grades_by_trimester[trimester][student.user.username][subject.name] = {'grades': grades_dict, 'average': average, 'final': final_grade}
@@ -248,7 +247,6 @@ def get_grades_parents(request):
     }
 
     return render(request, 'core/parent/parents-grades.html', context)
-
 
 @allowed_users(allowed_roles=['STUDENTS'])
 def get_grades_student(request):
@@ -275,8 +273,8 @@ def get_grades_student(request):
                     grades_dict[grade.grade_type] = {'weight': grade.weight, 'grade': grade.grade}
                     total_weight += grade.weight
                     total_weighted_grade += grade.grade * grade.weight
-                average = total_weighted_grade / total_weight if total_weight != 0 else None
-                final_grade = average if average is not None else None
+                average = total_weighted_grade / total_weight if total_weight == 1 else None
+                final_grade = average
                 if student.user.username not in grades_by_trimester[trimester]:
                     grades_by_trimester[trimester][student.user.username] = {}
                 grades_by_trimester[trimester][student.user.username][subject.name] = {'grades': grades_dict, 'average': average, 'final': final_grade}
@@ -295,8 +293,6 @@ def get_grades_student(request):
     }
 
     return render(request, 'core/student/student-grades.html', context)
-
-
 
 
 

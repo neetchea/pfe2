@@ -2,6 +2,7 @@ from datetime import date, timezone
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.contrib.auth.hashers import make_password
+from django.forms import ValidationError
 
 
 
@@ -77,6 +78,13 @@ class Parent(models.Model):
         verbose_name_plural = 'Parents'
     def __str__(self):
         return self.user.username
+    
+    
+TRIMESTER_CHOICES = (
+        (1, 'First Trimester'),
+        (2, 'Second Trimester'),
+        (3, 'Third Trimester'),
+    )
         
 class Subject(models.Model):
     name = models.CharField(max_length=255)
@@ -204,6 +212,7 @@ LEVEL_CHOICES = [
 ]
 
 
+
     
 class Classroom(models.Model):
     name = models.CharField(max_length=255)
@@ -239,6 +248,12 @@ class Grade(models.Model):
     @property
     def weight(self):
         return self.GRADE_TYPE_WEIGHTS[self.grade_type]
+
+    def clean(self):
+        # Check if the subject is part of the student's classroom's subjects
+        if self.subject not in self.student.classroom.subjects.all():
+            raise ValidationError("The subject is not part of the student's classroom's subjects.")
+
 
     def get_trimester_ordinal(self):
         suffix = {1: 'st', 2: 'nd', 3: 'rd'}.get(self.trimester % 10, 'th')
