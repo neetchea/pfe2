@@ -239,7 +239,7 @@ def limit_to_students():
 class Grade(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='grades')
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_grades',null=True)
-    trimester= models.IntegerField(null=True)
+    trimester= models.IntegerField(choices=TRIMESTER_CHOICES, null=True)
     grade = models.IntegerField(null=True)
     GRADE_TYPE_CHOICES = [('Continous','Continous'),('Test','Test'),('Exam','Exam')]
     GRADE_TYPE_WEIGHTS = {'Continous': 1/4, 'Test': 1/4, 'Exam': 2/4}
@@ -264,6 +264,7 @@ class Grade(models.Model):
     
     #overriding save method to prevent duplicate grades
     def save(self, *args, **kwargs):
+        self.clean()
         try:
             existing= Grade.objects.get(subject=self.subject, student=self.student, grade_type =self.grade_type, trimester=self.trimester)
             if existing.pk != self.pk:
@@ -315,6 +316,19 @@ class HomeworkAssignment(models.Model):
 
     class Meta:
         verbose_name = 'Homework'
+
+    def clean(self):
+    # Check if the teacher teaches in the classroom
+        if self.classroom not in self.teacher.classrooms.all():
+            raise ValidationError("This teacher does not teach in this classroom.")
+
+    # Check if the teacher teaches the subject
+        if self.subject not in self.teacher.subjects.all():
+            raise ValidationError("This teacher does not teach this subject.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        return super().save(*args, **kwargs)
     def __str__(self):
         return self.title
 
@@ -324,7 +338,7 @@ class HomeworkSubmission(models.Model):
     response=models.CharField(max_length=255, null=True, blank=True)
     submission_file = models.FileField(upload_to='homework_submissions/', null=True, blank=True)
     submitted_at = models.DateTimeField(auto_now_add=True)
-    
+
     def __str__(self):
         return f"{self.student.user.first_name}{self.student.user.last_name} - {self.homework.title}"
     class Meta:
@@ -334,7 +348,7 @@ class HomeworkSubmission(models.Model):
 
 class Remarks(models.Model):
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='remarks')
-    trimester= models.IntegerField(null=True)
+    trimester= models.IntegerField(choices=TRIMESTER_CHOICES, null=True)
     date = models.DateField()
     remark = models.TextField()
     teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, related_name='remarks_written')

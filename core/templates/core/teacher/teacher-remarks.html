@@ -55,7 +55,7 @@ Teacher Remarks
         <form method="POST" class="delete-form">
           {% csrf_token %}
           <input type="hidden" name="remark_id" value="{{ remark.id }}">
-          <button type="submit" name="delete" class="delete-button">Delete</button>
+          <button type="submit" name="delete" class="delete-button" onclick="return confirmDelete()">Delete</button>
         </form>
       </div>
     {% empty %}
@@ -78,6 +78,10 @@ Teacher Remarks
         allowClear: true
       });
     });
+    function confirmDelete() {
+      return confirm("Are you sure you want to delete this remark?");
+  }
+    
   </script>
 </body>
 </html>

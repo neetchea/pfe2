@@ -34,6 +34,7 @@ Homework Assignments
                     <h3> title : {{ homework_assignment.title }}</h3>
                     <p><strong>Description:</strong> {{ homework_assignment.description }}</p>
                     <p><strong>Classroom:</strong> {{ homework_assignment.classroom }}</p>
+                    <p><strong>Subject:</strong> {{ homework_assignment.subject }}</p>
                     <p><strong>Due Date:</strong> {{ homework_assignment.due_date }}</p>
                     {% if homework_assignment.assignment_file %}
                     <p><strong>Assignment File:</strong> <a href="{{ homework_assignment.assignment_file.url }}">homework file</a></p>
@@ -43,7 +44,7 @@ Homework Assignments
                         {% csrf_token %}
                         <input type="hidden" name="homework_id" value="{{ homework_assignment.id }}">
                         <input type="hidden" name="delete" value="true" >
-                        <input type="submit" value="Delete" style="background-color:#ee776f; color: black;">
+                        <input type="submit" value="Delete" style="background-color:#ee776f; color: black;"onclick="return confirmDelete()">
                     </form>
                 </div>
             {% empty %}
@@ -109,6 +110,11 @@ Homework Assignments
         <a href="{% url 'view_submissions' %}">Submissions</a>
     </div>
 </body>
+<script>
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete this homework assignment?");
+    }
+    </script>
 </html>
 
 {% endblock %}

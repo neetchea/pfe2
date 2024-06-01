@@ -110,7 +110,7 @@ def homework_assignment(request):
             messages.success(request, 'Homework assignment deleted successfully')
             return redirect('homework_assignment')
         else:
-            form= HomeworkAssignmentForm(request.POST, request.FILES)
+            form= HomeworkAssignmentForm(request.POST, request.FILES,  request=request)
             if form.is_valid():
                 homework = form.save(commit=False)
                 homework.teacher = request.user.teacher
@@ -120,8 +120,7 @@ def homework_assignment(request):
             else:
                 print(form.errors)
     else:
-        form = HomeworkAssignmentForm()
-
+        form = HomeworkAssignmentForm( request=request)
     context = {
         'homework_assignments': homework_assignments,
         'form' : form

@@ -3,12 +3,27 @@ from .models import Courses, HomeworkAssignment,HomeworkSubmission, Remarks, Stu
 
 class HomeworkAssignmentForm(forms.ModelForm):
     due_date = forms.DateField(input_formats=['%d-%m-%Y', '%Y-%m-%d'])
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(HomeworkAssignmentForm, self).__init__(*args, **kwargs)
+
     class Meta:
         model = HomeworkAssignment
         fields = '__all__'
         exclude = ['teacher']
 
+    def clean(self):
+        cleaned_data = super().clean()
+        teacher = self.request.user.teacher
+        classroom = cleaned_data.get('classroom')
+        subject = cleaned_data.get('subject')
 
+        if classroom not in teacher.classrooms.all():
+            self.add_error('classroom', "You do not teach this classroom.")
+
+        if subject not in teacher.subjects.all():
+            self.add_error('subject', "You do not teach this subject.")
 class HomeworkSubmissionForm(forms.ModelForm):
     class Meta:
         model = HomeworkSubmission

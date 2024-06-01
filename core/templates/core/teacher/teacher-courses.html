@@ -2,7 +2,7 @@
 {% load static%}
 
 {% block title%}
-Teacher Remarks
+Teacher Courses
 {% endblock %}
 
 {% block content %}
@@ -120,7 +120,7 @@ Teacher Remarks
                     <form method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="course_id" value="{{ course.id }}">
-                        <button type="submit" name="delete" class="delete-button">X</button>
+                        <button type="submit" name="delete" class="delete-button" onclick="return confirmDelete()">X</button>
                     </form>
                 {% endif %}
             </div>
@@ -147,6 +147,10 @@ Teacher Remarks
                 $clickInfo.slideToggle("fast");
             });
         });
+        
+            function confirmDelete() {
+                return confirm("Are you sure you want to delete this Course?");
+            }
     </script>  
 </body>
 </html>
