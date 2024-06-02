@@ -38,11 +38,10 @@ def dashboard(request):
     return render(request, template_name)
 
 
-allowed_users(allowed_roles=['STAFF'])
 def assign_grades(request, classroom_id):
   
-    return render(request, 'grades/assign_grades.html')
 
+    return render(request, 'core/assign_grades.html')
 
 from django.http import HttpResponse
 
@@ -61,10 +60,14 @@ def services(request):
     }
     return render(request, 'core/services.html', context)
 
+from .models import Contact
+
 def contact(request):
+    contact_info = Contact.objects.filter(active=True).first()
     context = {
         'first_name': request.user.first_name,
-        'last_name': request.user.last_name
+        'last_name': request.user.last_name,
+        'contact_info': contact_info,
     }
     return render(request, 'core/contact.html', context)
 def announcements(request):
@@ -95,10 +98,14 @@ def my_grades(request):
 @allowed_users(allowed_roles=['TEACHERS'])
 def homework_assignment(request):
     #getting the existing homework assignments
-    homework_assignments = HomeworkAssignment.objects.filter(teacher=request.user.teacher)
-    for hw in homework_assignments:
-        print(os.path.join(settings.MEDIA_ROOT, str(hw.assignment_file)))    
-
+    if HomeworkAssignment.objects.filter(teacher=request.user.teacher).exists():
+        # If they do, get the existing homework assignments
+        homework_assignments = HomeworkAssignment.objects.filter(teacher=request.user.teacher)
+        for hw in homework_assignments:
+            print(os.path.join(settings.MEDIA_ROOT, str(hw.assignment_file)))    
+    else:
+        # If they don't, set homework_assignments to an empty list
+        homework_assignments = []
     if request.method == 'POST':
         # Check if the delete button was clicked
         if 'delete' in request.POST:
@@ -299,7 +306,7 @@ def get_grades_student(request):
 def view_schedule_student(request):
     student = request.user.student
     classroom = student.classroom
-    classroom_calendar = classroom.calendar
+    classroom_calendar = classroom.calendar if classroom else None
 
     # Get the current week's cafeteria menu and events calendars
     now = datetime.now().date()
@@ -380,7 +387,7 @@ def view_schedule_parent(request):
     children_table_data = {}
     for child in children:
         classroom = child.classroom
-        classroom_calendar = classroom.calendar
+        classroom_calendar = classroom.calendar if classroom else None
         classroom_timeslots = classroom_calendar.timeslots.all() if classroom_calendar else []
         classroom_table_data = _create_table_data(classroom_timeslots, 'CLASS')
         classroom_table_data = [{k: v if v is not None else '' for k, v in d.items()} for d in classroom_table_data]
@@ -553,7 +560,7 @@ def student_courses(request):
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from .models import Remarks
-from .forms import RemarkForm, StudentSearchForm
+from .forms import GradeForm, RemarkForm, StudentSearchForm
 
 @allowed_users(allowed_roles=['TEACHERS'])
 def teacher_remarks(request):

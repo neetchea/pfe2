@@ -1,447 +1,57 @@
 [
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "benali_karim",
-        "first_name": "Karim",
-        "last_name": "Benali",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "karim.benali@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 111
-    },
-    {
-      "model": "core.student",
-      "fields": {
-        "user": ["benali_karim"],
-        "date_of_birth": "2007-01-01",
-        "matricule": "123456789012",
-        "parent": ["meziane_rachida"]
-      },
-      "pk": 111
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "abbes_nora",
-        "first_name": "Nora",
-        "last_name": "Abbes",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "nora.abbes@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 112
-    },
-    {
-      "model": "core.student",
-      "fields": {
-        "user": ["abbes_nora"],
-        "date_of_birth": "2008-02-01",
-        "matricule": "123456789013",
-        "parent": ["meziane_rachida"]
-      },
-      "pk": 112
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "belkacem_yasmine",
-        "first_name": "Yasmine",
-        "last_name": "Belkacem",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "yasmine.belkacem@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 113
-    },
-    {
-      "model": "core.student",
-      "fields": {
-        "user": ["belkacem_yasmine"],
-        "date_of_birth": "2009-03-01",
-        "matricule": "123456789014",
-        "parent": ["amrani_hassan"]
-      },
-      "pk": 113
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "ait_salah_hakim",
-        "first_name": "Hakim",
-        "last_name": "Ait Salah",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "hakim.aitsalah@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 114
-    },
-    {
-      "model": "core.student",
-      "fields": {
-        "user": ["ait_salah_hakim"],
-        "date_of_birth": "2010-04-01",
-        "matricule": "123456789015",
-        "parent": ["amrani_hassan"]
-      },
-      "pk": 114
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "cherif_salma",
-        "first_name": "Salma",
-        "last_name": "Cherif",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "salma.cherif@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 115
-    },
-    {
-      "model": "core.student",
-      "fields": {
-        "user": ["cherif_salma"],
-        "date_of_birth": "2011-05-01",
-        "matricule": "123456789016",
-        "parent": ["dib_khadija"]
-      },
-      "pk": 115
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "tlemcani_hind",
-        "first_name": "Hind",
-        "last_name": "Tlemcani",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "hind.tlemcani@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 116
-    },
-    {
-      "model": "core.student",
-      "fields": {
-        "user": ["tlemcani_hind"],
-        "date_of_birth": "2012-06-01",
-        "matricule": "123456789017",
-        "parent": ["dib_khadija"]
-      },
-      "pk": 116
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "khelifa_zakaria",
-        "first_name": "Zakaria",
-        "last_name": "Khelifa",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "zakaria.khelifa@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 117
-    },
-    {
-      "model": "core.student",
-      "fields": {
-        "user": ["khelifa_zakaria"],
-        "date_of_birth": "2013-07-01",
-        "matricule": "123456789018",
-        "parent": ["bensalem_yacine"]
-      },
-      "pk": 117
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "hamzaoui_soufiane",
-        "first_name": "Soufiane",
-        "last_name": "Hamzaoui",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "soufiane.hamzaoui@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 118
-    },
-    {
-      "model": "core.student",
-      "fields": {
-        "user": ["hamzaoui_soufiane"],
-        "date_of_birth": "2014-08-01",
-        "matricule": "123456789019",
-        "parent": ["bensalem_yacine"]
-      },
-      "pk": 118
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "harrat_nadia",
-        "first_name": "Nadia",
-        "last_name": "Harrat",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "nadia.harrat@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 119
-    },
-    {
-      "model": "core.student",
-      "fields": {
-        "user": ["harrat_nadia"],
-        "date_of_birth": "2015-09-01",
-        "matricule": "123456789020",
-        "parent": ["mimouni_salim"]
-      },
-      "pk": 119
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "benaissa_abdel",
-        "first_name": "Abdel",
-        "last_name": "Benaissa",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "abdel.benaissa@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 120
-    },
-    {
-      "model": "core.student",
-      "fields": {
-        "user": ["benaissa_abdel"],
-        "date_of_birth": "2016-10-01",
-        "matricule": "123456789021",
-        "parent": ["mimouni_salim"]
-      },
-      "pk": 120
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "madani_ali",
-        "first_name": "Ali",
-        "last_name": "Madani",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "ali.madani@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 121
-    },
-    {
-      "model": "core.student",
-      "fields": {
-        "user": ["madani_ali"],
-        "date_of_birth": "2017-11-01",
-        "matricule": "123456789022",
-        "parent": ["ghoul_samia"]
-      },
-      "pk": 121
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "najim_leila",
-        "first_name": "Leila",
-        "last_name": "Najim",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "leila.najim@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 122
-    },
-    {
-      "model": "core.student",
-      "fields": {
-        "user": ["najim_leila"],
-        "date_of_birth": "2018-12-01",
-        "matricule": "123456789023",
-        "parent": ["ghoul_samia"]
-      },
-      "pk": 122
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "meziane_rachida",
-        "first_name": "Rachida",
-        "last_name": "Meziane",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "rachida.meziane@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 123
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "amrani_hassan",
-        "first_name": "Hassan",
-        "last_name": "Amrani",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "hassan.amrani@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 124
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "dib_khadija",
-        "first_name": "Khadija",
-        "last_name": "Dib",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "khadija.dib@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 125
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "bensalem_yacine",
-        "first_name": "Yacine",
-        "last_name": "Bensalem",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "yacine.bensalem@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 126
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "mimouni_salim",
-        "first_name": "Salim",
-        "last_name": "Mimouni",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "salim.mimouni@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 127
-    },
-    {
-      "model": "core.customuser",
-      "fields": {
-        "password": "hhhgggttt",
-        "last_login": null,
-        "is_superuser": false,
-        "username": "ghoul_samia",
-        "first_name": "Samia",
-        "last_name": "Ghoul",
-        "is_staff": false,
-        "is_active": true,
-        "date_joined": "2023-01-01T00:00:00Z",
-        "email": "samia.ghoul@example.com",
-        "groups": [],
-        "user_permissions": []
-      },
-      "pk": 128
+  {
+    "model": "core.announcements",
+    "fields": {
+      "title": "Welcome Back!",
+      "description": "We are excited to welcome everyone back for the new school year!",
+      "date": "2023-09-01",
+      "category": "General",
+      "is_user_only": false,
+      "active": true
     }
-  ]
-  
+  },
+  {
+    "model": "core.announcements",
+    "fields": {
+      "title": "Parent-Teacher Conference",
+      "description": "Parent-teacher conferences will be held next week. Please check your emails for details.",
+      "date": "2023-10-15",
+      "category": "Academic",
+      "is_user_only": true,
+      "active": true
+    }
+  },
+  {
+    "model": "core.announcements",
+    "fields": {
+      "title": "Job Opportunities",
+      "description": "We are currently seeking candidates for various teaching positions. Visit our website for more information.",
+      "date": "2023-09-20",
+      "category": "Recruitment",
+      "is_user_only": false,
+      "active": true
+    }
+  },
+  {
+    "model": "core.announcements",
+    "fields": {
+      "title": "Upcoming Field Trip",
+      "description": "Our next field trip is scheduled for next month. Don't forget to submit your permission slips!",
+      "date": "2023-11-05",
+      "category": "Trips",
+      "is_user_only": true,
+      "active": true
+    }
+  },
+  {
+    "model": "core.announcements",
+    "fields": {
+      "title": "School Carnival",
+      "description": "Join us for our annual school carnival on October 28th. Fun activities for the whole family!",
+      "date": "2023-10-28",
+      "category": "Events",
+      "is_user_only": true,
+      "active": true
+    }
+  }
+]

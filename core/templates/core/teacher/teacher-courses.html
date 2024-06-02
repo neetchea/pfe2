@@ -113,14 +113,14 @@ Teacher Courses
                         border-radius: 5px;
                         cursor: pointer;
                         font-size: 16px;
-                        text-decoration: none;">Download Course</a>
+                        text-decoration: none; ">Download Course</a>
                     </div>
                 </div>
                 {% if request.user.teacher == course.teacher %}
                     <form method="POST">
                         {% csrf_token %}
                         <input type="hidden" name="course_id" value="{{ course.id }}">
-                        <button type="submit" name="delete" class="delete-button" onclick="return confirmDelete()">X</button>
+                        <button type="submit" name="delete" class="delete-button" onclick="return confirmDelete()" style="margin-top:1em;">X</button>
                     </form>
                 {% endif %}
             </div>

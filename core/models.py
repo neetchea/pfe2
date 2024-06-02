@@ -71,6 +71,7 @@ class Student(models.Model):
         else:
             return None
 
+
 class Parent(models.Model):
     user= models.OneToOneField(CustomUser,on_delete=models.CASCADE,related_name='parent')
     class Meta:
@@ -89,29 +90,9 @@ TRIMESTER_CHOICES = (
 class Subject(models.Model):
     name = models.CharField(max_length=255)
     coefficient = models.IntegerField()
-    teachers=models.ManyToManyField(Teacher, related_name='subjects')
+    teachers=models.ManyToManyField(Teacher, related_name='subjects', blank=True)
 
-    # classroom= models.ForeignKey(Classroom, on_delete=models.CASCADE, related_name='subjects', null=True)
-    # def save(self, *args, **kwargs):
-    #     if self.classroom:
-    #         self.level = self.classroom.level  # Ensure level matches the classroom
 
-    #     old_teacher = None
-    #     if self.pk:
-    #         old_teacher = Subject.objects.get(pk=self.pk).teacher
-
-    #     super().save(*args, **kwargs)  # Call the "real" save() method.
-
-    #     if self.classroom:
-    #         # Add new teacher to the classroom
-    #         if self.teacher and self.teacher not in self.classroom.teachers.all():
-    #             self.classroom.teachers.add(self.teacher)
-
-    #         # Remove teacher who is no longer teaching any subjects in the classroom
-    #         if old_teacher and old_teacher != self.teacher:
-    #             other_subjects = self.classroom.subjects.exclude(id=self.id)
-    #             if not other_subjects.filter(teacher=old_teacher).exists():
-    #                 self.classroom.teachers.remove(old_teacher)
     def __str__(self):
         return self.name
 
@@ -240,7 +221,7 @@ class Grade(models.Model):
     subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='grades')
     student = models.ForeignKey(Student, on_delete=models.CASCADE, related_name='student_grades',null=True)
     trimester= models.IntegerField(choices=TRIMESTER_CHOICES, null=True)
-    grade = models.IntegerField(null=True)
+    grade = models.IntegerField(null=True,)
     GRADE_TYPE_CHOICES = [('Continous','Continous'),('Test','Test'),('Exam','Exam')]
     GRADE_TYPE_WEIGHTS = {'Continous': 1/4, 'Test': 1/4, 'Exam': 2/4}
     grade_type = models.CharField(max_length=30, choices=GRADE_TYPE_CHOICES, default='Continous')
@@ -317,14 +298,14 @@ class HomeworkAssignment(models.Model):
     class Meta:
         verbose_name = 'Homework'
 
-    def clean(self):
-    # Check if the teacher teaches in the classroom
-        if self.classroom not in self.teacher.classrooms.all():
-            raise ValidationError("This teacher does not teach in this classroom.")
+    # def clean(self):
+    # # Check if the teacher teaches in the classroom
+    #     if self.classroom not in self.teacher.classrooms.all():
+    #         raise ValidationError("This teacher does not teach in this classroom.")
 
-    # Check if the teacher teaches the subject
-        if self.subject not in self.teacher.subjects.all():
-            raise ValidationError("This teacher does not teach this subject.")
+    # # Check if the teacher teaches the subject
+    #     if self.subject not in self.teacher.subjects.all():
+    #         raise ValidationError("This teacher does not teach this subject.")
 
     def save(self, *args, **kwargs):
         self.clean()
@@ -391,3 +372,18 @@ class Announcements(models.Model):
 
 #     def __str__(self):
 #         return f'{self.email} - {self.phone_number}'
+
+
+
+class Contact(models.Model):
+    phone_number = models.CharField(max_length=20)
+    email = models.EmailField(max_length=254)
+    location = models.CharField(max_length=100)
+    active = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if self.active:
+            Contact.objects.filter(active=True).update(active=False)
+        super(Contact, self).save(*args, **kwargs)
+    class Meta:
+        verbose_name = 'Contact'

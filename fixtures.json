@@ -1,0 +1,1077 @@
+[
+{
+  "model": "core.timeslot",
+  "pk": 283,
+  "fields": {
+    "day": "SUN",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 284,
+  "fields": {
+    "day": "SUN",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 285,
+  "fields": {
+    "day": "SUN",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 286,
+  "fields": {
+    "day": "SUN",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 287,
+  "fields": {
+    "day": "SUN",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 288,
+  "fields": {
+    "day": "SUN",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 289,
+  "fields": {
+    "day": "MON",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 290,
+  "fields": {
+    "day": "MON",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 291,
+  "fields": {
+    "day": "MON",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 292,
+  "fields": {
+    "day": "MON",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 293,
+  "fields": {
+    "day": "MON",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 294,
+  "fields": {
+    "day": "MON",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 295,
+  "fields": {
+    "day": "TUE",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 296,
+  "fields": {
+    "day": "TUE",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 297,
+  "fields": {
+    "day": "TUE",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 298,
+  "fields": {
+    "day": "TUE",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 299,
+  "fields": {
+    "day": "TUE",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 300,
+  "fields": {
+    "day": "TUE",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 301,
+  "fields": {
+    "day": "WED",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 302,
+  "fields": {
+    "day": "WED",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 303,
+  "fields": {
+    "day": "WED",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 304,
+  "fields": {
+    "day": "WED",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 305,
+  "fields": {
+    "day": "WED",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 306,
+  "fields": {
+    "day": "WED",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 307,
+  "fields": {
+    "day": "THU",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 308,
+  "fields": {
+    "day": "THU",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 309,
+  "fields": {
+    "day": "THU",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 310,
+  "fields": {
+    "day": "THU",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 311,
+  "fields": {
+    "day": "THU",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 312,
+  "fields": {
+    "day": "THU",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 11
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 313,
+  "fields": {
+    "day": "SUN",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": 5,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 314,
+  "fields": {
+    "day": "SUN",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 315,
+  "fields": {
+    "day": "SUN",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 316,
+  "fields": {
+    "day": "SUN",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 317,
+  "fields": {
+    "day": "SUN",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 318,
+  "fields": {
+    "day": "SUN",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 319,
+  "fields": {
+    "day": "MON",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 320,
+  "fields": {
+    "day": "MON",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 321,
+  "fields": {
+    "day": "MON",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 322,
+  "fields": {
+    "day": "MON",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 323,
+  "fields": {
+    "day": "MON",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 324,
+  "fields": {
+    "day": "MON",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 325,
+  "fields": {
+    "day": "TUE",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 326,
+  "fields": {
+    "day": "TUE",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 327,
+  "fields": {
+    "day": "TUE",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 328,
+  "fields": {
+    "day": "TUE",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 329,
+  "fields": {
+    "day": "TUE",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 330,
+  "fields": {
+    "day": "TUE",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 331,
+  "fields": {
+    "day": "WED",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 332,
+  "fields": {
+    "day": "WED",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 333,
+  "fields": {
+    "day": "WED",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 334,
+  "fields": {
+    "day": "WED",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 335,
+  "fields": {
+    "day": "WED",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 336,
+  "fields": {
+    "day": "WED",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 337,
+  "fields": {
+    "day": "THU",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 338,
+  "fields": {
+    "day": "THU",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 339,
+  "fields": {
+    "day": "THU",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 340,
+  "fields": {
+    "day": "THU",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": 6,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 341,
+  "fields": {
+    "day": "THU",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 342,
+  "fields": {
+    "day": "THU",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": null,
+    "calendar": 12
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 343,
+  "fields": {
+    "day": "SUN",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 344,
+  "fields": {
+    "day": "SUN",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 345,
+  "fields": {
+    "day": "SUN",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 346,
+  "fields": {
+    "day": "SUN",
+    "time_range": "11:00 - 12:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 347,
+  "fields": {
+    "day": "SUN",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 348,
+  "fields": {
+    "day": "SUN",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 349,
+  "fields": {
+    "day": "SUN",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 350,
+  "fields": {
+    "day": "MON",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 351,
+  "fields": {
+    "day": "MON",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 352,
+  "fields": {
+    "day": "MON",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 353,
+  "fields": {
+    "day": "MON",
+    "time_range": "11:00 - 12:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 354,
+  "fields": {
+    "day": "MON",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 355,
+  "fields": {
+    "day": "MON",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 356,
+  "fields": {
+    "day": "MON",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 357,
+  "fields": {
+    "day": "TUE",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 358,
+  "fields": {
+    "day": "TUE",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 359,
+  "fields": {
+    "day": "TUE",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 360,
+  "fields": {
+    "day": "TUE",
+    "time_range": "11:00 - 12:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 361,
+  "fields": {
+    "day": "TUE",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 362,
+  "fields": {
+    "day": "TUE",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 363,
+  "fields": {
+    "day": "TUE",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 364,
+  "fields": {
+    "day": "WED",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 365,
+  "fields": {
+    "day": "WED",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 366,
+  "fields": {
+    "day": "WED",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 367,
+  "fields": {
+    "day": "WED",
+    "time_range": "11:00 - 12:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 368,
+  "fields": {
+    "day": "WED",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 369,
+  "fields": {
+    "day": "WED",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 370,
+  "fields": {
+    "day": "WED",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 371,
+  "fields": {
+    "day": "THU",
+    "time_range": "8:00 - 9:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 372,
+  "fields": {
+    "day": "THU",
+    "time_range": "9:00 - 10:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 373,
+  "fields": {
+    "day": "THU",
+    "time_range": "10:00 - 11:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 374,
+  "fields": {
+    "day": "THU",
+    "time_range": "11:00 - 12:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 375,
+  "fields": {
+    "day": "THU",
+    "time_range": "1:00 - 2:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 376,
+  "fields": {
+    "day": "THU",
+    "time_range": "2:00 - 3:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.timeslot",
+  "pk": 377,
+  "fields": {
+    "day": "THU",
+    "time_range": "3:00 - 4:00",
+    "content": null,
+    "subject": null,
+    "calendar": 13
+  }
+},
+{
+  "model": "core.calendars",
+  "pk": 11,
+  "fields": {
+    "title": "classroom",
+    "calendar_type": "CLASS",
+    "start_week": null,
+    "end_week": null
+  }
+},
+{
+  "model": "core.calendars",
+  "pk": 12,
+  "fields": {
+    "title": "teacher_one_schedule",
+    "calendar_type": "CLASS",
+    "start_week": null,
+    "end_week": null
+  }
+},
+{
+  "model": "core.calendars",
+  "pk": 13,
+  "fields": {
+    "title": "cal",
+    "calendar_type": "CLASS",
+    "start_week": null,
+    "end_week": null
+  }
+}
+]

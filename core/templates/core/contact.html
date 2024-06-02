@@ -64,21 +64,21 @@
             <img src="{% static 'location1.png' %}" class="card-icon">
             <h2>Our Location</h2>
             <p>Wondering where to find us? Our building is conveniently located facing CEM Mustapha Ferroukhi. Just look for our sign!</p>
-            <p><span class="copy-text">Bab Ezzouar 16024 Bab Ezzouar, Algeria</span></p>
+            <p><span class="copy-text"> {{contact_info.location}}</span></p>
             <button class="btn" onclick="copyText('location')">Copy Address</button>
         </div>
         <div class="card" id="phone">
             <img src="{% static 'customer-service.png' %}" class="card-icon">
             <h2>Our Phone Number</h2>
             <p>Prefer talking over the phone? We're here for you. Our office line is open during our workinhours, so don't hesitate to give us a call.</p>
-            <p><span class="copy-text">0770 06 12 11</span></p>
+            <p><span class="copy-text">  {{contact_info.phone_number}}</span></p>
             <button class="btn" onclick="copyText('phone')">Copy Phone</button>
         </div>
         <div class="card" id="email">
             <img src="{% static 'email.png' %}" class="card-icon">
             <h2>Our Email</h2>
             <p>Need to get in touch? Shoot us an email! Whether you have a question, a suggestion, or just wanto say hello, we're all ears.</p>
-            <p><span class="copy-text">elhikma.ecole@gmail.com</span></p>
+            <p><span class="copy-text">{{contact_info.email}}</span></p>
             <button class="btn" onclick="copyText('email')">Copy Email</button>
         </div>
     </div>

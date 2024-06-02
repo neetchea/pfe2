@@ -1,0 +1,1 @@
+[{"model": "core.subject", "pk": 5, "fields": {"name": "Math", "coefficient": 1, "teachers": []}}, {"model": "core.subject", "pk": 6, "fields": {"name": "physics", "coefficient": 3, "teachers": []}}, {"model": "core.subject", "pk": 7, "fields": {"name": 

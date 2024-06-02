@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.shortcuts import get_object_or_404, render
 from django.urls import path
-from .models import CustomUser, Classroom,Grade, HomeworkSubmission, Subject, Calendars, Absences, Announcements,Remarks,HomeworkAssignment,Courses, Teacher, Student, Parent, TimeSlot
+from .models import Contact, CustomUser, Classroom,Grade, HomeworkSubmission, Subject, Calendars, Absences, Announcements,Remarks,HomeworkAssignment,Courses, Teacher, Student, Parent, TimeSlot
 
 
 
@@ -197,6 +197,40 @@ class CalendarAdmin(admin.ModelAdmin):
 
 admin.site.register(Calendars, CalendarAdmin)
 
+# admin.py
+
+# admin.py
+
+from django.contrib import admin
+from .models import Student, Grade, Subject
+
+def create_grades(modeladmin, request, queryset):
+    for student in queryset:
+        if student.classroom:
+            subjects = student.classroom.subjects.all()
+            for subject in subjects:
+                for trimester in range(1, 4):  # Including all 3 trimesters
+                    for grade_type in ['Continous', 'Test', 'Exam']:
+                        Grade.objects.get_or_create(
+                            student=student,
+                            subject=subject,
+                            trimester=trimester,
+                            grade_type=grade_type,
+                            defaults={'grade': 0}
+                        )
+        else:
+            modeladmin.message_user(request, f"Student {student} does not belong to any classroom.", level='error')
+    modeladmin.message_user(request, "Grades have been created successfully.")
+
+create_grades.short_description = "Create empty grades for selected students"
+
+class StudentAdmin(admin.ModelAdmin):
+    list_display = ('user', 'classroom', 'parent', 'matricule', 'gender')
+    actions = [create_grades]
+
+
+
+
 
 class GradeInline(admin.TabularInline):
     model = Grade
@@ -206,6 +240,8 @@ class StudentAdmin(admin.ModelAdmin):
     list_display = ('user_username', 'classroom', 'parent', 'matricule', 'age')
     inlines = [GradeInline]
     search_fields = ['user__username', 'user__first_name', 'user__last_name']
+    actions = [create_grades]
+
 
 
     def user_username(self, obj):
@@ -268,3 +304,4 @@ class TeacherAdmin(admin.ModelAdmin):
         return readonly_fields
 
 admin.site.register(Teacher, TeacherAdmin)
+admin.site.register(Contact)
